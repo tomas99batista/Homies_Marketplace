@@ -1,6 +1,13 @@
 # TQS_Marketplace
 
 ## VM
+VM: TQS-2020-G1
+
+IP: 192.168.160.30
+
+- oneadmin / Password!23
+- instalador / ubuntu
+- root / ubuntu
 
 
 ## Links
