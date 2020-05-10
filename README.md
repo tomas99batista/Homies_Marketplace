@@ -1,5 +1,7 @@
 # Homies - Marketplace
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/2a9bd2d58c1f4b8ebf3d3f8790873a64)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=tomas99batista/Homies_Marketplace&amp;utm_campaign=Badge_Grade)
+
 ## Project Abstract
 
 Homies is a web browser application that allows students to search and book houses.
