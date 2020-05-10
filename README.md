@@ -1,5 +1,9 @@
 # TQS_Marketplace
 
+## First step
+**Configure postgres db on docker:** 
+```docker run --name postgres  -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password -d postgres```
+
 ## VM
 VM: TQS-2020-G1
 
