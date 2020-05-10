@@ -6,13 +6,13 @@ Homies is a web browser application that allows students to search and book hous
 
 ## Project Team
 
-**Product Owner**: [88887 - Flávia Figueiredo](https://github.com/flaviagfigueiredo)
+**Product Owner**: [Flávia Figueiredo - 88887](https://github.com/flaviagfigueiredo)
 
-**Team Manager**: [89296 - Tomás Batista](https://github.com/tomas99batista)
+**Team Manager**: [Tomás Batista - 89296](https://github.com/tomas99batista)
 
-**DevOps Master**: [89069 - Pedro Marques](https://github.com/Pmiguelmarques)
+**DevOps Master**: [Pedro Marques - 89069](https://github.com/Pmiguelmarques)
 
-**Architect**: [89206 - José Frias](https://github.com/joselfrias)
+**Architect**: [José Frias 89206](https://github.com/joselfrias)
 
 ## Setup
 
