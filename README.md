@@ -1,4 +1,4 @@
-# TQS_Marketplace
+# Homies - Marketplace
 
 ## Project Abstract
 
