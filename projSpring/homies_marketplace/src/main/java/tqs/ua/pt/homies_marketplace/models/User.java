@@ -4,8 +4,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.List;
 
-@Entity(name="user")
-@Table(name="user")
+@Entity(name="users")
+@Table(name="users")
 public class User {
     @Id
     @Column(nullable=false, unique=false)
