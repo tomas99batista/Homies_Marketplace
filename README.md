@@ -4,33 +4,15 @@
 
 Homies is a web browser application that allows students to search and book houses.
 
-### Team Manager [Tomás Batista]
-
-> Study guidelines
-> Meeting times, online collab, ...
-
-### DevOps Master [Pedro Marques]
-
-> Git repo
-> Backlog tool (Pivotal Tracker)
-
-### Product owner [Flávia Figueiredo]
-
-> Proeminent user stories
-
-### Architect [José Frias]
-
-> Solution architecture in detail
-
 ## Project Team
 
-[88887 - Flávia Figueiredo](https://github.com/flaviagfigueiredo)
+Product Owner: [88887 - Flávia Figueiredo](https://github.com/flaviagfigueiredo)
 
-[89296 - Tomás Batista](https://github.com/tomas99batista)
+Team Manager: [89296 - Tomás Batista](https://github.com/tomas99batista)
 
-[89069 - Pedro Marques](https://github.com/Pmiguelmarques)
+DevOps Master: [89069 - Pedro Marques](https://github.com/Pmiguelmarques)
 
-[89206 - José Frias](https://github.com/joselfrias)
+Architect: [89206 - José Frias](https://github.com/joselfrias)
 
 ## Setup
 
