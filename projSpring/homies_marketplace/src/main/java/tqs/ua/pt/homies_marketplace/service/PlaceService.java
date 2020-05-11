@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface PlaceService {
 
-
+    public Place save(Place place);
     public List<Place> getAllPlaces();
 
 

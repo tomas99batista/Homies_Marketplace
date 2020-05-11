@@ -18,6 +18,12 @@ public class PlaceServiceImpl implements PlaceService{
 
 
     @Override
+    public Place save(Place place) {
+        return placeRepository.save(place);
+    }
+
+
+    @Override
     public List<Place> getAllPlaces() {
         return placeRepository.findAll();
     }
