@@ -12,6 +12,7 @@ import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.User;
 import tqs.ua.pt.homies_marketplace.repository.PlaceRepository;
 import tqs.ua.pt.homies_marketplace.repository.UserRepository;
+import tqs.ua.pt.homies_marketplace.service.PlaceService;
 import tqs.ua.pt.homies_marketplace.service.PlaceServiceImpl;
 import tqs.ua.pt.homies_marketplace.service.UserServiceImpl;
 
@@ -27,6 +28,9 @@ public class UserServiceImplUnitTest {
 
     @Mock(lenient = true)
     private UserRepository userRepository;
+
+    @Mock(lenient = true)
+    private PlaceServiceImpl placeService;
 
 
     @InjectMocks
@@ -54,7 +58,14 @@ public class UserServiceImplUnitTest {
 
         User user= new User(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
 
+        List<String> features= new ArrayList<>();
+        features.add("feature1");
+        features.add("feature2");
+        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+
+
         Mockito.when(userRepository.findByEmail(user.getEmail())).thenReturn(user);
+        Mockito.when(userRepository.insertPublishedHouse(email, place.getId())).thenReturn(1);
     }
 
 
@@ -107,8 +118,6 @@ public class UserServiceImplUnitTest {
 
 
     //test add published houses
-    //TODO fix this test
-    /*
     @Test
     public void WhenValidEmail_thenPublishNewHouse(){
         String email="jose@email.com";
@@ -116,12 +125,41 @@ public class UserServiceImplUnitTest {
         features.add("feature1");
         features.add("feature2");
         Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Mockito.when(userRepository.insertPublishedHouse(email, place.getId())).thenReturn(1);
+        Mockito.when(placeService.save(place)).thenReturn(place);
         boolean saved=userService.addPublishedHouse(email, place);
         assertThat(saved).isEqualTo(true);
         verifyInsertNewPublishedHouseIsCalledOnce(email, 1L);
 
     }
-     */
+
+    @Test
+    public void WhenValidEmailAndPlacesButRowsNotInserted_thenPublishShouldNotSaved(){
+        String email="jose@email.com";
+        List<String> features= new ArrayList<>();
+        features.add("feature1");
+        features.add("feature2");
+        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Mockito.when(userRepository.insertPublishedHouse(email, place.getId())).thenReturn(0);
+        Mockito.when(placeService.save(place)).thenReturn(place);
+        boolean saved=userService.addPublishedHouse(email, place);
+        assertThat(saved).isEqualTo(false);
+        verifyInsertNewPublishedHouseIsCalledOnce(email, 1L);
+    }
+
+    @Test
+    public void WhenValidEmailButNullPlace_thenPublishShouldNotSaved(){
+        String email="jose@email.com";
+        List<String> features= new ArrayList<>();
+        features.add("feature1");
+        features.add("feature2");
+        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Mockito.when(userRepository.insertPublishedHouse(email, place.getId())).thenReturn(1);
+        Mockito.when(placeService.save(place)).thenReturn(null);
+        boolean saved=userService.addPublishedHouse(email, place);
+        assertThat(saved).isEqualTo(false);
+        verifyInsertNewPublishedHouseIsNotCalled(email, 1L);
+    }
 
     @Test
     public void whenInvalidEmail_thenPublishNewHouseNotOccurs(){

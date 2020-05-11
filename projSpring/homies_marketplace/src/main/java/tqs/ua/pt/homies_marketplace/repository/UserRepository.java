@@ -12,5 +12,5 @@ public interface UserRepository extends JpaRepository<User, String> {
     //insert new published house given a user email
     @Modifying
     @Query(value="insert into users_published_houses values (?1, ?2)", nativeQuery=true)
-    void insertPublishedHouse(String email, long savedPlaceId);
+    int insertPublishedHouse(String email, long savedPlaceId);
 }

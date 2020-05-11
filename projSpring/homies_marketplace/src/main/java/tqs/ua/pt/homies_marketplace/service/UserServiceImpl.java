@@ -43,8 +43,14 @@ public class UserServiceImpl implements UserService{
                 //get ID of the place
                 long savedPlaceId = saved.getId();
                 //add ID of the place to the user published houses
-                userRepository.insertPublishedHouse(email, savedPlaceId);
-                return true;
+
+                //check if the number of rows updated is one
+                int rowsUpdated=userRepository.insertPublishedHouse(email, savedPlaceId);
+
+                if (rowsUpdated==1){
+                    return true;
+                }
+                return false;
             }
             return false;
         }
