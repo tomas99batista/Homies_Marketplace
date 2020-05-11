@@ -32,6 +32,8 @@ public class UserServiceImpl implements UserService{
         return false;
     }
 
+
+
     @Override
     public boolean addPublishedHouse(String email, Place place) {
 

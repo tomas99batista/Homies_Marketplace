@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface PlaceService {
 
+    public List<Place> getPublishedHouses(String email);
     public Place save(Place place);
     public List<Place> getAllPlaces();
 
