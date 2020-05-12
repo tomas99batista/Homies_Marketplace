@@ -22,6 +22,11 @@ public class PlaceServiceImpl implements PlaceService{
         return placeRepository.save(place);
     }
 
+    @Override
+    public List<Place> searchByCity(String city) {
+        return placeRepository.findByCity(city);
+    }
+
     public List<Place> getPublishedHouses(String email){
         return placeRepository.findPublishedHouses(email);
     }

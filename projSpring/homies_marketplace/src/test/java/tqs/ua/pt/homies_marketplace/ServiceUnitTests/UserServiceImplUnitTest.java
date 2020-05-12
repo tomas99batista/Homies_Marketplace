@@ -10,14 +10,10 @@ import org.mockito.internal.verification.VerificationModeFactory;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.User;
-import tqs.ua.pt.homies_marketplace.repository.PlaceRepository;
 import tqs.ua.pt.homies_marketplace.repository.UserRepository;
-import tqs.ua.pt.homies_marketplace.service.PlaceService;
 import tqs.ua.pt.homies_marketplace.service.PlaceServiceImpl;
 import tqs.ua.pt.homies_marketplace.service.UserServiceImpl;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import java.util.ArrayList;
 import java.util.List;
 

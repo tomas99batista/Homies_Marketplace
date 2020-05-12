@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface UserService {
 
-    public User getUserByEmail(String email);
+    User getUserByEmail(String email);
 
-    public boolean exists(String email);
+    boolean exists(String email);
 
-    public boolean addPublishedHouse(String email, Place place);
+    boolean addPublishedHouse(String email, Place place);
 
-    public User save(User user);
+    User save(User user);
 
-    public List<User> getAllUsers();
+    List<User> getAllUsers();
 }

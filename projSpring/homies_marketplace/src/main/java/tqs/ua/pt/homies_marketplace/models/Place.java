@@ -1,7 +1,6 @@
 package tqs.ua.pt.homies_marketplace.models;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name="place")

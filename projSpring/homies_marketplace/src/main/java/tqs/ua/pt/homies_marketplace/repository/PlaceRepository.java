@@ -13,4 +13,10 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
     @Query(value="select * from place where id in (select published_houses from users_published_houses where users_email like ?1);", nativeQuery = true)
     List<Place> findPublishedHouses(String email);
 
+
+    //rows with city that contains or is equal to city name
+    @Query(value="SELECT * FROM PLACE WHERE CITY ~* ?1 ;", nativeQuery = true)
+    List<Place> findByCity(String city);
+
+
 }

@@ -1,7 +1,6 @@
 package tqs.ua.pt.homies_marketplace.models;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import java.util.List;
 
 @Entity(name="users")
