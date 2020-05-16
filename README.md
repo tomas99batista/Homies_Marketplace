@@ -36,3 +36,4 @@ IP: 192.168.160.30
 - [Trello](https://trello.com/invite/b/K4x0FAe7/353d22e1576eb93852802a2a27f097c4/homiesmarketplace)
 - [Pivotal Tracker](https://www.pivotaltracker.com/projects/2447400)
 - [Slack](https://join.slack.com/t/homiesmarketplace/shared_invite/zt-e9fdp8wh-KNNSun3cX~EcJCv_KcRATA)
+- [Postman](https://www.getpostman.com/collections/a78d2d100a6a8678a402)
