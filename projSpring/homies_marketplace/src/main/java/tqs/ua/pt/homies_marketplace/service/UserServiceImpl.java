@@ -26,10 +26,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean exists(String email) {
-        if (userRepository.findByEmail(email) != null) {
-            return true;
-        }
-        return false;
+        return userRepository.findByEmail(email) != null;
     }
 
 
@@ -49,10 +46,7 @@ public class UserServiceImpl implements UserService{
                 //check if the number of rows updated is one
                 int rowsUpdated=userRepository.insertPublishedHouse(email, savedPlaceId);
 
-                if (rowsUpdated==1){
-                    return true;
-                }
-                return false;
+                return rowsUpdated == 1;
             }
             return false;
         }
