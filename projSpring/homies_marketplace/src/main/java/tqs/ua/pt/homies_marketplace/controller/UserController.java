@@ -1,6 +1,8 @@
 package tqs.ua.pt.homies_marketplace.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.User;
@@ -33,8 +35,10 @@ public class UserController {
 
 
     @PostMapping("/users")
-    public User createUser(@RequestBody User user){
-        return userService.save(user);
+    public ResponseEntity<User> createUser(@RequestBody User user){
+        HttpStatus status=HttpStatus.CREATED;
+        User saved=userService.save(user);
+        return new ResponseEntity<>(saved, status);
     }
     // get all users
     @GetMapping("/users")

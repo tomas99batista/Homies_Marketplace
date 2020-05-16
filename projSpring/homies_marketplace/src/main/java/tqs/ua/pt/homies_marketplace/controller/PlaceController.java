@@ -1,6 +1,8 @@
 package tqs.ua.pt.homies_marketplace.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.service.PlaceService;
@@ -15,9 +17,12 @@ public class PlaceController {
 
 
     @PostMapping("/places")
-    public Place createPlace(@RequestBody Place place){
-        return placeService.save(place);
+    public ResponseEntity<Place> createPlace(@RequestBody Place place){
+        HttpStatus status=HttpStatus.CREATED;
+        Place saved=placeService.save(place);
+        return new ResponseEntity<>(saved, status);
     }
+
     // get all places
     @GetMapping("/places")
     public List<Place> getAllPlaces() {
