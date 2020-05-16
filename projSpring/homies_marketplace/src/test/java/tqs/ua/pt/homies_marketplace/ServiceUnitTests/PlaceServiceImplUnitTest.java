@@ -15,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 public class PlaceServiceImplUnitTest {
@@ -38,6 +39,23 @@ public class PlaceServiceImplUnitTest {
 
         Mockito.when(placeRepository.findByCity("city")).thenReturn(places);
         Mockito.when(placeRepository.findByCity("aveiro")).thenReturn(null);
+        Mockito.when(placeRepository.findById(1L)).thenReturn(place);
+        Mockito.when(placeRepository.findById(-1L)).thenReturn(null);
+    }
+
+    @Test
+    public void whenValidPlaceId_thenPlaceShouldBeFound(){
+        Place fromDb=placeService.getPlaceById(1L);
+        assertThat(fromDb.getTitle()).isEqualTo("title1");
+
+        verifyFindByIdIsCalledOnce();
+    }
+
+    @Test
+    public void whenInvalidPlaceId_thenPlaceShouldNotBeFound() {
+        Place fromDb = placeService.getPlaceById(-1L);
+        verifyFindByIdIsCalledOnce();
+        assertThat(fromDb).isNull();
     }
 
     @Test
@@ -69,8 +87,15 @@ public class PlaceServiceImplUnitTest {
 
     }
 
+
+
     private void verifyfindByCityIsCalledOnce(String city) {
         Mockito.verify(placeRepository, VerificationModeFactory.times(1)).findByCity(city);
+        Mockito.reset(placeRepository);
+    }
+
+    private void verifyFindByIdIsCalledOnce(){
+        Mockito.verify(placeRepository, VerificationModeFactory.times(1)).findById(Mockito.anyLong());
         Mockito.reset(placeRepository);
     }
 }

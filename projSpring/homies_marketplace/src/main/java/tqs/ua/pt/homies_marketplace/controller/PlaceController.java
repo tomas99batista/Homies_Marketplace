@@ -25,10 +25,17 @@ public class PlaceController {
 
     }
 
+    @GetMapping("/places/{id}")
+    public Place getPlaceDetails(@PathVariable("id") long id){
+        return placeService.getPlaceById(id);
+    }
+
     @GetMapping("/search")
     public List<Place> search(@RequestParam(value = "city", required = false) String city){
         return placeService.searchByCity(city);
     }
+
+
 
 
 }

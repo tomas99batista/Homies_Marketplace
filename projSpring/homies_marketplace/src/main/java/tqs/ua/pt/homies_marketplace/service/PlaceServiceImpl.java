@@ -23,6 +23,11 @@ public class PlaceServiceImpl implements PlaceService{
     }
 
     @Override
+    public Place getPlaceById(long id){
+        return placeRepository.findById(id);
+    }
+
+    @Override
     public List<Place> searchByCity(String city) {
         return placeRepository.findByCity(city);
     }
