@@ -23,6 +23,11 @@ public class PlaceServiceImpl implements PlaceService{
     }
 
     @Override
+    public List<Place> getFavoriteHouses(String email) {
+        return placeRepository.findFavoriteHouses(email);
+    }
+
+    @Override
     public Place getPlaceById(long id){
         return placeRepository.findById(id);
     }

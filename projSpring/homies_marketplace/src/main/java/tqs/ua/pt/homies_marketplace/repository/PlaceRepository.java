@@ -13,6 +13,10 @@ import java.util.List;
 public interface PlaceRepository extends JpaRepository<Place, Long> {
     Place findById(long id);
 
+    //get favorite houses
+    @Query(value="select * from place where id in (select favorites from users_favorites where users_email like ?1);", nativeQuery = true)
+    List<Place> findFavoriteHouses(String email);
+
     //get published houses
     @Query(value="select * from place where id in (select published_houses from users_published_houses where users_email like ?1);", nativeQuery = true)
     List<Place> findPublishedHouses(String email);

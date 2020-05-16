@@ -40,7 +40,7 @@ public class UserRepositoryUnitTests {
         rentedHouses.add(5L);
         rentedHouses.add(6L);
 
-        String email="josefrias@email.com";
+        String email="josefrias20@email.com";
         String password="password";
         String firstName="Jose";
         String lastName="Frias";

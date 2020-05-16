@@ -9,6 +9,7 @@ import org.mockito.Mockito;
 import org.mockito.internal.verification.VerificationModeFactory;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tqs.ua.pt.homies_marketplace.models.Place;
+import tqs.ua.pt.homies_marketplace.models.PlaceId;
 import tqs.ua.pt.homies_marketplace.models.User;
 import tqs.ua.pt.homies_marketplace.repository.UserRepository;
 import tqs.ua.pt.homies_marketplace.service.PlaceServiceImpl;
@@ -170,6 +171,52 @@ public class UserServiceImplUnitTest {
         verifyInsertNewPublishedHouseIsNotCalled(email, place.getId());
     }
 
+    @Test
+    public void WhenValidEmailAndPlaceExists_thenAddToFavorites(){
+        String email="jose@email.com";
+        List<String> features= new ArrayList<>();
+        features.add("feature1");
+        features.add("feature2");
+        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Mockito.when(userRepository.insertFavoriteHouse(email, 1L)).thenReturn(1);
+        Mockito.when(placeService.getPlaceById(1L)).thenReturn(place);
+        boolean saved=userService.addToFavorites(email, new PlaceId(place.getId()));
+        assertThat(saved).isEqualTo(true);
+        verifyInsertNewFavoriteHouseIsCalledOnce(email, 1L);
+
+    }
+
+    @Test
+    public void WhenInValidEmailAndPlaceExists_thenNotAddsToFavorites(){
+        String email="wrong_email@email.com";
+        List<String> features= new ArrayList<>();
+        features.add("feature1");
+        features.add("feature2");
+        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Mockito.when(userRepository.findByEmail(email)).thenReturn(null);
+        Mockito.when(placeService.getPlaceById(1L)).thenReturn(place);
+        boolean saved=userService.addToFavorites(email, new PlaceId(place.getId()));
+        assertThat(saved).isEqualTo(false);
+        verifyInsertNewFavoriteHouseIsNotCalled(email, 1L);
+
+    }
+
+    @Test
+    public void WhenValidEmailAndPlaceNotExists_thenNotAddsToFavorites(){
+        String email="jose@email.com";
+        List<String> features= new ArrayList<>();
+        features.add("feature1");
+        features.add("feature2");
+        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Mockito.when(placeService.getPlaceById(1L)).thenReturn(null);
+        boolean saved=userService.addToFavorites(email, new PlaceId(place.getId()));
+        assertThat(saved).isEqualTo(false);
+        verifyInsertNewFavoriteHouseIsNotCalled(email, 1L);
+
+    }
+
+
+
     //Verify if methods are called
     private void verifyFindByEmailIsCalledOnce(String email) {
         Mockito.verify(userRepository, VerificationModeFactory.times(1)).findByEmail(email);
@@ -186,5 +233,16 @@ public class UserServiceImplUnitTest {
         Mockito.verify(userRepository, VerificationModeFactory.times(0)).insertPublishedHouse(email, placeId);
         Mockito.reset(userRepository);
     }
+
+    private void verifyInsertNewFavoriteHouseIsCalledOnce(String email, long placeId){
+        Mockito.verify(userRepository, VerificationModeFactory.times(1)).insertFavoriteHouse(email, placeId);
+        Mockito.reset(userRepository);
+    }
+
+    private void verifyInsertNewFavoriteHouseIsNotCalled(String email, long placeId){
+        Mockito.verify(userRepository, VerificationModeFactory.times(0)).insertFavoriteHouse(email, placeId);
+        Mockito.reset(userRepository);
+    }
+
 
 }

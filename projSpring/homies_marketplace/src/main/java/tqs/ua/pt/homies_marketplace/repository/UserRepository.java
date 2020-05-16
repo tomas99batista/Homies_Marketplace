@@ -18,6 +18,10 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query(value="insert into users_published_houses values (?1, ?2)", nativeQuery=true)
     int insertPublishedHouse(String email, long savedPlaceId);
 
+    @Modifying
+    @Query(value = "insert into users_favorites values (?1, ?2)", nativeQuery = true)
+    int insertFavoriteHouse(String email, long placeId);
+
 
 
 
