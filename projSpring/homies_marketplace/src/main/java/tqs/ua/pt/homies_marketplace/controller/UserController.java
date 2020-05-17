@@ -11,6 +11,7 @@ import tqs.ua.pt.homies_marketplace.service.PlaceService;
 import tqs.ua.pt.homies_marketplace.service.UserService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class UserController {
@@ -43,19 +44,35 @@ public class UserController {
         return placeService.getPublishedHouses(email);
     }
 
-
-
     @PostMapping("/users")
     public ResponseEntity<User> createUser(@RequestBody User user){
         HttpStatus status=HttpStatus.CREATED;
         User saved=userService.save(user);
         return new ResponseEntity<>(saved, status);
     }
+
     // get all users
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
+    
+    @PostMapping("/login")
+    public void loginUser(@RequestBody Map<String,String> login_infos){
+        System.out.println(login_infos);
+        User user = userService.getUserByEmail(login_infos.get("email"));
+        if (user == null){
+            System.out.println("user nao existe");
+        }
+        else if (user.getPassword() == login_infos.get("password")){
+            System.out.println("pwd iguais: " + user.getPassword() + login_infos.get("password"));
+        } else {
+            System.out.println("pwd diferentes: " + user.getPassword() + login_infos.get("password"));
+        }
+        //HttpStatus status=HttpStatus.CREATED;
+        //User saved=userService.save(user);
+        //return new ResponseEntity<>(saved, status);
+    }
 
 }
