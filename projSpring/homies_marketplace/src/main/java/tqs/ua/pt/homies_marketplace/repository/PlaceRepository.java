@@ -1,6 +1,7 @@
 package tqs.ua.pt.homies_marketplace.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +26,11 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
     //rows with city that contains or is equal to city name
     @Query(value="SELECT * FROM PLACE WHERE CITY ~* ?1 ;", nativeQuery = true)
     List<Place> findByCity(String city);
+
+    @Modifying
+    @Query(value = "insert into place_reviews values (?1, ?2)", nativeQuery = true)
+    int insertReview(long placeId, long reviewId);
+
 
 
 }

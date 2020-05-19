@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import tqs.ua.pt.homies_marketplace.JsonUtil;
 import tqs.ua.pt.homies_marketplace.controller.PlaceController;
 import tqs.ua.pt.homies_marketplace.models.Place;
+import tqs.ua.pt.homies_marketplace.models.Review;
 import tqs.ua.pt.homies_marketplace.service.PlaceService;
 
 import java.util.ArrayList;
@@ -56,6 +57,20 @@ public class PlaceControllerITest {
 
     }
 
+    /*
+    @Test
+    public void whenPostReview_thenCreateReview() throws Exception {
+        Review review= new Review(1L,"jose@email.com", 4.0, "comment1");
+        given(service.addReview(Mockito.anyLong(), review)).willReturn(true);
+
+        mvc.perform(post("/places/8/reviews").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+                //content(JsonUtil.toJson(review))).andExpect(status().isCreated())
+                //.andExpect(jsonPath("$.title", is("title1")));
+        verify(service, VerificationModeFactory.times(1)).addReview(Mockito.anyLong(), review);
+        reset(service);
+    }
+     */
     @Test
     public void givenPlaces_whenGetPLaces_thenReturnJsonArray() throws Exception {
         List<String> features= new ArrayList<>();
