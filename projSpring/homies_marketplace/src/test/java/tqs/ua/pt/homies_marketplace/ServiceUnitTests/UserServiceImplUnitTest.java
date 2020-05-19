@@ -63,6 +63,7 @@ public class UserServiceImplUnitTest {
 
         Mockito.when(userRepository.findByEmail(user.getEmail())).thenReturn(user);
         Mockito.when(userRepository.insertPublishedHouse(email, place.getId())).thenReturn(1);
+        Mockito.when(userRepository.insertRentedHouse(email, place.getId())).thenReturn(1);
     }
 
 
@@ -215,7 +216,48 @@ public class UserServiceImplUnitTest {
 
     }
 
+    @Test
+    public void WhenValidEmailAndPlaceExists_thenAddToRentedHouses(){
+        String email="jose@email.com";
+        List<String> features= new ArrayList<>();
+        features.add("feature1");
+        features.add("feature2");
+        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Mockito.when(userRepository.insertRentedHouse(email, 1L)).thenReturn(1);
+        Mockito.when(placeService.getPlaceById(1L)).thenReturn(place);
+        boolean saved=userService.addToRentedHouses(email, new PlaceId(place.getId()));
+        assertThat(saved).isEqualTo(true);
+        verifyInsertNewRentedHouseHouseIsCalledOnce(email, 1L);
+    }
 
+    @Test
+    public void WhenInValidEmailAndPlaceExists_thenNotAddsToRentedHouses(){
+        String email="wrong_email@email.com";
+        List<String> features= new ArrayList<>();
+        features.add("feature1");
+        features.add("feature2");
+        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Mockito.when(userRepository.findByEmail(email)).thenReturn(null);
+        Mockito.when(placeService.getPlaceById(1L)).thenReturn(place);
+        boolean saved=userService.addToRentedHouses(email, new PlaceId(place.getId()));
+        assertThat(saved).isEqualTo(false);
+        verifyInsertNewRentedHouseHouseIsNotCalled(email, 1L);
+
+    }
+
+    @Test
+    public void WhenValidEmailAndPlaceNotExists_thenNotAddsToRentedHouses(){
+        String email="jose@email.com";
+        List<String> features= new ArrayList<>();
+        features.add("feature1");
+        features.add("feature2");
+        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Mockito.when(placeService.getPlaceById(1L)).thenReturn(null);
+        boolean saved=userService.addToRentedHouses(email, new PlaceId(place.getId()));
+        assertThat(saved).isEqualTo(false);
+        verifyInsertNewRentedHouseHouseIsNotCalled(email, 1L);
+
+    }
 
     //Verify if methods are called
     private void verifyFindByEmailIsCalledOnce(String email) {
@@ -241,6 +283,16 @@ public class UserServiceImplUnitTest {
 
     private void verifyInsertNewFavoriteHouseIsNotCalled(String email, long placeId){
         Mockito.verify(userRepository, VerificationModeFactory.times(0)).insertFavoriteHouse(email, placeId);
+        Mockito.reset(userRepository);
+    }
+
+    private void verifyInsertNewRentedHouseHouseIsCalledOnce(String email, long placeId){
+        Mockito.verify(userRepository, VerificationModeFactory.times(1)).insertRentedHouse(email, placeId);
+        Mockito.reset(userRepository);
+    }
+
+    private void verifyInsertNewRentedHouseHouseIsNotCalled(String email, long placeId){
+        Mockito.verify(userRepository, VerificationModeFactory.times(0)).insertRentedHouse(email, placeId);
         Mockito.reset(userRepository);
     }
 

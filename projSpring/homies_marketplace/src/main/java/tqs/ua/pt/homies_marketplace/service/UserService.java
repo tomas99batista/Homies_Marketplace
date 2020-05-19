@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface UserService {
 
+    boolean addToRentedHouses(String email, PlaceId placeId);
+
     boolean addToFavorites(String email, PlaceId placeId);
 
     User getUserByEmail(String email);

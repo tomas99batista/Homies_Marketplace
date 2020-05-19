@@ -22,7 +22,9 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query(value = "insert into users_favorites values (?1, ?2)", nativeQuery = true)
     int insertFavoriteHouse(String email, long placeId);
 
-
+    @Modifying
+    @Query(value = "insert into users_rented_houses values (?1, ?2)", nativeQuery = true)
+    int insertRentedHouse(String email, long placeId);
 
 
 }
