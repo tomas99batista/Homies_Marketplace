@@ -1,8 +1,11 @@
 package tqs.ua.pt.homies_marketplace.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tqs.ua.pt.homies_marketplace.models.Place;
+import tqs.ua.pt.homies_marketplace.models.PlaceId;
 import tqs.ua.pt.homies_marketplace.models.User;
 import tqs.ua.pt.homies_marketplace.service.PlaceService;
 import tqs.ua.pt.homies_marketplace.service.UserService;
@@ -17,6 +20,20 @@ public class UserController {
 
     @Autowired
     private PlaceService placeService;
+
+    @PostMapping("/users/{email}/rentedHouses")
+    public boolean addToRentedHouses(@PathVariable("email") String email, @RequestBody PlaceId placeId){
+        return userService.addToRentedHouses(email, placeId);
+    }
+    @PostMapping("/users/{email}/favorites")
+    public boolean addToFavorites(@PathVariable("email") String email, @RequestBody PlaceId placeId){
+        return userService.addToFavorites(email, placeId);
+    }
+
+    @GetMapping("/users/{email}/favorites")
+    public List<Place> getUserFavorites(@PathVariable("email") String email){
+        return placeService.getFavoriteHouses(email);
+    }
 
     //publish new house
     @PostMapping("/users/{email}/publishedHouses")
@@ -33,8 +50,10 @@ public class UserController {
 
 
     @PostMapping("/users")
-    public User createUser(@RequestBody User user){
-        return userService.save(user);
+    public ResponseEntity<User> createUser(@RequestBody User user){
+        HttpStatus status=HttpStatus.CREATED;
+        User saved=userService.save(user);
+        return new ResponseEntity<>(saved, status);
     }
     // get all users
     @GetMapping("/users")

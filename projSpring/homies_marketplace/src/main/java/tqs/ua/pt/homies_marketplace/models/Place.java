@@ -34,6 +34,8 @@ public class Place {
     @Column(nullable=false, unique=false)
     private String city;
 
+    @ElementCollection
+    private List<Long> reviews;
     //@Column(nullable=false, unique=false)
     //private String photos;
 
@@ -51,6 +53,19 @@ public class Place {
         this.numberBedrooms = numberBedrooms;
         this.type = type;
         this.city=city;
+    }
+
+    public Place(Long id, String title, double price, double rating, List<String> features, int numberBathrooms, int numberBedrooms, String type, String city, List<Long> reviews) {
+        this.id = id;
+        this.title = title;
+        this.price = price;
+        this.rating = rating;
+        this.features = features;
+        this.numberBathrooms = numberBathrooms;
+        this.numberBedrooms = numberBedrooms;
+        this.type = type;
+        this.city = city;
+        this.reviews = reviews;
     }
 
     public String getTitle() {
@@ -87,5 +102,9 @@ public class Place {
 
     public String getCity() {
         return city;
+    }
+
+    public List<Long> getReviews() {
+        return reviews;
     }
 }

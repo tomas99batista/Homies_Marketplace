@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tqs.ua.pt.homies_marketplace.models.Place;
+import tqs.ua.pt.homies_marketplace.models.PlaceId;
 import tqs.ua.pt.homies_marketplace.models.User;
 import tqs.ua.pt.homies_marketplace.repository.UserRepository;
 
@@ -20,16 +21,41 @@ public class UserServiceImpl implements UserService{
     private PlaceService placeService;
 
     @Override
+    public boolean addToRentedHouses(String email, PlaceId placeId){
+        if (exists(email)){
+            //check if the number of rows updated is one
+            if (placeService.getPlaceById(placeId.getPlaceId())!=null) {
+                int rowsUpdated = userRepository.insertRentedHouse(email, placeId.getPlaceId());
+                return rowsUpdated == 1;
+            }
+            return false;
+
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addToFavorites(String email, PlaceId placeId) {
+        if (exists(email)){
+            //check if the number of rows updated is one
+            if (placeService.getPlaceById(placeId.getPlaceId())!=null) {
+                int rowsUpdated = userRepository.insertFavoriteHouse(email, placeId.getPlaceId());
+                return rowsUpdated == 1;
+            }
+            return false;
+
+        }
+        return false;
+    }
+
+    @Override
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
     @Override
     public boolean exists(String email) {
-        if (userRepository.findByEmail(email) != null) {
-            return true;
-        }
-        return false;
+        return userRepository.findByEmail(email) != null;
     }
 
 
@@ -49,10 +75,7 @@ public class UserServiceImpl implements UserService{
                 //check if the number of rows updated is one
                 int rowsUpdated=userRepository.insertPublishedHouse(email, savedPlaceId);
 
-                if (rowsUpdated==1){
-                    return true;
-                }
-                return false;
+                return rowsUpdated == 1;
             }
             return false;
         }
