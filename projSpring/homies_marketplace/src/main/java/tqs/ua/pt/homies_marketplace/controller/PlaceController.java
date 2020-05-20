@@ -41,8 +41,18 @@ public class PlaceController {
     }
 
     //get all places
-    @GetMapping("/places")
-    public List<Place> getAllPlaces() { return placeService.getAllPlaces(); }
+    /*@GetMapping("/places")
+    public List<Place> getAllPlaces() {
+        return placeService.getAllPlaces();
+
+    }*/
+
+    @RequestMapping(method = RequestMethod.GET, value="/places")
+    public String getAllplaces(Model model){
+        List<Place> places = placeService.getAllPlaces();
+        model.addAttribute("places", places);
+        return "houseList";
+    }
 
     @GetMapping("/places/{id}")
     public Place getPlaceDetails(@PathVariable("id") long id){
