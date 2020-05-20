@@ -6,6 +6,8 @@ import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.repository.PlaceRepository;
 
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -33,6 +35,15 @@ public class PlaceServiceImpl implements PlaceService{
 
     @Override
     public List<Place> getAllPlaces() {
-        return placeRepository.findAll();
+        List<String> features = new ArrayList<>();
+        features.add("Barato");
+        features.add("Gamer");
+        Place place = new Place(0L, "Test", 100.0, 3.0, features, 1, 1, "casa", "Lisboa");
+        Place newPlace = new Place(1L, "NEWTEST", 10.0, 2.3, features, 1, 1, "coisa", "Porto");
+        List<Place> places = new ArrayList<>();
+        places.add(place);
+        places.add(newPlace);
+        return places;
+        //return placeRepository.findAll();
     }
 }

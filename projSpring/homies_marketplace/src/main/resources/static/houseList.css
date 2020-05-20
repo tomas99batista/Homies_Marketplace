@@ -1,0 +1,105 @@
+.wrapper{
+	background-color: #0099ff;
+	display: grid;
+	grid-template-columns: 1fr 1fr 3fr 1fr;
+	grid-template-rows: 1fr auto;
+}
+
+.nested{
+	display: grid;
+	grid-template-columns: 2fr 8fr;
+	padding: 1em;
+	background-color: #eee;
+	grid-gap:1em;
+	border-radius: 25px;
+	margin: 10px;
+}
+
+.houseImage{
+	background-color: black;
+	height: 155px;
+}
+
+.houseInfo{
+	display: grid;
+	grid-template-rows: 1fr 1fr;
+}
+
+.details{
+	display: grid;
+	grid-template-columns: 4fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
+}
+
+.cellStyle{
+	border-style: solid;
+	margin: 1px;
+}
+
+.filterTab{
+	background-color: white;
+	grid-column-start: 2;
+	grid-column-end: 3; 
+	border-radius: 25px;
+	height: 100em;
+}
+
+.houseTab{
+	grid-column-start: 3;
+	grid-column-end: 4;
+}
+
+.mainBod{
+	display: grid;
+	grid-template-rows: 50px auto; 
+}
+
+.detailsStyle{
+	background-color: blue;
+	width: 5em;
+	display: block;
+	color: #fff;
+	border-radius: 20px;
+	padding: .5em;
+	text-decoration: none;
+	font-size: .75em;
+	text-align: center;
+	grid-row-start: 3;
+	grid-row-end: 4;
+	grid-column-start: 3;
+	grid-column-end: 4;
+}
+
+.favButton{
+	background-color: blue;
+	width: 5em;
+	display: block;
+	color:#fff;
+	border-radius: 20px;
+	padding: .5em;
+	text-decoration: none;
+	font-size: .75em;
+	text-align: center;
+}
+
+.searchBar{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 5px;
+	border: none;
+	background: #87cefa;
+	pl:white;
+
+}
+
+.searchBar::placeholder{
+	color:white;
+	padding: 5px;
+}
+
+.information{
+	display: grid;
+	grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
+}
