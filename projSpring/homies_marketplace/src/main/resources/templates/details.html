@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		.mainBod{
+			display: grid;
+			grid-template-rows: 50px auto;
+		}
+
+		.wrapper{
+			display: grid;
+			grid-template-rows: 1fr auto;
+			grid-template-columns: 1fr 4fr 1fr;
+		}
+
+		.detailsTab{
+			display:grid;
+			grid-column-start: 2;
+			grid-column-end: 3;
+			background-color: #0099ff;
+			border-radius: 25px;
+			grid-template-rows: 1fr 1fr;
+		}
+
+		.houseImage{
+			display: grid;
+			height: 155px;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="mainBod">
+		<div style="background-color: black; margin-bottom: 20px"></div>
+		<div class ="wrapper">
+			<div class="detailsTab">
+				<div style="display: grid; grid-template-columns: 1fr 2fr">
+					<div class="houseImage"></div>
+					<div>
+						<p>boas</p>
+					</div>
+				</div>
+				<div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
