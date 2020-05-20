@@ -1,0 +1,88 @@
+<!doctype html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- reference your copy Font Awesome here (from our CDN or by hosting yourself) -->
+    <script src="https://kit.fontawesome.com/9002efc044.js" crossorigin="anonymous"></script>
+
+    <title>Homies</title>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" style="font-size:25px; font-height: bold;" th:href="@{/}">Homies <i class="far fa-building"></i> Marketplace</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" th:href="@{/}">Index <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <!--<a class="nav-link" th:href="@{/madrid}">Madrid</a>-->
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+
+    <!-- Call to Action Well -->
+    <div class="card text-white bg-secondary bg-success  my-5 py-4 text-center" style="background-color: #fa50a4;">
+        <div class="card-body">
+            <p class="text-white m-0" style="font-size: 40px;">Lisboa</p>
+        </div>
+    </div>
+
+    <!-- Content Row -->
+    <div class="row" style="font-size: 18px;">
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3 class="card-title">Station: <span>Casa 1 </span></h3>
+                    <p class="card-text">
+                    <ul>
+                        <!--<li><b>AQI: </b><span th:text="${info.getAqi()}">-</span></li>-->
+                    </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Row -->
+    <div class="row" style="font-size: 18px;">
+        <div class="col-md-4 mb-3">
+
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3 class="card-title">Station: <span>Casa 2</span></h3>
+                    <p class="card-text">
+                    <ul>
+                        <!--<li><b>AQI: </b><span th:text="${info.getAqi()}">-</span></li>-->
+                    </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>

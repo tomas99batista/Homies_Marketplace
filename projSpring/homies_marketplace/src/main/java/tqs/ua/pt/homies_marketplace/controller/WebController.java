@@ -23,8 +23,13 @@ public class WebController {
     // lisbon page
     @RequestMapping(method = RequestMethod.GET, value = "/")
     String index(Model model){
+        return "index";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/test")
+    String test(Model model){
         model.addAttribute("user", "user");
         model.addAttribute("place", "place");
-        return "index";
+        return "test";
     }
 }
