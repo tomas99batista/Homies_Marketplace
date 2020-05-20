@@ -1,8 +1,13 @@
 package tqs.ua.pt.homies_marketplace.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< HEAD
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+=======
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+>>>>>>> 6f1251a8d952e14661d1c9ab538ccf73fbc6e485
 import org.springframework.web.bind.annotation.*;
 import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.Review;
@@ -10,7 +15,7 @@ import tqs.ua.pt.homies_marketplace.service.PlaceService;
 
 import java.util.List;
 
-@RestController
+@Controller
 public class PlaceController {
 
     @Autowired
@@ -35,11 +40,18 @@ public class PlaceController {
         return new ResponseEntity<>(saved, status);
     }
 
-    // get all places
-    @GetMapping("/places")
+    //get all places
+    /*@GetMapping("/places")
     public List<Place> getAllPlaces() {
         return placeService.getAllPlaces();
 
+    }*/
+
+    @RequestMapping(method = RequestMethod.GET, value="/places")
+    public String getAllplaces(Model model){
+        List<Place> places = placeService.getAllPlaces();
+        model.addAttribute("places", places);
+        return "houseList";
     }
 
     @GetMapping("/places/{id}")
