@@ -1,20 +1,35 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
-	<title></title>
-	<link rel="stylesheet" type="text/css" href="/houseList.css">
+	<title>Homies</title>
+	<!-- Bootstrap CSS-->
+	<link th:href="@{/css/bootstrap.min.css}" href="/css/bootstrap.min.css" rel="stylesheet" media="all">
+
+	<!-- Main CSS-->
+	<link  th:href="@{/css/houseList.css}" href="/css/houselist.css" rel="stylesheet" media="all">
+
+	<!-- Bootstrap JS-->
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 	<div class="mainBod">
-		<div style="background-color:black; margin-bottom: 20px;">asd</div>
+		<div style="margin-bottom: 20px;"></div>
 		<div class="wrapper">
-			<div style="grid-column-start: 1; grid-column-end: 2;background-color: white; margin-right: 1em;"></div>
-			<div class="filterTab">
+			<div class="col-2 filterTab">
 				<h2 style="text-align: center; color: #0099ff">Find your place</h2>
-				<input class="searchBar"type="text" placeholder="Search here...">
+				<div class="form-group has-search">
+					<span class="fa fa-search form-control-feedback"></span>
+					<input type="text" class="form-control" placeholder="Search" style="max-width: 250px">
+				</div>
 			</div>
 			<div class="houseTab">
-				<div class="nested"  th:each = "place: ${places}">
+				<div class="nested" th:each="place: ${places}">
 					<div class="houseImage"></div>
 					<div class="houseInfo">
 						<div class="information">
@@ -24,18 +39,18 @@
 							<div th:text="${place['numberBathrooms']} + ' bathrooms'"></div>
 							<div class="favButton">Add Fav</div>
 							<div style="grid-row-start: 2; grid-row-end: 3"></div>
-							<div th:text="${place['city']}" style="grid-row-start: 3; grid-row-end: 4"></div>
+							<div th:text="${place['city']}"></div>
 						</div>
 						<div class="details">
 							<div th:text="'Rating: ' + ${place['rating']}"></div>
-							<div th:text="${place['price'] + '€/mês'}"style="grid-row-start: 2; grid-row-end: 3;"></div>
+							<div th:text="${place['price'] + '€/mês'}"></div>
 							<div class="detailsStyle">Button</div>
 							<div style="grid-row-start: 3; grid-row-end: 4;"></div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div style="grid-column-start: 4; grid-column-end: 5;background-color: white; margin-lefr: 1em;">
+			<div>
 		</div>
 	</div>
 </body>

@@ -86,6 +86,11 @@
 <script>
     var map = new Datamap({
         element: document.getElementById('container'),
+        done: function(datamap) {
+            datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
+                window.open("/list/"+ geography.properties.name);
+                })
+            },
         geographyConfig: {
             dataJson: 'https://rawgit.com/markmarkoh/datamaps/master/src/js/data/prt.json'
         },
