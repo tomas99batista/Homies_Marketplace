@@ -23,7 +23,6 @@
 	<div class="mainBod">
 		<div style="margin-bottom: 20px;"></div>
 		<div class="wrapper">
-			<div class="col-1"></div>
 			<div class="col-2 filterTab">
 				<h2 style="text-align: center; color: #0099ff">Find your place</h2>
 				<div class="form-group has-search">
@@ -32,28 +31,58 @@
 				</div>
 			</div>
 			<div class="col-9 houseTab">
-				<div class="housecard" th:each="place: ${places}">
-					<div class="houseImage">
+				<div class="" th:each="place: ${places}">
+					<!--
+					<div class="row houseImage">
+						<img th:src="@{/media/room-1.jpg}" />
 					</div>
-					<div class="houseInfo">
-						<div class="information">
-							<div th:text="${place['title']}"></div>
-							<div>1 person</div>
-							<div th:text="${place['numberBedrooms']} + ' bedrooms'"></div>
-							<div th:text="${place['numberBathrooms']} + ' bathrooms'"></div>
-							<div class="favButton">Add Fav</div>
-							<div style="grid-row-start: 2; grid-row-end: 3"></div>
-							<div th:text="${place['city']}"></div>
+					<div class="row">
+
+						<div class="houseInfo">
+							<div class="information">
+								<div th:text="${place['title']}"></div>
+								<div>1 person</div>
+								<div th:text="${place['numberBedrooms']} + ' bedrooms'"></div>
+								<div th:text="${place['numberBathrooms']} + ' bathrooms'"></div>
+								<div class="favButton">Add Fav</div>
+								<div style="grid-row-start: 2; grid-row-end: 3"></div>
+								<div th:text="${place['city']}"></div>
+							</div>
+							<div class="details">
+								<div th:text="'Rating: ' + ${place['rating']}"></div>
+								<div th:text="${place['price'] + '€/mês'}"></div>
+								<div class="detailsStyle">Button</div>
+								<div style="grid-row-start: 3; grid-row-end: 4;"></div>
+							</div>
 						</div>
-						<div class="details">
-							<div th:text="'Rating: ' + ${place['rating']}"></div>
-							<div th:text="${place['price'] + '€/mês'}"></div>
-							<div class="detailsStyle">Button</div>
-							<div style="grid-row-start: 3; grid-row-end: 4;"></div>
-						</div>
+
 					</div>
+					-->
+					<section class="section mt-5">
+						<div class="container houseCard">
+							<div class="row">
+								<div class="col-md-6">
+									<div>
+										<img alt="room" class="img-fluid" th:src="@{/media/room-1.jpg}" />
+									</div>
+								</div>
+								<div class="col-md-6 col-lg-5 ml-auto d-flex align-items-center mt-4 mt-md-0">
+									<div>
+										<h2 th:text="${place['title']}"></h2>
+										<div th:text="${place['numberBedrooms']} + ' bedrooms'"></div>
+										<div th:text="${place['numberBathrooms']} + ' bathrooms'"></div>
+										<div th:text="'Rating: ' + ${place['rating']}"></div>
+										<div th:text="${place['price'] + '€/mês'}"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
 				</div>
+
+
 			</div>
+			<div class="col-1"></div>
 			<div>
 		</div>
 	</div>
