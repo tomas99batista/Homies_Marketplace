@@ -21,7 +21,7 @@ public class UserController {
     @Autowired
     private PlaceService placeService;
 
-    @PostMapping("/users/{email}/rentedHouses")
+    @PostMapping("/users/{email}/booking")
     public boolean addToRentedHouses(@PathVariable("email") String email, @RequestBody PlaceId placeId){
         return userService.addToRentedHouses(email, placeId);
     }
