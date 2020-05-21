@@ -18,9 +18,12 @@
 
 </head>
 <body>
+<div th:replace="fragments/navbar"></div>
+
 	<div class="mainBod">
 		<div style="margin-bottom: 20px;"></div>
 		<div class="wrapper">
+			<div class="col-1"></div>
 			<div class="col-2 filterTab">
 				<h2 style="text-align: center; color: #0099ff">Find your place</h2>
 				<div class="form-group has-search">
@@ -28,9 +31,10 @@
 					<input type="text" class="form-control" placeholder="Search" style="max-width: 250px">
 				</div>
 			</div>
-			<div class="houseTab">
-				<div class="nested" th:each="place: ${places}">
-					<div class="houseImage"></div>
+			<div class="col-9 houseTab">
+				<div class="housecard" th:each="place: ${places}">
+					<div class="houseImage">
+					</div>
 					<div class="houseInfo">
 						<div class="information">
 							<div th:text="${place['title']}"></div>

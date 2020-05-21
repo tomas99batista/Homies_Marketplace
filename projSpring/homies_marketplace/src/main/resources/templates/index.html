@@ -35,23 +35,7 @@
 <body>
 
 <!-- Top navigation -->
-<div class="topnav">
-
-    <!-- Centered link -->
-    <div class="logo-div">
-        <a th:href="@{/}" class="active logo">
-            <img class="logo" th:src="@{/media/logo.png}" />
-        </a>
-        <div class="topnav-right">
-            <!-- Left-aligned links (default) -->
-            <a  class="float-right" th:href="@{/}" >Login</a>
-        </div>
-    </div>
-
-
-
-</div>
-
+<div th:replace="fragments/navbar"></div>
 
     <div class="jumbotron">
         <div class="row">
@@ -88,7 +72,7 @@
         element: document.getElementById('container'),
         done: function(datamap) {
             datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
-                window.open("/places/"+ geography.properties.name);
+                window.open("/places/city/"+ geography.properties.name);
                 })
             },
         geographyConfig: {

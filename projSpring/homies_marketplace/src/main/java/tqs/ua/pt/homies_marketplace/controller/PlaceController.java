@@ -60,10 +60,11 @@ public class PlaceController {
         return "details";
     }
 
-    @PostMapping("/place/{city}")
-    public void getPlacebyCity(Model model, @PathVariable String city) {
+    @RequestMapping(method = RequestMethod.GET, value="/place/city/{city}")
+    public String getPlacebyCity(Model model, @PathVariable String city) {
         System.out.println("City>> " + city);
         model.addAttribute("city", city);
+        return "houseList";
     }
 
 

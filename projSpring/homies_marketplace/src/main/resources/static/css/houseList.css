@@ -54,6 +54,7 @@ path{
 
 .wrapper{
 	#background-color: #0099ff;
+	display: inline-grid;
 }
 
 .nested{
@@ -93,6 +94,8 @@ path{
 	margin:20px;
 	display:inline-table;
 	padding:30px;
+	min-width:max-content;
+	position:static;
 	box-shadow: 0 0.150em 0.375em rgba(50,50,93,.19);
 }
 

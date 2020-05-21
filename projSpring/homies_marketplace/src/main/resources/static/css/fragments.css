@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+.navbar {
+    font-size: 0.8rem;
+    padding-left: 100px;
+    padding-right: 100px;
+    color:#3d5170;
+    background-color: rgba(255, 255, 255, 0);
+    font-weight: bold;
+}
+
+.btn-active a{
+    background-color: rgba(30, 144, 255, 0);
+    border-style: solid;
+    border-color: dodgerblue;
+    border-radius: 10px;
+    border-width: 2px;
+    color:dodgerblue;
+    max-width: fit-content;
+}
+.btn-active a:hover{
+    transition: 0.5s;
+    background-color: dodgerblue;
+    border-radius: 10px;
+    color: white;
+    max-width: fit-content;
+    text-decoration: none;
+}
+.navbar-nav a{
+    padding:8px;
+    margin:5px;
+}

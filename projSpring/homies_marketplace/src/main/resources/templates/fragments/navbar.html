@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link  th:href="@{/css/fragments.css}" href="/css/fragments.css" rel="stylesheet" media="all">
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-light">
+    <a href="#" class="navbar-brand">
+        <img  th:src="@{/media/logo.png}" height="70" alt="Homies">
+    </a>
+    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav">
+            <a href="#" class="nav-item nav-link">Home</a>
+        </div>
+        <div class="navbar-nav ml-auto btn-active">
+            <a href="#" class="nav-item">Login</a>
+            <a href="#" class="nav-item">Register</a>
+        </div>
+    </div>
+</nav>
+</body>
+</html>
