@@ -35,4 +35,6 @@ public interface GetDataService {
     @GET("/users/{email}/favorites/")
     Call<List<Place>> getFavoritePlaces(@Path("email") String email);
 
+    @POST("/places/{id}/reviews/")
+    Call<String> addReview(@Path("id") long placeId, @Body Review review);
 }

@@ -19,6 +19,13 @@ public class Review {
     public Review(){
 
     }
+
+    public Review(String email, String comment, double rating) {
+        this.email = email;
+        this.comment = comment;
+        this.rating=rating;
+    }
+
     public Review(Long id, String email, double rating, String comment) {
         this.id = id;
         this.email = email;
