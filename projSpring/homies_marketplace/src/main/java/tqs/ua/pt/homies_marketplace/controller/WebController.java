@@ -26,11 +26,9 @@ public class WebController {
         return "index";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/list/{city}")
-    String list(Model model, @PathVariable String city) {
-        System.out.println("City>> " + city);
-        model.addAttribute("city", city);
-        return "houseList";
+    @RequestMapping(method = RequestMethod.GET, value = "/register")
+    String register(Model model){
+        return "register";
     }
 
     // lisbon page

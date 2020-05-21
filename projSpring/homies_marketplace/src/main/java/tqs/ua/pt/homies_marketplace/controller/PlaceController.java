@@ -56,6 +56,13 @@ public class PlaceController {
         return placeService.getPlaceById(id);
     }
 
+    @PostMapping("/place/{city}")
+    public void getPlacebyCity(Model model, @PathVariable String city) {
+        System.out.println("City>> " + city);
+        model.addAttribute("city", city);
+    }
+
+
     @GetMapping("/search")
     public List<Place> search(@RequestParam(value = "city", required = false) String city){
         return placeService.searchByCity(city);
