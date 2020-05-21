@@ -61,7 +61,12 @@ public class PlaceServiceImpl implements PlaceService{
 
     @Override
     public Place getPlaceById(long id){
-        return placeRepository.findById(id);
+        //return placeRepository.findById(id);
+        Place place;
+        for(Place p : getAllPlaces())
+            if(p.getId() == id)
+                return p;
+        return null;
     }
 
     @Override
@@ -77,7 +82,7 @@ public class PlaceServiceImpl implements PlaceService{
     public List<Place> getAllPlaces() {
         List<String> features = new ArrayList<>();
         features.add("Barato");
-        features.add("Gamer");
+        features.add("Not caro");
         Place place = new Place(0L, "Test", 100.0, 3.0, features, 1, 1, "casa", "Lisboa");
         Place newPlace = new Place(1L, "NEWTEST", 10.0, 2.3, features, 1, 1, "coisa", "Porto");
         List<Place> places = new ArrayList<>();
