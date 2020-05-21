@@ -1,47 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
 	<title></title>
-	<style type="text/css">
-		.mainBod{
-			display: grid;
-			grid-template-rows: 50px auto;
-		}
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/details.css">
+	<!-- Bootstrap CSS-->
+    <link th:href="@{/css/bootstrap.min.css}" href="/css/bootstrap.min.css" rel="stylesheet" media="all">
 
-		.wrapper{
-			display: grid;
-			grid-template-rows: 1fr auto;
-			grid-template-columns: 1fr 4fr 1fr;
-		}
+    <!-- Main CSS-->
+    <link  th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet" media="all">
 
-		.detailsTab{
-			display:grid;
-			grid-column-start: 2;
-			grid-column-end: 3;
-			background-color: #0099ff;
-			border-radius: 25px;
-			grid-template-rows: 1fr 1fr;
-		}
+    <!-- Bootstrap JS-->
+    <script th:src="@{/js/bootstrap.min.js}"></script>
 
-		.houseImage{
-			display: grid;
-			height: 155px;
-		}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
-	</style>
+    <script src="https://d3js.org/d3.v3.js"></script>
+    <script src="https://d3js.org/topojson.v1.js"></script>
+    <script src="https://rawgithub.com/markmarkoh/datamaps/master/dist/datamaps.none.min.js"></script>
+    <script src="https://rawgithub.com/markmarkoh/datamaps/master/dist/datamaps.prt.js"></script>
+
 </head>
-<body>
+
+<body style="background-color: #d6d6d6">
+	<div class="topnav">
+		<div class="logo-div">
+			<a th:href="@{/}" class="active logo">
+				<img class="logo" th:src="@{/media/logo.png}" />
+			</a>
+		</div>
+	</div>
 	<div class="mainBod">
-		<div style="background-color: black; margin-bottom: 20px"></div>
 		<div class ="wrapper">
 			<div class="detailsTab">
 				<div style="display: grid; grid-template-columns: 1fr 2fr">
 					<div class="houseImage"></div>
-					<div>
-						<p>boas</p>
+					<div style="display: grid; margin:2em ; grid-template-rows: 1fr 1fr">
+						<div th:text="${placeTitle}"></div>
+						<div>Descrição</div>
 					</div>
 				</div>
-				<div>
+			</div>
+			<div style="grid-row-start: 2; grid-column-start: 2;">
+				<div class="placeFeature" th:each="pFeature: ${placeFeatures}">
+					<div th:text="${pFeature}"></div>
 				</div>
 			</div>
 		</div>

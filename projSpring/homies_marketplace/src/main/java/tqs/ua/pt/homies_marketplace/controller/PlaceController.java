@@ -52,8 +52,11 @@ public class PlaceController {
     }
 
     @GetMapping("/places/{id}")
-    public String getPlaceDetails(@PathVariable("id") long id){
-        Place place = placeService.getPlaceById(id);
+    public String getPlaceDetails(@PathVariable("id") long id, Model model){
+        Place place = placeService.getPlaceById(0L);
+        model.addAttribute("placeTitle", place.getTitle());
+        model.addAttribute("placeFeatures", place.getFeatures());
+        System.out.println(place.getFeatures());
         return "details";
     }
 
