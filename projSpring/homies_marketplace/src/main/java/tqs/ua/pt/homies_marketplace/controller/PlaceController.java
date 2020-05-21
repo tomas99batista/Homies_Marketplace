@@ -10,6 +10,7 @@ import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.Review;
 import tqs.ua.pt.homies_marketplace.service.PlaceService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -60,10 +61,18 @@ public class PlaceController {
         return "details";
     }
 
-    @PostMapping("/place/{city}")
-    public void getPlacebyCity(Model model, @PathVariable String city) {
+    @RequestMapping(method = RequestMethod.GET, value="/places/city/{city}")
+    public String getPlacebyCity(Model model, @PathVariable String city) {
         System.out.println("City>> " + city);
-        model.addAttribute("city", city);
+        List<Place> places = placeService.getAllPlaces();
+        List<Place> returnPlaces = new ArrayList<>();
+        for(Place p: places){
+            if(p.getCity().equals(city))
+                returnPlaces.add(p);
+        }
+        System.out.println(returnPlaces);
+        model.addAttribute("places", returnPlaces);
+        return "houseList";
     }
 
 
