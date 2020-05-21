@@ -36,8 +36,9 @@ public class Place {
 
     @ElementCollection
     private List<Long> reviews;
-    //@Column(nullable=false, unique=false)
-    //private String photos;
+
+    @Column(nullable=false, unique=false)
+    private String photos;
 
     //needed for hibernate
     public Place(){
@@ -66,6 +67,20 @@ public class Place {
         this.type = type;
         this.city = city;
         this.reviews = reviews;
+    }
+
+    public Place(Long id, String title, double price, double rating, List<String> features, int numberBathrooms, int numberBedrooms, String type, String city, List<Long> reviews, String photos) {
+        this.id = id;
+        this.title = title;
+        this.price = price;
+        this.rating = rating;
+        this.features = features;
+        this.numberBathrooms = numberBathrooms;
+        this.numberBedrooms = numberBedrooms;
+        this.type = type;
+        this.city = city;
+        this.reviews = reviews;
+        this.photos = photos;
     }
 
     public String getTitle() {
@@ -106,5 +121,10 @@ public class Place {
 
     public List<Long> getReviews() {
         return reviews;
+    }
+
+
+    public String getPhotos() {
+        return photos;
     }
 }
