@@ -56,7 +56,6 @@ path{
 
 
 .wrapper{
-	#background-color: #0099ff;
 	display: inline-flex;
 }
 
@@ -93,7 +92,7 @@ path{
 	border-radius: 25px;
 	height: 100em;
 	margin:20px;
-	display:inline-table;
+	display: inline-table;
 	padding:30px;
 	min-width:max-content;
 	position:static;
