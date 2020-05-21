@@ -3,6 +3,7 @@ package tqs.ua.pt.homies_marketplace.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import tqs.ua.pt.homies_marketplace.repository.PlaceRepository;
@@ -20,11 +21,21 @@ public class WebController {
     @Autowired
     UserRepository userRepository; // OU USAR O REPOSITORY E CHAMAR PELO REPOSITORY
 
-    // lisbon page
     @RequestMapping(method = RequestMethod.GET, value = "/")
     String index(Model model){
+        return "index";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/register")
+    String register(Model model){
+        return "register";
+    }
+
+    // lisbon page
+    @RequestMapping(method = RequestMethod.GET, value = "/test")
+    String test(Model model){
         model.addAttribute("user", "user");
         model.addAttribute("place", "place");
-        return "index";
+        return "test";
     }
 }

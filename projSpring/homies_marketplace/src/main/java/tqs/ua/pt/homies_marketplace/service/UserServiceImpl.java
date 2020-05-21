@@ -21,6 +21,20 @@ public class UserServiceImpl implements UserService{
     private PlaceService placeService;
 
     @Override
+    public boolean addToRentedHouses(String email, PlaceId placeId){
+        if (exists(email)){
+            //check if the number of rows updated is one
+            if (placeService.getPlaceById(placeId.getPlaceId())!=null) {
+                int rowsUpdated = userRepository.insertRentedHouse(email, placeId.getPlaceId());
+                return rowsUpdated == 1;
+            }
+            return false;
+
+        }
+        return false;
+    }
+
+    @Override
     public boolean addToFavorites(String email, PlaceId placeId) {
         if (exists(email)){
             //check if the number of rows updated is one

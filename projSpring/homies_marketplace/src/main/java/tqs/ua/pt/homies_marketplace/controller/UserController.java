@@ -22,6 +22,10 @@ public class UserController {
     @Autowired
     private PlaceService placeService;
 
+    @PostMapping("/users/{email}/rentedHouses")
+    public boolean addToRentedHouses(@PathVariable("email") String email, @RequestBody PlaceId placeId){
+        return userService.addToRentedHouses(email, placeId);
+    }
     @PostMapping("/users/{email}/favorites")
     public boolean addToFavorites(@PathVariable("email") String email, @RequestBody PlaceId placeId){
         return userService.addToFavorites(email, placeId);

@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+body{
+	font-family: 'Poppins', sans-serif;
+	font-size:0.8rem;
+	max-height:100%;
+	max-width: 100%;
+	overflow-x: hidden;
+}
+
+path{
+	fill:white;
+}
+
+.main {
+	width: 50%;
+	margin: 50px auto;
+}
+
+/* Search input w/ icon */
+
+.search{
+	padding-top: 15rem;
+}
+
+.search h2{
+	font-weight: bold;
+	color: #3d5170;
+	margin:5px;
+}
+
+.has-search .form-control {
+	width: 40rem;
+	border-radius: 20px;
+	padding-left: 2.375rem;
+}
+
+.has-search .form-control:hover {
+	background-color: #0077ff4b;
+	color:white;
+	transition: 0.2s;
+}
+
+.has-search .form-control-feedback {
+	position: absolute;
+	z-index: 2;
+	display: block;
+	width: 2.375rem;
+	height: 2.375rem;
+	line-height: 2.375rem;
+	text-align: center;
+	pointer-events: none;
+	color: #aaa;
+}
+
+
+.wrapper{
+	display: inline-flex;
+}
+
+.nested{
+	display: grid;
+	grid-template-columns: 2fr 8fr;
+	padding: 1em;
+	background-color: #eee;
+	grid-gap:1em;
+	border-radius: 25px;
+	margin: 10px;
+}
+.houseCard{
+	overflow: hidden;
+	border-radius:20px;
+	box-shadow: 0 0.150em 0.375em rgba(50,50,93,.19);
+}
+
+.houseCard img{
+	margin:-20px;
+}
+
+.details{
+
+}
+
+.cellStyle{
+	border-style: solid;
+	margin: 1px;
+}
+
+.filterTab{
+	background-color: white;
+	border-radius: 25px;
+	height: 100em;
+	margin:20px;
+	display: inline-table;
+	padding:30px;
+	min-width:max-content;
+	position:static;
+	box-shadow: 0 0.150em 0.375em rgba(50,50,93,.19);
+}
+
+
+.mainBod{
+}
+
+.detailsStyle{
+	width: 5em;
+	display: block;
+	color: #fff;
+	border-radius: 20px;
+	padding: .5em;
+	text-decoration: none;
+	font-size: .75em;
+	text-align: center;
+	grid-row-start: 3;
+	grid-row-end: 4;
+	grid-column-start: 3;
+	grid-column-end: 4;
+}
+
+.favButton{
+	background-color: blue;
+	width: 5em;
+	display: block;
+	color:#fff;
+	border-radius: 20px;
+	padding: .5em;
+	text-decoration: none;
+	font-size: .75em;
+	text-align: center;
+}
+
+.searchBar{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 5px;
+	border: none;
+	background: #87cefa;
+	pl:white;
+
+}
+
+.searchBar::placeholder{
+	color:white;
+	padding: 5px;
+}
+
+.information{
+	display: grid;
+	grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
+}
+
+

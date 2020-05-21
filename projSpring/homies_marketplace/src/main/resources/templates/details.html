@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/details.css">
+	<!-- Bootstrap CSS-->
+    <link th:href="@{/css/bootstrap.min.css}" href="/css/bootstrap.min.css" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link  th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet" media="all">
+
+    <!-- Bootstrap JS-->
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://d3js.org/d3.v3.js"></script>
+    <script src="https://d3js.org/topojson.v1.js"></script>
+    <script src="https://rawgithub.com/markmarkoh/datamaps/master/dist/datamaps.none.min.js"></script>
+    <script src="https://rawgithub.com/markmarkoh/datamaps/master/dist/datamaps.prt.js"></script>
+
+</head>
+
+<body style="background-color: #d6d6d6">
+<div th:replace="fragments/navbar"></div>
+
+	<div class="mainBod">
+		<div class ="wrapper">
+			<div class="detailsTab">
+				<div style="display: grid; grid-template-columns: 1fr 2fr">
+					<div class="houseImage"></div>
+					<div style="display: grid; margin:2em ; grid-template-rows: 1fr 1fr">
+						<div th:text="${placeTitle}"></div>
+						<div>Descrição</div>
+					</div>
+				</div>
+			</div>
+			<div style="grid-row-start: 2; grid-column-start: 2;">
+				<div class="placeFeature" th:each="pFeature: ${placeFeatures}">
+					<div th:text="${pFeature}"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

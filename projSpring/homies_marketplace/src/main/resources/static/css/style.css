@@ -1,0 +1,181 @@
+@import url('https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+body{
+    font-family: 'Poppins', sans-serif;
+    font-size:1rem;
+    width:100%;
+    height:100%;
+}
+
+path{
+    fill:white;
+}
+
+.main {
+    width: 50%;
+    margin: 50px auto;
+}
+
+.jumbotron {
+    /*background-image:  linear-gradient(rgba(0,0,0,0), rgba(255, 255, 255, 0.9905)), url("../media/colege-3.jpg");*/
+    /*filter:brightness(20%);*/
+    background-size:cover;
+    height:850px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top:0;
+    background-color: #d6d6d64b;
+    margin-top:-100px;
+    z-index: -100;
+    overflow: hidden;
+}
+
+
+/* Search input w/ icon */
+
+.search{
+    padding-top: 15rem;
+}
+
+.search h2{
+    font-weight: bold;
+    color: #3d5170;
+}
+
+.has-search .form-control {
+    width: 40rem;
+    border-radius: 20px;
+    padding-left: 2.375rem;
+}
+
+.has-search .form-control:hover {
+    background-color: #0077ff4b;
+    transition: 0.2s;
+}
+
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+}
+
+/* Navbar */
+/* Add a black background color to the top navigation */
+.topnav {
+    position: relative;
+    background-color: rgba(51, 51, 51, 0);
+    overflow: hidden;
+    margin: 0px 50px 0px 50px;
+    align-items: center;
+    z-index:3;
+  }
+
+.topnav:hover{
+    transition: 0.5s;
+    background-color: rgba(255, 255, 255, 0.788);
+    font-size:0.8rem;
+    box-shadow: 0 0.150em 0.375em rgba(50,50,93,.19);
+}
+
+.topnav:hover a{
+    font-weight: bold;
+    transition: 0.5s;
+    font-size:0.8rem;
+}
+  
+  /* Style the links inside the navigation bar */
+  .topnav a {
+    color: #3d5170;
+    font-size:0.7rem;
+    text-align: center;
+    margin: 4px 6px 10px 0px;
+  }
+  
+  /* Change the color of links on hover */
+  .topnav a:hover {
+    /*background-color: #ddd;*/
+    color: #1293e3;
+  }
+  
+  /* Add a color to the active/current link */
+  .topnav a.active {
+    /*background-color: #4CAF50;*/
+    color: white;
+  }
+  
+ 
+  /* Right-aligned section inside the top navigation */
+  .topnav-right {
+    float: right;
+    position: relative;
+    padding:0px 20px 0px 20px;
+    border:10px;
+  }
+  
+  .topnav-right a{
+      background-color: #1293e3;
+      margin-right:5px;
+      color:white;
+      border-radius:20px;
+      padding:10px;
+  }
+
+  .topnav-left a{
+      margin-left:5px;
+  }
+
+  /* Responsive navigation menu - display links on top of each other instead of next to each other (for mobile devices) */
+  @media screen and (max-width: 600px) {
+    .topnav a, .topnav-right {
+      float: none;
+      display: block;
+    }
+  
+    .topnav-centered a {
+      position: relative;
+      top: 0;
+      left: 0;
+      transform: none;
+    }
+  }
+
+  /* Logo */
+.logo-div{
+    padding:10px 20px 0px 20px;
+}
+
+.logo{
+    width:75px;
+    margin-left:10px;
+    padding:10px;
+}
+
+.card{
+    min-width:max-content;
+    max-width:300px;
+    margin:20px;
+    height: 400px;
+    padding:0;
+    border-radius:10px;
+    box-shadow: 0 0.250em 0.375em rgba(50,50,93,.19);
+    overflow: hidden;
+}
+
+.card img{
+    height:10rem;
+}
+
+.card-row{
+    align-items: center;
+    justify-content: center;
+    display:inline-flex;
+    width:100%;
+}
