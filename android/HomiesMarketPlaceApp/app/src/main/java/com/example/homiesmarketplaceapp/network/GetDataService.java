@@ -3,6 +3,7 @@ package com.example.homiesmarketplaceapp.network;
 import com.example.homiesmarketplaceapp.model.Place;
 import com.example.homiesmarketplaceapp.model.PlaceId;
 import com.example.homiesmarketplaceapp.model.Review;
+import com.example.homiesmarketplaceapp.model.User;
 
 import java.util.List;
 
@@ -37,4 +38,7 @@ public interface GetDataService {
 
     @POST("/places/{id}/reviews/")
     Call<String> addReview(@Path("id") long placeId, @Body Review review);
+
+    @POST("/users/")
+    Call<User> registerUser(@Body User body);
 }
