@@ -41,4 +41,10 @@ public interface GetDataService {
 
     @POST("/users/")
     Call<User> registerUser(@Body User body);
+
+    @GET("/users/{email}/publishedHouses/")
+    Call<List<Place>> getPublishedHouses(@Path("email") String email);
+
+    @POST("/users/{email}/publishedHouses/")
+    Call<String> addPublishedHouse(@Path("email") String email, @Body Place body);
 }

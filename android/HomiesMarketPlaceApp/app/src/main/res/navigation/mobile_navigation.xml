@@ -40,7 +40,11 @@
         android:id="@+id/navigation_profile"
         android:name="com.example.homiesmarketplaceapp.ui.profile.ProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/fragment_profile"/>
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/profile_to_publishedHouses"
+            app:destination="@id/navigation_published_houses"/>
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_details"
@@ -58,5 +62,34 @@
         <action
             android:id="@+id/search_results_to_details"
             app:destination="@id/navigation_details"/>
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/navigation_published_houses"
+        android:name="com.example.homiesmarketplaceapp.ui.publishedHouses.PublishedHousesFragment"
+        android:label="Published Houses"
+        tools:layout="@layout/fragment_published_houses">
+
+        <action
+            android:id="@+id/publishedHouses_to_details"
+            app:destination="@id/navigation_details"/>
+
+        <action
+            android:id="@+id/publishedHouses_to_new"
+            app:destination="@id/navigation_addHouse"/>
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/navigation_addHouse"
+        android:name="com.example.homiesmarketplaceapp.ui.addHouse.AddHouseFragment"
+        android:label="Add house"
+        tools:layout="@layout/fragment_add_house">
+        <action
+            android:id="@+id/new_house_to_houses"
+            app:destination="@id/navigation_published_houses"/>
+
     </fragment>
 </navigation>
