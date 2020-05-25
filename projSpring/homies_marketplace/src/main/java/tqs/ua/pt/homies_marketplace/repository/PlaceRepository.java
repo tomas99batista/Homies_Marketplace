@@ -31,6 +31,9 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
     @Query(value = "insert into place_reviews values (?1, ?2)", nativeQuery = true)
     int insertReview(long placeId, long reviewId);
 
+    @Query(value = "select * from place where price >= ?1 and price <=?2", nativeQuery = true)
+    List<Place> findByPrice(double minPrice, double maxPrice);
 
-
+    @Query(value = "select * from place where city ~* ?1 and price >= ?2 and price <=?3", nativeQuery = true)
+    List<Place> findByCityAndPrice(String city, double minPrice, double maxPrice);
 }

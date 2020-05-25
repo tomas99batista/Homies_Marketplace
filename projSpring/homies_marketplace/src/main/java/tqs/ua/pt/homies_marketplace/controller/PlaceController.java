@@ -8,6 +8,7 @@ import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.Review;
 import tqs.ua.pt.homies_marketplace.service.PlaceService;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -48,8 +49,23 @@ public class PlaceController {
     }
 
     @GetMapping("/search")
-    public List<Place> search(@RequestParam(value = "city", required = false) String city){
-        return placeService.searchByCity(city);
+    public List<Place> search(@RequestParam(value = "city", required = false) String city, @RequestParam(value= "minPrice", required = false) String minPrice, @RequestParam(value= "maxPrice", required = false) String maxPrice){
+        if (city!=null) {
+            if (minPrice!=null){
+                //search by price and city
+                return placeService.searchByCityAndPrice(city, Double.parseDouble(minPrice), Double.parseDouble(maxPrice));
+            }
+            else {
+                return placeService.searchByCity(city);
+            }
+        }
+
+        else if (minPrice!=null){
+            //search only by price
+            return placeService.searchByPrice(Double.parseDouble(minPrice), Double.parseDouble(maxPrice));
+        }
+        return Collections.emptyList();
+
     }
 
 

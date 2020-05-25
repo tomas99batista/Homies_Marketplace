@@ -6,6 +6,9 @@ import tqs.ua.pt.homies_marketplace.models.Review;
 import java.util.List;
 
 public interface PlaceService {
+
+    List<Place> searchByCityAndPrice(String city, double minPrice, double maxPrice);
+    List<Place> searchByPrice(double minPrice, double maxPrice);
     List<Review> getReviews(long placeId);
     boolean addReview(long placeId, Review review);
     List<Place> getFavoriteHouses(String email);

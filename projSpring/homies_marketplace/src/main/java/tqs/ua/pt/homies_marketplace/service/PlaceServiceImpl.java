@@ -25,6 +25,16 @@ public class PlaceServiceImpl implements PlaceService{
 
 
     @Override
+    public List<Place> searchByCityAndPrice(String city, double minPrice, double maxPrice) {
+        return placeRepository.findByCityAndPrice(city, minPrice, maxPrice);
+    }
+
+    @Override
+    public List<Place> searchByPrice(double minPrice, double maxPrice) {
+        return placeRepository.findByPrice(minPrice, maxPrice);
+    }
+
+    @Override
     public List<Review> getReviews(long placeId) {
         return reviewService.getReviews(placeId);
     }
