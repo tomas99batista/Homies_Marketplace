@@ -12,20 +12,29 @@ import java.util.List;
 public class PlaceSpecification implements Specification<Place> {
 
     private Place filter;
-
+    private double minPrice;
+    private double maxPrice;
     public PlaceSpecification(Place filter) {
         super();
         this.filter = filter;
+        minPrice=-1;
+        maxPrice=-1;
+    }
+
+    public PlaceSpecification(Place filter, double minPrice, double maxPrice){
+        super();
+        this.filter=filter;
+        this.minPrice=minPrice;
+        this.maxPrice=maxPrice;
     }
 
     @Override
     public Predicate toPredicate(Root<Place> root, CriteriaQuery<?> cQ, CriteriaBuilder cb) {
-        Predicate p = cb.conjunction();
 
         List<Predicate> predicates = new ArrayList<>();
 
         if(filter.getCity() != null) {
-            predicates.add(cb.equal(root.get("city"), filter.getCity()));
+            predicates.add(cb.like(cb.lower(root.get("city")), "%"+filter.getCity().toLowerCase()+"%"));
         }
         if(filter.getPrice() != -1) {
             predicates.add(cb.equal(root.get("price"), filter.getPrice()));
@@ -45,6 +54,20 @@ public class PlaceSpecification implements Specification<Place> {
             predicates.add(cb.equal(root.get("type"), filter.getType()));
         }
 
+        if (minPrice!=-1) {
+            if (maxPrice!=-1){
+                //range query
+                predicates.add(cb.between(root.get("price"), minPrice, maxPrice));
+            }
+            else{
+                //query to see if price is bigger
+                predicates.add(cb.greaterThanOrEqualTo(root.get("price"), minPrice));
+            }
+        }
+        else if (maxPrice!=-1){
+            //query to see if price is lower
+            predicates.add(cb.lessThanOrEqualTo(root.get("price"), maxPrice));
+        }
         return cb.and(predicates.toArray(new Predicate[0]));
 
     }

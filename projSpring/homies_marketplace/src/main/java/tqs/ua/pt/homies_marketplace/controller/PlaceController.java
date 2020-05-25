@@ -49,8 +49,8 @@ public class PlaceController {
     }
 
     @GetMapping("/search")
-    public List<Place> search(@RequestParam(value = "city", required = false) String city, @RequestParam(value="price", required = false ) String price, @RequestParam(value="rating", required = false ) String rating, @RequestParam(value = "bedrooms", required = false) String bedrooms, @RequestParam(value = "bathrooms", required = false) String bathrooms, @RequestParam(value = "type", required = false) String type)  {
-        return placeService.search(city, price, rating, bedrooms, bathrooms, type);
+    public List<Place> search(@RequestParam(value = "city", required = false) String city, @RequestParam(value="price", required = false ) String price, @RequestParam(value="rating", required = false ) String rating, @RequestParam(value = "bedrooms", required = false) String bedrooms, @RequestParam(value = "bathrooms", required = false) String bathrooms, @RequestParam(value = "type", required = false) String type, @RequestParam(value = "minPrice", required = false) String minPrice, @RequestParam(value = "maxPrice", required = false) String maxPrice)  {
+        return placeService.search(city, price, rating, bedrooms, bathrooms, type, minPrice, maxPrice);
 
     }
 }

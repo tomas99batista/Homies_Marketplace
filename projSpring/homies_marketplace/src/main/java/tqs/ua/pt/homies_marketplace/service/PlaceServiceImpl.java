@@ -27,7 +27,7 @@ public class PlaceServiceImpl implements PlaceService{
 
 
     @Override
-    public List<Place> search(String city, String price, String rating, String bedrooms, String bathrooms, String type) {
+    public List<Place> search(String city, String price, String rating, String bedrooms, String bathrooms, String type, String minPrice, String maxPrice) {
         Place filter= new Place();
         filter.setCity(city);
         filter.setPrice(price != null ? Double.parseDouble(price): -1);
@@ -35,7 +35,14 @@ public class PlaceServiceImpl implements PlaceService{
         filter.setNumberBedrooms(bedrooms !=null ? Integer.parseInt(bedrooms): -1);
         filter.setNumberBathrooms(bathrooms != null ? Integer.parseInt(bathrooms): -1);
         filter.setType(type);
-        Specification<Place> spec = new PlaceSpecification(filter);
+        Specification<Place> spec;
+
+        if (minPrice !=null || maxPrice !=null){
+            spec = new PlaceSpecification(filter, minPrice !=null ? Double.parseDouble(minPrice): -1, maxPrice != null ? Double.parseDouble(maxPrice): -1);
+        }
+        else {
+            spec = new PlaceSpecification(filter);
+        }
         List<Place> result = placeRepository.findAll(spec);
         return result;
     }
