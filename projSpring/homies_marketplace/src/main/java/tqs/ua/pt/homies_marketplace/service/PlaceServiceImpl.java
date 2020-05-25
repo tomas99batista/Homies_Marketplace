@@ -27,11 +27,14 @@ public class PlaceServiceImpl implements PlaceService{
 
 
     @Override
-    public List<Place> search(String city, String price, String rating) {
+    public List<Place> search(String city, String price, String rating, String bedrooms, String bathrooms, String type) {
         Place filter= new Place();
         filter.setCity(city);
         filter.setPrice(price != null ? Double.parseDouble(price): -1);
         filter.setRating(rating !=null ? Double.parseDouble(rating): -1);
+        filter.setNumberBedrooms(bedrooms !=null ? Integer.parseInt(bedrooms): -1);
+        filter.setNumberBathrooms(bathrooms != null ? Integer.parseInt(bathrooms): -1);
+        filter.setType(type);
         Specification<Place> spec = new PlaceSpecification(filter);
         List<Place> result = placeRepository.findAll(spec);
         return result;

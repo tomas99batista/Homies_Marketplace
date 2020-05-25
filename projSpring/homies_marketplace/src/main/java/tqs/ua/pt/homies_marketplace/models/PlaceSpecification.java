@@ -6,6 +6,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlaceSpecification implements Specification<Place> {
 
@@ -20,22 +22,30 @@ public class PlaceSpecification implements Specification<Place> {
     public Predicate toPredicate(Root<Place> root, CriteriaQuery<?> cQ, CriteriaBuilder cb) {
         Predicate p = cb.conjunction();
 
-        if (filter.getCity()!=null){
-            if (filter.getPrice()!=-1){
-                p.getExpressions().add(cb.and(cb.equal(root.get("city"), filter.getCity()), cb.equal(root.get("price"), filter.getPrice())));
-            }
+        List<Predicate> predicates = new ArrayList<>();
 
-            else{
-                p.getExpressions().add(cb.equal(root.get("city"), filter.getCity()));
-            }
-
+        if(filter.getCity() != null) {
+            predicates.add(cb.equal(root.get("city"), filter.getCity()));
+        }
+        if(filter.getPrice() != -1) {
+            predicates.add(cb.equal(root.get("price"), filter.getPrice()));
+        }
+        if(filter.getNumberBedrooms() != -1) {
+            predicates.add(cb.equal(root.get("numberBedrooms"), filter.getNumberBedrooms()));
+        }
+        if (filter.getRating() !=-1){
+            predicates.add(cb.equal(root.get("rating"), filter.getRating()));
         }
 
-        if (filter.getPrice()!=-1){
-            p.getExpressions().add(cb.equal(root.get("price"), filter.getPrice()));
+        if (filter.getNumberBathrooms() != -1){
+            predicates.add(cb.equal(root.get("numberBathrooms"), filter.getNumberBathrooms()));
         }
 
-        return p;
+        if (filter.getType() !=null ){
+            predicates.add(cb.equal(root.get("type"), filter.getType()));
+        }
+
+        return cb.and(predicates.toArray(new Predicate[0]));
 
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PlaceService {
 
-    List<Place> search(String city, String price, String rating);
+    List<Place> search(String city, String price, String rating, String bedrooms, String bathrooms, String type);
     List<Review> getReviews(long placeId);
     boolean addReview(long placeId, Review review);
     List<Place> getFavoriteHouses(String email);
