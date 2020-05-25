@@ -25,13 +25,34 @@ public class PlaceServiceImpl implements PlaceService{
 
 
     @Override
-    public List<Place> searchByCityAndPrice(String city, double minPrice, double maxPrice) {
-        return placeRepository.findByCityAndPrice(city, minPrice, maxPrice);
+    public List<Place> searchByCityAndPrice(String city, String minPrice, String maxPrice) {
+        System.out.println(minPrice);
+
+        if (minPrice==null){
+            //search only by max price
+            return placeRepository.findByCityAndMaxPrice(city, Double.parseDouble(maxPrice));
+
+        }
+        else if (maxPrice== null){
+            return placeRepository.findByCityAndMinPrice(city, Double.parseDouble(minPrice));
+
+        }
+        return placeRepository.findByCityAndPrice(city, Double.parseDouble(minPrice), Double.parseDouble(maxPrice));
     }
 
     @Override
-    public List<Place> searchByPrice(double minPrice, double maxPrice) {
-        return placeRepository.findByPrice(minPrice, maxPrice);
+    public List<Place> searchByPrice(String minPrice, String maxPrice) {
+
+        if (minPrice==null){
+            //search only by max price
+            return placeRepository.findByMaxPrice(Double.parseDouble(maxPrice));
+
+        }
+        else if (maxPrice== null){
+            return placeRepository.findByMinPrice( Double.parseDouble(minPrice));
+
+        }
+        return placeRepository.findByPrice(Double.parseDouble(minPrice), Double.parseDouble(maxPrice));
     }
 
     @Override

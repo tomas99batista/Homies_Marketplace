@@ -36,4 +36,16 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
 
     @Query(value = "select * from place where city ~* ?1 and price >= ?2 and price <=?3", nativeQuery = true)
     List<Place> findByCityAndPrice(String city, double minPrice, double maxPrice);
+
+    @Query(value = "select * from place where city ~* ?1 and price <= ?2", nativeQuery = true)
+    List<Place> findByCityAndMaxPrice(String city, double maxPrice);
+
+    @Query(value = "select * from place where city ~* ?1 and price >= ?2", nativeQuery = true)
+    List<Place> findByCityAndMinPrice(String city, double minPrice);
+
+    @Query(value = "select * from place where price <= ?1", nativeQuery = true)
+    List<Place> findByMaxPrice(double maxPrice);
+
+    @Query(value = "select * from place where price >= ?1", nativeQuery = true)
+    List<Place> findByMinPrice(double minPrice);
 }
