@@ -20,6 +20,13 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<junit-jupiter-api.version>5.5.2</junit-jupiter-api.version>
 		<java.version>1.8</java.version>
+
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<!-- Organization and project keys are displayed in the right sidebar of the project homepage -->
+		<sonar.organization>tomas99batista</sonar.organization>
+		<sonar.projectKey>tomas99batista_Homies_Marketplace</sonar.projectKey>
+
+
 	</properties>
 
 	<dependencies>
@@ -85,11 +92,13 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
 			<plugin>
 				<groupId>org.sonarsource.scanner.maven</groupId>
 				<artifactId>sonar-maven-plugin</artifactId>
 				<version>3.4.0.905</version>
 			</plugin>
+
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
