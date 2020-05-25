@@ -52,13 +52,9 @@ public class PlaceServiceImplUnitTest {
         Mockito.when(placeRepository.findByCity("aveiro")).thenReturn(null);
         Mockito.when(placeRepository.findById(1L)).thenReturn(place);
         Mockito.when(placeRepository.findById(-1L)).thenReturn(null);
-        Mockito.when(placeRepository.findByPrice(0, 5)).thenReturn(places);
-        Mockito.when(placeRepository.findByPrice(0, 4)).thenReturn(Collections.emptyList());
-        Mockito.when(placeRepository.findByCityAndPrice("aveiro", 0, 5)).thenReturn(places);
+
         Mockito.when(userService.exists("jose@email.com")).thenReturn(true);
         Mockito.when(userService.exists("wrong_email@email.com")).thenReturn(false);
-        Mockito.when(placeRepository.findByCityAndPrice("city", 0, 5)).thenReturn(places);
-        Mockito.when(placeRepository.findByCityAndPrice("aveiro", 0, 4)).thenReturn(Collections.emptyList());
 
     }
 
@@ -106,35 +102,7 @@ public class PlaceServiceImplUnitTest {
 
     }
 
-    @Test
-    public void WhenSearchByPrice_thenPlaceShouldBeFound(){
-        List<Place> fromDb=placeService.searchByPrice("0","5");
-        verifyfindByPriceIsCalledOnce();
-        assertThat(fromDb).hasSize(1).extracting(Place::getId).contains(1L);
 
-    }
-    @Test
-    public void WhenSearchByPriceNotInDb_thenPlaceShouldNotBeFound(){
-        List<Place> fromDb=placeService.searchByPrice("0","4");
-        verifyfindByPriceIsCalledOnce();
-        assertThat(fromDb).hasSize(0);
-
-    }
-    @Test
-    public void WhenSearchByCityAndPrice_thenPlaceShouldBeFound(){
-        List<Place> fromDb=placeService.searchByCityAndPrice("city","0", "5");
-        verifyfindByCityAndPriceIsCalledOnce();
-        assertThat(fromDb).hasSize(1).extracting(Place::getId).contains(1L);
-
-    }
-
-    @Test
-    public void WhenSearchByCityAndPriceNotInDb_thenPlaceShouldNotBeFound(){
-        List<Place> fromDb=placeService.searchByCityAndPrice("aveiro","0", "4");
-        verifyfindByCityAndPriceIsCalledOnce();
-        assertThat(fromDb).hasSize(0);
-
-    }
 
     @Test
     public void WhenValidEmail_thenAddReview(){
@@ -183,20 +151,13 @@ public class PlaceServiceImplUnitTest {
 
     }
 
-    private void verifyfindByCityAndPriceIsCalledOnce() {
-        Mockito.verify(placeRepository, VerificationModeFactory.times(1)).findByCityAndPrice(Mockito.anyString(), Mockito.anyDouble(), Mockito.anyDouble());
-        Mockito.reset(placeRepository);
-    }
 
     private void verifyfindByCityIsCalledOnce(String city) {
         Mockito.verify(placeRepository, VerificationModeFactory.times(1)).findByCity(city);
         Mockito.reset(placeRepository);
     }
 
-    private void verifyfindByPriceIsCalledOnce() {
-        Mockito.verify(placeRepository, VerificationModeFactory.times(1)).findByPrice(Mockito.anyDouble(), Mockito.anyDouble());
-        Mockito.reset(placeRepository);
-    }
+
 
     private void verifyFindByIdIsCalledOnce(){
         Mockito.verify(placeRepository, VerificationModeFactory.times(1)).findById(Mockito.anyLong());

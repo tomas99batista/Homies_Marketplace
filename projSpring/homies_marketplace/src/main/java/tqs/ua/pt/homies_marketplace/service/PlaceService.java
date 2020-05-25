@@ -7,8 +7,7 @@ import java.util.List;
 
 public interface PlaceService {
 
-    List<Place> searchByCityAndPrice(String city, String minPrice, String maxPrice);
-    List<Place> searchByPrice(String minPrice, String maxPrice);
+    List<Place> search(String city, String price, String rating);
     List<Review> getReviews(long placeId);
     boolean addReview(long placeId, Review review);
     List<Place> getFavoriteHouses(String email);

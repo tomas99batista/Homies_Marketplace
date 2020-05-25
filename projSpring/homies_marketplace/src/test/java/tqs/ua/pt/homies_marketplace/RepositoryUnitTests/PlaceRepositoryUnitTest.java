@@ -61,57 +61,10 @@ public class PlaceRepositoryUnitTest {
         assertThat(fromDb).isEmpty();
     }
 
-    @Test
-    public void whenFindByPrice_thenReturnPlaces(){
-        List<String> features= new ArrayList<>();
-        features.add("feature1");
-        features.add("feature2");
-        Place place= new Place(null,"title1", 1.0, 5.0,features, 1,1,"type1", "cityTesting", new ArrayList<>(), "photo1");
-        entityManager.persistAndFlush(place);
-
-        List<Place> found = placeRepository.findByPrice(0, 1);
-        assertThat(found).hasSize(1).extracting(Place::getTitle).containsOnly(place.getTitle());
-
-    }
-
-    @Test
-    public void whenFindByNonExistingPrice_thenNoReturnPlaces(){
-        List<String> features= new ArrayList<>();
-        features.add("feature1");
-        features.add("feature2");
-        Place place= new Place(null,"title1", 1.0, 5.0,features, 1,1,"type1", "cityTesting", new ArrayList<>(), "photo1");
-        entityManager.persistAndFlush(place);
-
-        List<Place> found = placeRepository.findByPrice(0, -1);
-        assertThat(found).hasSize(0);
-    }
-
-    @Test
-    public void whenFindByCityAndPrice_thenPlacesShouldBeFound(){
-        List<String> features= new ArrayList<>();
-        features.add("feature1");
-        features.add("feature2");
-        Place place= new Place(null,"titleTesting", 1.0, 5.0,features, 1,1,"type1", "cityTesting", new ArrayList<>(), "photo1");
-        entityManager.persistAndFlush(place);
-
-        List<Place> found=placeRepository.findByCityAndPrice("cityTesting", 0, 1);
-        assertThat(found).hasSize(1).extracting(Place::getTitle).containsOnly(place.getTitle());
 
 
-    }
-
-    @Test
-    public void whenFindByNonExistingCityAndPrice_thenPlacesShouldBeNotFound(){
-        List<String> features= new ArrayList<>();
-        features.add("feature1");
-        features.add("feature2");
-        Place place= new Place(null,"titleTesting", 1.0, 5.0,features, 1,1,"type1", "cityTesting", new ArrayList<>(), "photo1");
-        entityManager.persistAndFlush(place);
-
-        List<Place> found=placeRepository.findByCityAndPrice("wrong_city", 0, -1);
-        assertThat(found).hasSize(0);
 
 
-    }
+
 
 }
