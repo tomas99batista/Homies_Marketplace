@@ -22,15 +22,6 @@ Homies is a web browser application that allows students to search and book hous
 **Configure postgres db on docker:** 
 ```docker run --name postgres  -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password -d postgres```
 
-### VM
-VM: TQS-2020-G1
-
-IP: 192.168.160.30
-
-- oneadmin / Password!23
-- instalador / ubuntu
-- root / ubuntu
-
 ## Links
 - [Google Drive](https://drive.google.com/drive/folders/1rgzAPeLD0_XlIS92oBTSDtjoLlHx3OAM?usp=sharing)
 - [Trello](https://trello.com/invite/b/K4x0FAe7/353d22e1576eb93852802a2a27f097c4/homiesmarketplace)
