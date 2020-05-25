@@ -111,12 +111,11 @@ public class PlaceControllerITest {
         Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
         List<Place> allPlaces = Arrays.asList(place);
 
-        given(service.searchByCity("city")).willReturn(allPlaces);
-
+        given(service.search("city", null, null)).willReturn(allPlaces);
         mvc.perform(get("/search?city=city").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].title", is(place.getTitle())));
-        verify(service, VerificationModeFactory.times(1)).searchByCity("city");
+        verify(service, VerificationModeFactory.times(1)).search("city", null, null);
         reset(service);
     }
 

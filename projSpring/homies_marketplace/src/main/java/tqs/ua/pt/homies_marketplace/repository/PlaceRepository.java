@@ -1,6 +1,7 @@
 package tqs.ua.pt.homies_marketplace.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @Repository
 @Transactional
-public interface PlaceRepository extends JpaRepository<Place, Long> {
+public interface PlaceRepository extends JpaRepository<Place, Long>, JpaSpecificationExecutor<Place> {
     Place findById(long id);
 
     //get favorite houses
@@ -31,21 +32,5 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
     @Query(value = "insert into place_reviews values (?1, ?2)", nativeQuery = true)
     int insertReview(long placeId, long reviewId);
 
-    @Query(value = "select * from place where price >= ?1 and price <=?2", nativeQuery = true)
-    List<Place> findByPrice(double minPrice, double maxPrice);
 
-    @Query(value = "select * from place where city ~* ?1 and price >= ?2 and price <=?3", nativeQuery = true)
-    List<Place> findByCityAndPrice(String city, double minPrice, double maxPrice);
-
-    @Query(value = "select * from place where city ~* ?1 and price <= ?2", nativeQuery = true)
-    List<Place> findByCityAndMaxPrice(String city, double maxPrice);
-
-    @Query(value = "select * from place where city ~* ?1 and price >= ?2", nativeQuery = true)
-    List<Place> findByCityAndMinPrice(String city, double minPrice);
-
-    @Query(value = "select * from place where price <= ?1", nativeQuery = true)
-    List<Place> findByMaxPrice(double maxPrice);
-
-    @Query(value = "select * from place where price >= ?1", nativeQuery = true)
-    List<Place> findByMinPrice(double minPrice);
 }

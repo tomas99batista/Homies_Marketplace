@@ -127,4 +127,48 @@ public class Place {
     public String getPhotos() {
         return photos;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public void setFeatures(List<String> features) {
+        this.features = features;
+    }
+
+    public void setNumberBathrooms(int numberBathrooms) {
+        this.numberBathrooms = numberBathrooms;
+    }
+
+    public void setNumberBedrooms(int numberBedrooms) {
+        this.numberBedrooms = numberBedrooms;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setReviews(List<Long> reviews) {
+        this.reviews = reviews;
+    }
+
+    public void setPhotos(String photos) {
+        this.photos = photos;
+    }
 }

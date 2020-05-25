@@ -1,8 +1,10 @@
 package tqs.ua.pt.homies_marketplace.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import tqs.ua.pt.homies_marketplace.models.Place;
+import tqs.ua.pt.homies_marketplace.models.PlaceSpecification;
 import tqs.ua.pt.homies_marketplace.models.Review;
 import tqs.ua.pt.homies_marketplace.repository.PlaceRepository;
 
@@ -25,35 +27,16 @@ public class PlaceServiceImpl implements PlaceService{
 
 
     @Override
-    public List<Place> searchByCityAndPrice(String city, String minPrice, String maxPrice) {
-        System.out.println(minPrice);
-
-        if (minPrice==null){
-            //search only by max price
-            return placeRepository.findByCityAndMaxPrice(city, Double.parseDouble(maxPrice));
-
-        }
-        else if (maxPrice== null){
-            return placeRepository.findByCityAndMinPrice(city, Double.parseDouble(minPrice));
-
-        }
-        return placeRepository.findByCityAndPrice(city, Double.parseDouble(minPrice), Double.parseDouble(maxPrice));
+    public List<Place> search(String city, String price, String rating) {
+        Place filter= new Place();
+        filter.setCity(city);
+        filter.setPrice(price != null ? Double.parseDouble(price): -1);
+        filter.setRating(rating !=null ? Double.parseDouble(rating): -1);
+        Specification<Place> spec = new PlaceSpecification(filter);
+        List<Place> result = placeRepository.findAll(spec);
+        return result;
     }
 
-    @Override
-    public List<Place> searchByPrice(String minPrice, String maxPrice) {
-
-        if (minPrice==null){
-            //search only by max price
-            return placeRepository.findByMaxPrice(Double.parseDouble(maxPrice));
-
-        }
-        else if (maxPrice== null){
-            return placeRepository.findByMinPrice( Double.parseDouble(minPrice));
-
-        }
-        return placeRepository.findByPrice(Double.parseDouble(minPrice), Double.parseDouble(maxPrice));
-    }
 
     @Override
     public List<Review> getReviews(long placeId) {
