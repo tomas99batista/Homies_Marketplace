@@ -108,21 +108,21 @@ public class PlaceServiceImplUnitTest {
 
     @Test
     public void WhenSearchByPrice_thenPlaceShouldBeFound(){
-        List<Place> fromDb=placeService.searchByPrice(0, 5);
+        List<Place> fromDb=placeService.searchByPrice("0","5");
         verifyfindByPriceIsCalledOnce();
         assertThat(fromDb).hasSize(1).extracting(Place::getId).contains(1L);
 
     }
     @Test
     public void WhenSearchByPriceNotInDb_thenPlaceShouldNotBeFound(){
-        List<Place> fromDb=placeService.searchByPrice(0, 4);
+        List<Place> fromDb=placeService.searchByPrice("0","4");
         verifyfindByPriceIsCalledOnce();
         assertThat(fromDb).hasSize(0);
 
     }
     @Test
     public void WhenSearchByCityAndPrice_thenPlaceShouldBeFound(){
-        List<Place> fromDb=placeService.searchByCityAndPrice("city",0, 5);
+        List<Place> fromDb=placeService.searchByCityAndPrice("city","0", "5");
         verifyfindByCityAndPriceIsCalledOnce();
         assertThat(fromDb).hasSize(1).extracting(Place::getId).contains(1L);
 
@@ -130,7 +130,7 @@ public class PlaceServiceImplUnitTest {
 
     @Test
     public void WhenSearchByCityAndPriceNotInDb_thenPlaceShouldNotBeFound(){
-        List<Place> fromDb=placeService.searchByCityAndPrice("aveiro",0, 4);
+        List<Place> fromDb=placeService.searchByCityAndPrice("aveiro","0", "4");
         verifyfindByCityAndPriceIsCalledOnce();
         assertThat(fromDb).hasSize(0);
 

@@ -50,19 +50,21 @@ public class PlaceController {
 
     @GetMapping("/search")
     public List<Place> search(@RequestParam(value = "city", required = false) String city, @RequestParam(value= "minPrice", required = false) String minPrice, @RequestParam(value= "maxPrice", required = false) String maxPrice){
+
         if (city!=null) {
-            if (minPrice!=null){
+            if (minPrice!=null || maxPrice!=null){
                 //search by price and city
-                return placeService.searchByCityAndPrice(city, Double.parseDouble(minPrice), Double.parseDouble(maxPrice));
+                return placeService.searchByCityAndPrice(city, minPrice, maxPrice);
+
             }
             else {
                 return placeService.searchByCity(city);
             }
         }
 
-        else if (minPrice!=null){
+        else if (minPrice!=null || maxPrice!=null){
             //search only by price
-            return placeService.searchByPrice(Double.parseDouble(minPrice), Double.parseDouble(maxPrice));
+            return placeService.searchByPrice(minPrice, maxPrice);
         }
         return Collections.emptyList();
 
