@@ -30,7 +30,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.reset;
 
 @WebMvcTest(PlaceController.class)
-public class PlaceControllerITest {
+ class PlaceControllerITest {
     @Autowired
     private MockMvc mvc;
 
@@ -42,7 +42,32 @@ public class PlaceControllerITest {
     }
 
     @Test
-    public void whenPostPlace_thenCreatePlace() throws Exception {
+    void whenPostReview_thenReturnTrue() throws Exception{
+       Review review= new Review("jose@email.com", 4.0, "comment1");
+       given(service.addReview(1L, review)).willReturn(true);
+       mvc.perform(post("/places/1/reviews").contentType(MediaType.APPLICATION_JSON)
+               .content(JsonUtil.toJson(review))).andReturn().getResponse().getContentAsString().equals("true");
+       verify(service, VerificationModeFactory.times(1)).addReview(Mockito.anyLong(), Mockito.any());
+       reset(service);
+    }
+    @Test
+    void whenGetReviews_thenReturnReviews() throws Exception{
+       List<Review> reviews= new ArrayList<>();
+       Review review= new Review("jose@email.com", 4.0, "comment1");
+       reviews.add(review);
+
+       given(service.getReviews(1L)).willReturn(reviews);
+
+       mvc.perform(get("/places/1/reviews").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+               .andExpect(jsonPath("$", hasSize(1)))
+               .andExpect(jsonPath("$[0].email", is(review.getEmail())));
+       verify(service, VerificationModeFactory.times(1)).getReviews(1L);
+       reset(service);
+    }
+
+
+    @Test
+     void whenPostPlace_thenCreatePlace() throws Exception {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
@@ -57,22 +82,9 @@ public class PlaceControllerITest {
 
     }
 
-    /*
-    @Test
-    public void whenPostReview_thenCreateReview() throws Exception {
-        Review review= new Review(1L,"jose@email.com", 4.0, "comment1");
-        given(service.addReview(Mockito.anyLong(), review)).willReturn(true);
 
-        mvc.perform(post("/places/8/reviews").contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-                //content(JsonUtil.toJson(review))).andExpect(status().isCreated())
-                //.andExpect(jsonPath("$.title", is("title1")));
-        verify(service, VerificationModeFactory.times(1)).addReview(Mockito.anyLong(), review);
-        reset(service);
-    }
-     */
     @Test
-    public void givenPlaces_whenGetPLaces_thenReturnJsonArray() throws Exception {
+     void givenPlaces_whenGetPLaces_thenReturnJsonArray() throws Exception {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
@@ -89,7 +101,7 @@ public class PlaceControllerITest {
     }
 
     @Test
-    public void givenPlaceId_whenGetPLaceDetails_thenReturnJsonArrayWithPLace() throws Exception {
+     void givenPlaceId_whenGetPLaceDetails_thenReturnJsonArrayWithPLace() throws Exception {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
@@ -104,7 +116,7 @@ public class PlaceControllerITest {
     }
 
     @Test
-    public void givenPlaces_whenSearchByCity_thenReturnJsonArray() throws Exception {
+     void givenPlaces_whenSearchByCity_thenReturnJsonArray() throws Exception {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");

@@ -14,6 +14,7 @@ import tqs.ua.pt.homies_marketplace.JsonUtil;
 import tqs.ua.pt.homies_marketplace.controller.PlaceController;
 import tqs.ua.pt.homies_marketplace.controller.UserController;
 import tqs.ua.pt.homies_marketplace.models.Place;
+import tqs.ua.pt.homies_marketplace.models.PlaceId;
 import tqs.ua.pt.homies_marketplace.models.User;
 import tqs.ua.pt.homies_marketplace.service.PlaceService;
 import tqs.ua.pt.homies_marketplace.service.UserService;
@@ -33,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(UserController.class)
-public class UserControllerITest {
+ class UserControllerITest {
 
     @Autowired
     private MockMvc mvc;
@@ -49,7 +50,40 @@ public class UserControllerITest {
     }
 
     @Test
-    public void whenPostUser_thenCreatePUser() throws Exception {
+    void whenPostFavorites_thenReturnTrue() throws Exception{
+       PlaceId placeId= new PlaceId(1L);
+       given(service.addToFavorites("jose@email.com", placeId)).willReturn(true);
+       mvc.perform(post("/users/jose@email.com/favorites").contentType(MediaType.APPLICATION_JSON)
+               .content(JsonUtil.toJson(placeId))).andReturn().getResponse().getContentAsString().equals("true");
+       verify(service, VerificationModeFactory.times(1)).addToFavorites(Mockito.any(), Mockito.any());
+       reset(service);
+    }
+
+   @Test
+   void whenPostPublishedHouse_thenReturnTrue() throws Exception{
+      List<String> features= new ArrayList<>();
+      features.add("feature1");
+      features.add("feature2");
+      Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "cityTesting", new ArrayList<>(), "photo1");
+      given(service.addPublishedHouse("jose@email.com", place)).willReturn(true);
+      mvc.perform(post("/users/jose@email.com/publishedHouses").contentType(MediaType.APPLICATION_JSON)
+              .content(JsonUtil.toJson(place))).andReturn().getResponse().getContentAsString().equals("true");
+      verify(service, VerificationModeFactory.times(1)).addPublishedHouse(Mockito.any(), Mockito.any());
+      reset(service);
+   }
+
+   @Test
+   void whenPostRentedHouse_thenReturnTrue() throws Exception{
+      PlaceId placeId= new PlaceId(1L);
+      given(service.addToRentedHouses("jose@email.com", placeId)).willReturn(true);
+      mvc.perform(post("/users/jose@email.com/booking").contentType(MediaType.APPLICATION_JSON)
+              .content(JsonUtil.toJson(placeId))).andReturn().getResponse().getContentAsString().equals("true");
+      verify(service, VerificationModeFactory.times(1)).addToRentedHouses(Mockito.any(), Mockito.any());
+      reset(service);
+   }
+
+    @Test
+     void whenPostUser_thenCreatePUser() throws Exception {
         List<Long> favorites= new ArrayList<>();
         favorites.add(1L);
         favorites.add(2L);
@@ -80,7 +114,7 @@ public class UserControllerITest {
     }
 
     @Test
-    public void givenUsers_whenGetUsers_thenReturnJsonArray() throws Exception {
+     void givenUsers_whenGetUsers_thenReturnJsonArray() throws Exception {
         List<Long> favorites= new ArrayList<>();
         favorites.add(1L);
         favorites.add(2L);
@@ -112,7 +146,7 @@ public class UserControllerITest {
     }
 
     @Test
-    public void GivenUsersWithPublishedHouses_WhenGetPublishedHouses_thenReturnJsonArray() throws Exception{
+     void GivenUsersWithPublishedHouses_WhenGetPublishedHouses_thenReturnJsonArray() throws Exception{
 
         List<String> features= new ArrayList<>();
         features.add("feature1");
@@ -129,4 +163,23 @@ public class UserControllerITest {
         verify(placeService, VerificationModeFactory.times(1)).getPublishedHouses("josefrias@email.com");
         reset(placeService);
     }
+
+   @Test
+   void GivenUsersWithFavoriteHouses_WhenGetFavoriteHouses_thenReturnJsonArray() throws Exception{
+
+      List<String> features= new ArrayList<>();
+      features.add("feature1");
+      features.add("feature2");
+      Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+      List<Place> allPlaces = Arrays.asList(place);
+
+
+      given(placeService.getFavoriteHouses("josefrias@email.com")).willReturn(allPlaces);
+
+      mvc.perform(get("/users/josefrias@email.com/favorites").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+              .andExpect(jsonPath("$", hasSize(1)))
+              .andExpect(jsonPath("$[0].title", is(place.getTitle())));
+      verify(placeService, VerificationModeFactory.times(1)).getFavoriteHouses("josefrias@email.com");
+      reset(placeService);
+   }
 }

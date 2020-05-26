@@ -56,18 +56,6 @@ public class Place {
         this.city=city;
     }
 
-    public Place(Long id, String title, double price, double rating, List<String> features, int numberBathrooms, int numberBedrooms, String type, String city, List<Long> reviews) {
-        this.id = id;
-        this.title = title;
-        this.price = price;
-        this.rating = rating;
-        this.features = features;
-        this.numberBathrooms = numberBathrooms;
-        this.numberBedrooms = numberBedrooms;
-        this.type = type;
-        this.city = city;
-        this.reviews = reviews;
-    }
 
     public Place(Long id, String title, double price, double rating, List<String> features, int numberBathrooms, int numberBedrooms, String type, String city, List<Long> reviews, String photos) {
         this.id = id;
@@ -128,9 +116,6 @@ public class Place {
         return photos;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public void setTitle(String title) {
         this.title = title;
@@ -164,11 +149,4 @@ public class Place {
         this.city = city;
     }
 
-    public void setReviews(List<Long> reviews) {
-        this.reviews = reviews;
-    }
-
-    public void setPhotos(String photos) {
-        this.photos = photos;
-    }
 }

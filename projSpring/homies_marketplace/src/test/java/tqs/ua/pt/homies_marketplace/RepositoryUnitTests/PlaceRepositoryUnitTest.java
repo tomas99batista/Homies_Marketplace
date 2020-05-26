@@ -15,7 +15,7 @@ import java.util.List;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class PlaceRepositoryUnitTest {
+ class PlaceRepositoryUnitTest {
 
     @Autowired
     private TestEntityManager entityManager;
@@ -24,7 +24,7 @@ public class PlaceRepositoryUnitTest {
     private PlaceRepository placeRepository;
 
     @Test
-    public void whenFindById_thenReturnPlace() {
+     void whenFindById_thenReturnPlace() {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
@@ -38,13 +38,13 @@ public class PlaceRepositoryUnitTest {
     }
 
     @Test
-    public void whenInvalidId_thenReturnNull() {
+     void whenInvalidId_thenReturnNull() {
         Place fromDb = placeRepository.findById(-1L);
         assertThat(fromDb).isNull();
     }
 
     @Test
-    public void whenFindByCity_thenReturnPlace() {
+     void whenFindByCity_thenReturnPlace() {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
@@ -56,7 +56,7 @@ public class PlaceRepositoryUnitTest {
     }
 
     @Test
-    public void whenInvalidName_thenReturnNull() {
+     void whenInvalidName_thenReturnNull() {
         List<Place> fromDb = placeRepository.findByCity("CityDoesNotExist");
         assertThat(fromDb).isEmpty();
     }

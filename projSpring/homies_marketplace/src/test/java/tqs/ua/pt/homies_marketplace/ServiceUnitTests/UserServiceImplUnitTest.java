@@ -10,6 +10,7 @@ import org.mockito.internal.verification.VerificationModeFactory;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.PlaceId;
+import tqs.ua.pt.homies_marketplace.models.Review;
 import tqs.ua.pt.homies_marketplace.models.User;
 import tqs.ua.pt.homies_marketplace.repository.UserRepository;
 import tqs.ua.pt.homies_marketplace.service.PlaceServiceImpl;
@@ -21,7 +22,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceImplUnitTest {
+class UserServiceImplUnitTest {
 
     @Mock(lenient = true)
     private UserRepository userRepository;
@@ -34,7 +35,7 @@ public class UserServiceImplUnitTest {
     private UserServiceImpl userService;
 
     @BeforeEach
-    public void setUp(){
+     void setUp(){
         List<Long> favorites= new ArrayList<>();
         favorites.add(1L);
         favorites.add(2L);
@@ -60,16 +61,23 @@ public class UserServiceImplUnitTest {
         features.add("feature2");
         Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
 
-
+        List<User> users= new ArrayList<>();
+        users.add(user);
+        Mockito.when(userRepository.findAll()).thenReturn(users);
         Mockito.when(userRepository.findByEmail(user.getEmail())).thenReturn(user);
         Mockito.when(userRepository.insertPublishedHouse(email, place.getId())).thenReturn(1);
         Mockito.when(userRepository.insertRentedHouse(email, place.getId())).thenReturn(1);
     }
 
+    @Test
+    void whenFindAll_thenGetAllUsers(){
+        List<User> allUsers=userService.getAllUsers();
+        assertThat(allUsers).hasSize(1).extracting(User::getEmail).contains("jose@email.com");
 
+    }
     //test save of users
     @Test
-    public void whenPostUser_thenUserShouldBeSaved() {
+     void whenPostUser_thenUserShouldBeSaved() {
         List<Long> favorites= new ArrayList<>();
         favorites.add(1L);
         favorites.add(2L);
@@ -97,7 +105,7 @@ public class UserServiceImplUnitTest {
 
     //test if email exists then user should be found
     @Test
-    public void whenValidEmail_thenUserShouldBeFound(){
+     void whenValidEmail_thenUserShouldBeFound(){
         String email="jose@email.com";
         User found=userService.getUserByEmail(email);
         assertThat(found.getEmail()).isEqualTo(email);
@@ -107,7 +115,7 @@ public class UserServiceImplUnitTest {
 
     //test if it is email that does not exist, then no user should be found
     @Test
-    public void whenInValidEmail_thenUserShouldNotBeFound() {
+     void whenInValidEmail_thenUserShouldNotBeFound() {
         User fromDb = userService.getUserByEmail("wrong_email");
         assertThat(fromDb).isNull();
 
@@ -117,7 +125,7 @@ public class UserServiceImplUnitTest {
 
     //test add published houses
     @Test
-    public void WhenValidEmail_thenPublishNewHouse(){
+     void WhenValidEmail_thenPublishNewHouse(){
         String email="jose@email.com";
         List<String> features= new ArrayList<>();
         features.add("feature1");
@@ -132,7 +140,7 @@ public class UserServiceImplUnitTest {
     }
 
     @Test
-    public void WhenValidEmailAndPlacesButRowsNotInserted_thenPublishShouldNotSaved(){
+     void WhenValidEmailAndPlacesButRowsNotInserted_thenPublishShouldNotSaved(){
         String email="jose@email.com";
         List<String> features= new ArrayList<>();
         features.add("feature1");
@@ -146,7 +154,7 @@ public class UserServiceImplUnitTest {
     }
 
     @Test
-    public void WhenValidEmailButNullPlace_thenPublishShouldNotSaved(){
+     void WhenValidEmailButNullPlace_thenPublishShouldNotSaved(){
         String email="jose@email.com";
         List<String> features= new ArrayList<>();
         features.add("feature1");
@@ -160,7 +168,7 @@ public class UserServiceImplUnitTest {
     }
 
     @Test
-    public void whenInvalidEmail_thenPublishNewHouseNotOccurs(){
+     void whenInvalidEmail_thenPublishNewHouseNotOccurs(){
         String email="wrong_email@email.com";
         List<String> features= new ArrayList<>();
         features.add("feature1");
@@ -173,7 +181,7 @@ public class UserServiceImplUnitTest {
     }
 
     @Test
-    public void WhenValidEmailAndPlaceExists_thenAddToFavorites(){
+     void WhenValidEmailAndPlaceExists_thenAddToFavorites(){
         String email="jose@email.com";
         List<String> features= new ArrayList<>();
         features.add("feature1");
@@ -188,7 +196,7 @@ public class UserServiceImplUnitTest {
     }
 
     @Test
-    public void WhenInValidEmailAndPlaceExists_thenNotAddsToFavorites(){
+     void WhenInValidEmailAndPlaceExists_thenNotAddsToFavorites(){
         String email="wrong_email@email.com";
         List<String> features= new ArrayList<>();
         features.add("feature1");
@@ -203,7 +211,7 @@ public class UserServiceImplUnitTest {
     }
 
     @Test
-    public void WhenValidEmailAndPlaceNotExists_thenNotAddsToFavorites(){
+     void WhenValidEmailAndPlaceNotExists_thenNotAddsToFavorites(){
         String email="jose@email.com";
         List<String> features= new ArrayList<>();
         features.add("feature1");
@@ -217,7 +225,7 @@ public class UserServiceImplUnitTest {
     }
 
     @Test
-    public void WhenValidEmailAndPlaceExists_thenAddToRentedHouses(){
+     void WhenValidEmailAndPlaceExists_thenAddToRentedHouses(){
         String email="jose@email.com";
         List<String> features= new ArrayList<>();
         features.add("feature1");
@@ -231,7 +239,7 @@ public class UserServiceImplUnitTest {
     }
 
     @Test
-    public void WhenInValidEmailAndPlaceExists_thenNotAddsToRentedHouses(){
+     void WhenInValidEmailAndPlaceExists_thenNotAddsToRentedHouses(){
         String email="wrong_email@email.com";
         List<String> features= new ArrayList<>();
         features.add("feature1");
@@ -246,7 +254,7 @@ public class UserServiceImplUnitTest {
     }
 
     @Test
-    public void WhenValidEmailAndPlaceNotExists_thenNotAddsToRentedHouses(){
+     void WhenValidEmailAndPlaceNotExists_thenNotAddsToRentedHouses(){
         String email="jose@email.com";
         List<String> features= new ArrayList<>();
         features.add("feature1");

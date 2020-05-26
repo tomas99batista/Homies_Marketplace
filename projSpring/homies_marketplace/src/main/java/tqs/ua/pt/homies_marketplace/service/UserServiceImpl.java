@@ -64,7 +64,6 @@ public class UserServiceImpl implements UserService{
     public boolean addPublishedHouse(String email, Place place) {
 
         if (exists(email)){
-            User user=getUserByEmail(email);
             //save place to places Repository
             Place saved=placeService.save(place);
             if (saved!=null) {

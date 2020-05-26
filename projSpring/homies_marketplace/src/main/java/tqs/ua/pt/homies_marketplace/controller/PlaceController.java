@@ -8,7 +8,6 @@ import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.Review;
 import tqs.ua.pt.homies_marketplace.service.PlaceService;
 
-import java.util.Collections;
 import java.util.List;
 
 @RestController
