@@ -9,6 +9,7 @@ import org.mockito.Mockito;
 import org.mockito.internal.verification.VerificationModeFactory;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tqs.ua.pt.homies_marketplace.models.Place;
+import tqs.ua.pt.homies_marketplace.models.PlaceSpecification;
 import tqs.ua.pt.homies_marketplace.models.Review;
 import tqs.ua.pt.homies_marketplace.models.User;
 import tqs.ua.pt.homies_marketplace.repository.PlaceRepository;
@@ -181,7 +182,94 @@ import java.util.List;
 
     }
 
+    @Test
+    void whenSearch_thenReturnResults(){
+        List<String> features= new ArrayList<>();
+        features.add("feature1");
+        features.add("feature2");
+        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        List<Place> placeList=new ArrayList<>();
+        placeList.add(place);
+        Place spec=new Place();
+        spec.setCity("city");
+        spec.setPrice(5.0);
+        spec.setType("type1");
+        Mockito.when(placeRepository.findAll((PlaceSpecification)Mockito.any())).thenReturn(placeList);
+        List<Place> results=placeService.search("city", "5", null, null, null, "type1", null, null);
+        assertThat(results).hasSize(1).extracting(Place::getRating).contains(5.0);
 
+    }
+
+    @Test
+    void whenSearchByMinAndMaxPrice_thenReturnResults(){
+        List<String> features= new ArrayList<>();
+        features.add("feature1");
+        features.add("feature2");
+        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        List<Place> placeList=new ArrayList<>();
+        placeList.add(place);
+        Place spec=new Place();
+        spec.setCity("city");
+        spec.setPrice(5.0);
+        spec.setType("type1");
+        Mockito.when(placeRepository.findAll((PlaceSpecification)Mockito.any())).thenReturn(placeList);
+        List<Place> results=placeService.search("city", "5", "5.0", "1", "1", "type1", "0", "5");
+        assertThat(results).hasSize(1).extracting(Place::getRating).contains(5.0);
+
+    }
+
+    @Test
+    void whenSearchByMinPrice_thenReturnResults(){
+        List<String> features= new ArrayList<>();
+        features.add("feature1");
+        features.add("feature2");
+        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        List<Place> placeList=new ArrayList<>();
+        placeList.add(place);
+        Place spec=new Place();
+        spec.setCity("city");
+        spec.setPrice(5.0);
+        spec.setType("type1");
+        Mockito.when(placeRepository.findAll((PlaceSpecification)Mockito.any())).thenReturn(placeList);
+        List<Place> results=placeService.search("city", "5", null, null, null, "type1", "0", null);
+        assertThat(results).hasSize(1).extracting(Place::getRating).contains(5.0);
+
+    }
+
+    @Test
+    void whenSearchByMaxPrice_thenReturnResults(){
+        List<String> features= new ArrayList<>();
+        features.add("feature1");
+        features.add("feature2");
+        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        List<Place> placeList=new ArrayList<>();
+        placeList.add(place);
+        Place spec=new Place();
+        spec.setCity("city");
+        spec.setPrice(5.0);
+        spec.setType("type1");
+        Mockito.when(placeRepository.findAll((PlaceSpecification)Mockito.any())).thenReturn(placeList);
+        List<Place> results=placeService.search("city", "5", null, null, null, "type1", null, "5");
+        assertThat(results).hasSize(1).extracting(Place::getRating).contains(5.0);
+
+    }
+
+    @Test
+    void whenSearchByNonExistingAttributes_thenNoReturnResults(){
+        List<String> features= new ArrayList<>();
+        features.add("feature1");
+        features.add("feature2");
+        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        List<Place> placeList=new ArrayList<>();
+        Place spec=new Place();
+        spec.setCity("city");
+        spec.setPrice(5.0);
+        spec.setType("type1");
+        Mockito.when(placeRepository.findAll((PlaceSpecification)Mockito.any())).thenReturn(placeList);
+        List<Place> results=placeService.search(null, null, null, null, null, null, null, null);
+        assertThat(results).hasSize(0);
+
+    }
 
     private void verifyfindByCityIsCalledOnce(String city) {
         Mockito.verify(placeRepository, VerificationModeFactory.times(1)).findByCity(city);

@@ -267,6 +267,30 @@ class UserServiceImplUnitTest {
 
     }
 
+    @Test
+    void WhenValidEmailAndPlacesButRowsNotInserted_thenNotAddToRentedHouses(){
+        String email="jose@email.com";
+        List<String> features= new ArrayList<>();
+        features.add("feature1");
+        features.add("feature2");
+        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Mockito.when(userRepository.insertRentedHouse(email, place.getId())).thenReturn(0);
+        boolean saved=userService.addToRentedHouses(email, new PlaceId(place.getId()));
+        assertThat(saved).isEqualTo(false);
+    }
+
+    @Test
+    void WhenValidEmailAndPlacesButRowsNotInserted_thenNotAddToFavorites(){
+        String email="jose@email.com";
+        List<String> features= new ArrayList<>();
+        features.add("feature1");
+        features.add("feature2");
+        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Mockito.when(userRepository.insertFavoriteHouse(email, place.getId())).thenReturn(0);
+        boolean saved=userService.addToFavorites(email, new PlaceId(place.getId()));
+        assertThat(saved).isEqualTo(false);
+    }
+
     //Verify if methods are called
     private void verifyFindByEmailIsCalledOnce(String email) {
         Mockito.verify(userRepository, VerificationModeFactory.times(1)).findByEmail(email);
