@@ -8,11 +8,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.internal.verification.VerificationModeFactory;
 import org.mockito.junit.jupiter.MockitoExtension;
-import tqs.ua.pt.homies_marketplace.models.Place;
-import tqs.ua.pt.homies_marketplace.models.PlaceId;
-import tqs.ua.pt.homies_marketplace.models.Review;
-import tqs.ua.pt.homies_marketplace.models.User;
+import tqs.ua.pt.homies_marketplace.models.*;
 import tqs.ua.pt.homies_marketplace.repository.UserRepository;
+import tqs.ua.pt.homies_marketplace.service.BookServiceImpl;
 import tqs.ua.pt.homies_marketplace.service.PlaceServiceImpl;
 import tqs.ua.pt.homies_marketplace.service.UserServiceImpl;
 
@@ -30,6 +28,8 @@ class UserServiceImplUnitTest {
     @Mock(lenient = true)
     private PlaceServiceImpl placeService;
 
+    @Mock(lenient = true)
+    private BookServiceImpl bookService;
 
     @InjectMocks
     private UserServiceImpl userService;
@@ -231,7 +231,19 @@ class UserServiceImplUnitTest {
         features.add("feature1");
         features.add("feature2");
         Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        List<Long> favorites= new ArrayList<>();
+        List<Long> publishedHouses= new ArrayList<>();
+        List<Long> rentedHouses= new ArrayList<>();
+        String userEmail="jose@email.com";
+        String password="password";
+        String firstName="Jose";
+        String lastName="Frias";
+        String city="Aveiro";
+
+        User user= new User(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
         Mockito.when(userRepository.insertRentedHouse(email, 1L)).thenReturn(1);
+        Mockito.when(userRepository.findOwner(1L)).thenReturn(user);
+        Mockito.when(bookService.createBooking(new Booking(userEmail, userEmail, 1L))).thenReturn(new Booking(userEmail, userEmail, 1L));
         Mockito.when(placeService.getPlaceById(1L)).thenReturn(place);
         boolean saved=userService.addToRentedHouses(email, new PlaceId(place.getId()));
         assertThat(saved).isEqualTo(true);

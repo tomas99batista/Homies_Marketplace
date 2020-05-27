@@ -26,5 +26,7 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query(value = "insert into users_rented_houses values (?1, ?2)", nativeQuery = true)
     int insertRentedHouse(String email, long placeId);
 
+    @Query(value = "select * from users where email in (select users_email from users_published_houses where published_houses=?1)", nativeQuery = true)
+    User findOwner(long placeId);
 
 }

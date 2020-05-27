@@ -26,6 +26,8 @@ public class PlaceServiceImpl implements PlaceService{
     private ReviewServiceImpl reviewService;
 
 
+
+
     @Override
     public List<Place> search(String city, String price, String rating, String bedrooms, String bathrooms, String type, String minPrice, String maxPrice) {
         Place filter= new Place();

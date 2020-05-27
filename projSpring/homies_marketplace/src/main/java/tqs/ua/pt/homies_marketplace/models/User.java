@@ -11,10 +11,10 @@ public class User {
     private String email;
 
     @ElementCollection
-    private List<Long> favorites; // Vai ser uma lista c/ os ids probably, qql coisa muda-se mais logo dont worry
+    private List<Long> favorites;
 
     @Column(nullable=false, unique=false)
-    private String password; // Isto ñ vai ser assim, vai ter de se guardar salt e hashed PWD
+    private String password;
 
     @Column(name="first_name",nullable=false, unique=false)
     private String firstName;
@@ -22,7 +22,6 @@ public class User {
     @Column(name="last_name",nullable=false, unique=false)
     private String lastName;
 
-   // @Column(name="city",nullable=false, unique=false)
     private String city;
 
     @ElementCollection
@@ -31,8 +30,7 @@ public class User {
     @ElementCollection
     private List<Long> rentedHouses;
 
-    //@Column(nullable=false, unique=false)
-    //private String profile_photo;
+
 
     //needed for hibernate
     public User() {

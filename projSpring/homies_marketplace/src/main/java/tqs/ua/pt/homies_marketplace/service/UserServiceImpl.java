@@ -3,6 +3,7 @@ package tqs.ua.pt.homies_marketplace.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tqs.ua.pt.homies_marketplace.models.Booking;
 import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.PlaceId;
 import tqs.ua.pt.homies_marketplace.models.User;
@@ -20,12 +21,18 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private PlaceService placeService;
 
+    @Autowired
+    private BookServiceImpl bookService;
+
     @Override
     public boolean addToRentedHouses(String email, PlaceId placeId){
         if (exists(email)){
             //check if the number of rows updated is one
             if (placeService.getPlaceById(placeId.getPlaceId())!=null) {
                 int rowsUpdated = userRepository.insertRentedHouse(email, placeId.getPlaceId());
+                //see owner of the place
+                User owner=userRepository.findOwner(placeId.getPlaceId());
+                bookService.createBooking(new Booking(owner.getEmail(), email, placeId.getPlaceId()));
                 return rowsUpdated == 1;
             }
             return false;
