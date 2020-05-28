@@ -10,7 +10,6 @@ body {
     overflow: hidden;
     background-image: linear-gradient(#ffffff 3%, #00000000 70%), url("../media/room-1.jpg");
     position: absolute;
-    <!--filter:brightness(60%);-->
     top: 0;
     left: 0;
     background-repeat: no-repeat;

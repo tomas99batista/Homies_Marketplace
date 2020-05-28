@@ -100,19 +100,7 @@ public class WebController {
 
     @RequestMapping(value = "/places", method = RequestMethod.GET)
     public String places(Model model){
-        List<String> cities = new ArrayList<>();
-        cities.add("Aveiro");
-        cities.add("Viseu");
-        cities.add("Porto");
-        cities.add("Lisboa");
-        cities.add("Vila Real");
-        cities.add("Guarda");
-        cities.add("Braga");
-        cities.add("Bragança");
-        cities.add("Portalegre");
-        cities.add("Leiria");
-        cities.add("Évora");
-
+        List<String> cities = placeController.getAllCities();
         List<Place> places = placeController.getAllPlaces();
         model.addAttribute("places", places);
         model.addAttribute("cities", cities);
@@ -134,6 +122,7 @@ public class WebController {
         //Quando tiver alguma coisa na bd
         //List<Place> placesbycity = placeController.search_by_city(city);
         System.out.println("City>> " + city);
+        List<String> cities = placeController.getAllCities();
         List<Place> places = placeController.getAllPlaces();
         List<Place> returnPlaces = new ArrayList<>();
         for(Place p: places){
@@ -142,6 +131,7 @@ public class WebController {
         }
         System.out.println(returnPlaces);
         model.addAttribute("places", returnPlaces);
+        model.addAttribute("cities",cities);
         return "houseList";
     }
 
