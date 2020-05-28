@@ -14,7 +14,7 @@ import tqs.ua.pt.homies_marketplace.service.UserService;
 
 import java.util.List;
 
-@Controller
+@RestController
 public class UserController {
 
     @Autowired
@@ -47,13 +47,6 @@ public class UserController {
     @GetMapping("/users/{email}/publishedHouses")
     public List<Place> getUserPublishedHouses(@PathVariable("email") String email){
         return placeService.getPublishedHouses(email);
-    }
-
-    @RequestMapping(value="/profile")
-    public String profile(Model model){
-        List<User> users = getAllUsers();
-        model.addAttribute("users",users);
-        return "profile";
     }
 
     @PostMapping("/users")

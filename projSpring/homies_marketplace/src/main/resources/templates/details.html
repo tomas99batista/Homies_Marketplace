@@ -23,7 +23,7 @@
 
 </head>
 
-<body style="background-color: #d6d6d6">
+<body style="background-color: whitesmoke">
 <div th:replace="fragments/navbar"></div>
 
 <div class="background-image">
@@ -80,17 +80,17 @@
 	</div>
 </div>
 
-<div class="row contents">
-	<div class="card-rent">
+<div class="container contents">
+	<div class="card-rent row">
 		<div class="col-8">
 			*more specifications*
 		</div>
-		<div class="col-1 divide"></div>
-		<div class="col-3">
+		<div class="divide"></div>
+		<div class="col-3" style="position:relative;display: flex; margin-left: 15px;">
 			<div>
 
 				<hr>
-				<h3>300€/mês</h3>
+				<h3 th:text="${place['price'] + '€/mês'}"></h3>
 				<p>Contas incluídas</p>
 			</div>
 		</div>
