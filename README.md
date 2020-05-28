@@ -1,5 +1,7 @@
 # Homies - Marketplace
 
+![Java CI with Maven](https://github.com/tomas99batista/Homies_Marketplace/workflows/Java%20CI%20with%20Maven/badge.svg)
+
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/2a9bd2d58c1f4b8ebf3d3f8790873a64)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=tomas99batista/Homies_Marketplace&amp;utm_campaign=Badge_Grade)
 
 ## Project Abstract
@@ -30,3 +32,4 @@ Homies is a web browser application that allows students to search and book hous
 - [Postman](https://www.getpostman.com/collections/a78d2d100a6a8678a402)
 - [Swagger](https://app.swaggerhub.com/apis/HomiesMarketplace/homies-marketplace_api/1.0.0)
 - [Sonarcloud](https://sonarcloud.io/dashboard?id=tomas99batista_Homies_Marketplace)
+ 
