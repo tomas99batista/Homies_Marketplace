@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title></title>
+    <!-- Bootstrap CSS-->
+    <link th:href="@{/css/bootstrap.min.css}" href="/css/bootstrap.min.css" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link  th:href="@{/css/profile.css}" href="/css/profile.css" rel="stylesheet" media="all">
+
+    <!-- Bootstrap JS-->
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://d3js.org/d3.v3.js"></script>
+    <script src="https://d3js.org/topojson.v1.js"></script>
+    <script src="https://rawgithub.com/markmarkoh/datamaps/master/dist/datamaps.none.min.js"></script>
+    <script src="https://rawgithub.com/markmarkoh/datamaps/master/dist/datamaps.prt.js"></script>
+
+</head>
+<body>
+<div th:replace="fragments/navbar"></div>
+
+<div id="inner-nav"></div>
+<div id="container">
+    <div id="profile">
+        <div id="image">
+            <img id="profile-photo" src="https://scontent.fopo1-1.fna.fbcdn.net/v/t1.0-9/71888595_2700662133300994_8919862095504211968_o.jpg?_nc_cat=103&_nc_sid=7aed08&_nc_eui2=AeFAsaE-h7gh51pF3qzMQRuYTxadm7FmBuRPFp2bsWYG5LqAurx_PjarovXbVJRwA-IMaidFJTsmNsDfvP2GwAJy&_nc_ohc=qcVCLYnRFfcAX-FDfPq&_nc_ht=scontent.fopo1-1.fna&oh=351455bef2e13f8469d8e03004fd2c34&oe=5EF4BC99" alt="Profile-Image">
+            <a href="#"><i class="fas fa-pen stroke-transparent"></i></a>
+        </div>
+        <p id="name">Tomás Batista<br><span id="email">tomas99batista@ua.pt</span></p>
+        <a id="edit-intro" href="#"><i class="fas fa-pen-alt blue"></i>&nbsp;&nbsp;Edit Info</a>
+        <hr width="100%">
+        <div id="about">
+            <p style="display:inline;">About</p>
+            <a href="#"><i class="fas fa-pen stroke-transparent-blue"></i></a>
+        </div>
+        <p id="year-graduation">Birthdate<br><strong>25 Janeiro, 1999</strong></p>
+        <p id="education">City<br><strong>Viseu, Portugal</strong></p>
+        <p id="more-about">More about me<br><span>Engenharia Informática, Universidade de Aveiro</span></p>
+        <p id="telephone">Telephone<br><strong>0532-2271351</strong></p>
+    </div>
+    <div id="info-cards">
+        <div class="card">
+            <p><i class="fas fa-graduation-cap stroke-transparent"></i>&nbsp;&nbsp;&nbsp;Favorito</p>
+
+            <a href="/places">+ Add new</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

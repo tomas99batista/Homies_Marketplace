@@ -13,15 +13,15 @@
 .btn-active a{
     background-color: rgba(30, 144, 255, 0);
     border-style: solid;
-    border-color: dodgerblue;
+    border-color:  #3d5170;
     border-radius: 10px;
     border-width: 2px;
-    color:dodgerblue;
+    color: #3d5170;
     max-width: fit-content;
 }
 .btn-active a:hover{
     transition: 0.5s;
-    background-color: dodgerblue;
+    background-color: #3d5170;
     border-radius: 10px;
     color: white;
     max-width: fit-content;

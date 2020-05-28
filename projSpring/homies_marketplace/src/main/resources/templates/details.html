@@ -2,13 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
 	<title></title>
-	<link rel="stylesheet" type="text/css" href="/css/style.css">
-	<link rel="stylesheet" type="text/css" href="/details.css">
 	<!-- Bootstrap CSS-->
     <link th:href="@{/css/bootstrap.min.css}" href="/css/bootstrap.min.css" rel="stylesheet" media="all">
 
     <!-- Main CSS-->
-    <link  th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet" media="all">
+    <link  th:href="@{/css/details.css}" href="/css/details.css" rel="stylesheet" media="all">
 
     <!-- Bootstrap JS-->
     <script th:src="@{/js/bootstrap.min.js}"></script>
@@ -25,26 +23,79 @@
 
 </head>
 
-<body style="background-color: #d6d6d6">
+<body style="background-color: whitesmoke">
 <div th:replace="fragments/navbar"></div>
 
-	<div class="mainBod">
-		<div class ="wrapper">
-			<div class="detailsTab">
-				<div style="display: grid; grid-template-columns: 1fr 2fr">
-					<div class="houseImage"></div>
-					<div style="display: grid; margin:2em ; grid-template-rows: 1fr 1fr">
-						<div th:text="${placeTitle}"></div>
-						<div>Descrição</div>
+<div class="background-image">
+<!--	<img class="bed" th:src="@{/media/room-1.jpg}"> -->
+</div>
+
+<div class="row">
+	<div class="col-3 card-info">
+		<div class="card-title" th:text="${placeTitle}"></div>
+		<hr/>
+		<div class="card-body">
+			<!-- Bedrooms -->
+			<div class="row">
+				<p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+					Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa.
+					Pellentesque habitant morbi tristique senectus."</p>
+			</div>
+			<div class="row specifications">
+				<div class="col-6">
+					<div class="element">
+						<img th:src="@{/media/wash.svg}">
+						<div class="text" th:text="${place['numberBathrooms']} + ' bathrooms'"></div>
+					</div>
+					<div class="element">
+						<img th:src="@{/media/bed.svg}">
+						<div class="text" th:text="${place['numberBedrooms']} + ' bedrooms'"></div>
+					</div>
+					<div class="element">
+						<img th:src="@{/media/wash.svg}">
+						<div class="text" th:text="${place['numberBathrooms']} + ' bathrooms'"></div>
+					</div>
+				</div>
+				<div class="col-6">
+					<div class="element">
+						<img th:src="@{/media/bed.svg}">
+						<div class="text" th:text="${place['numberBedrooms']} + ' bedrooms'"></div>
+					</div>
+					<div class="element">
+						<img th:src="@{/media/wash.svg}">
+						<div class="text" th:text="${place['numberBathrooms']} + ' bathrooms'"></div>
+					</div>
+					<div class="element">
+						<img th:src="@{/media/bed.svg}">
+						<div class="text" th:text="${place['numberBedrooms']} + ' bedrooms'"></div>
 					</div>
 				</div>
 			</div>
-			<div style="grid-row-start: 2; grid-column-start: 2;">
-				<div class="placeFeature" th:each="pFeature: ${placeFeatures}">
-					<div th:text="${pFeature}"></div>
-				</div>
+			<div class="row">
+
 			</div>
 		</div>
 	</div>
+
+	</div>
+</div>
+
+<div class="container contents">
+	<div class="card-rent row">
+		<div class="col-8">
+			*more specifications*
+		</div>
+		<div class="divide"></div>
+		<div class="col-3" style="position:relative;display: flex; margin-left: 15px;">
+			<div>
+
+				<hr>
+				<h3 th:text="${place['price'] + '€/mês'}"></h3>
+				<p>Contas incluídas</p>
+			</div>
+		</div>
+	</div>
+</div>
+
 </body>
 </html>

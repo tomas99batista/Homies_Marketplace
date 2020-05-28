@@ -10,10 +10,12 @@ import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.Review;
 import tqs.ua.pt.homies_marketplace.service.PlaceService;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/places")
 public class PlaceController {
 
     @Autowired
@@ -22,7 +24,6 @@ public class PlaceController {
 
     @GetMapping("/places/{id}/reviews")
     public List<Review> getReviews(@PathVariable("id") long id){
-
         return placeService.getReviews(id);
     }
 
@@ -39,48 +40,20 @@ public class PlaceController {
     }
 
     //get all places
-    /*@GetMapping("/places")
+    @GetMapping("/places")
     public List<Place> getAllPlaces() {
         return placeService.getAllPlaces();
-
-    }*/
-
-    @RequestMapping(method = RequestMethod.GET, value="/places")
-    public String getAllplaces(Model model){
-        List<Place> places = placeService.getAllPlaces();
-        model.addAttribute("places", places);
-        return "houseList";
     }
 
-    @GetMapping("/places/{id}")
-    public String getPlaceDetails(@PathVariable("id") long id, Model model){
-        Place place = placeService.getPlaceById(0L);
-        model.addAttribute("placeTitle", place.getTitle());
-        model.addAttribute("placeFeatures", place.getFeatures());
-        System.out.println(place.getFeatures());
-        return "details";
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value="/places/city/{city}")
-    public String getPlacebyCity(Model model, @PathVariable String city) {
-        System.out.println("City>> " + city);
-        List<Place> places = placeService.getAllPlaces();
-        List<Place> returnPlaces = new ArrayList<>();
-        for(Place p: places){
-            if(p.getCity().equals(city))
-                returnPlaces.add(p);
-        }
-        System.out.println(returnPlaces);
-        model.addAttribute("places", returnPlaces);
-        return "houseList";
-    }
-
-
-    @GetMapping("/search")
-    public List<Place> search(@RequestParam(value = "city", required = false) String city){
+    @GetMapping("/places/{city}")
+    public List<Place> search_by_city(@PathVariable("city") String city){
         return placeService.searchByCity(city);
     }
 
+    @GetMapping("/places/{id}")
+    public Place getPlaceById(@PathVariable("id") long id) {
+        return placeService.getPlaceById(id);
+    }
 
 
 

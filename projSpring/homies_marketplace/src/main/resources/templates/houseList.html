@@ -29,7 +29,9 @@
 				<div class="form-group has-search">
 					<span class="fa fa-search form-control-feedback"></span>
 					<input id="searchBar" type="text" class="form-control" placeholder="Search" style="max-width: 250px">
-					<button onclick="searchPlace()">Boas</button>
+				</div>
+
+				<div class="row">
 				</div>
 			</div>
 			<div class="col-9 houseTab">
@@ -65,7 +67,7 @@
 							<div class="row">
 								<div class="col-md-6">
 									<div>
-										<img alt="room" class="img-fluid" th:src="@{/media/room-1.jpg}" />
+										<img alt="room" class="img-fluid"  onclick="window.open('/places/1')" th:src="@{/media/room-1.jpg}" />
 									</div>
 								</div>
 								<div class="col-md-6 col-lg-5 ml-auto d-flex align-items-center mt-4 mt-md-0">
@@ -75,6 +77,8 @@
 										<div th:text="${place['numberBathrooms']} + ' bathrooms'"></div>
 										<div th:text="'Rating: ' + ${place['rating']}"></div>
 										<div th:text="${place['price'] + '€/mês'}"></div>
+										<div th:text="${place['city']}"></div>
+
 									</div>
 								</div>
 							</div>
@@ -98,7 +102,6 @@
 					arrayLocals[i].style.display = "none";
 				}
 			}
-
 		}
 	</script>
 </body>
