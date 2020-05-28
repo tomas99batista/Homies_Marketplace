@@ -13,6 +13,7 @@ import tqs.ua.pt.homies_marketplace.service.PlaceService;
 import tqs.ua.pt.homies_marketplace.service.UserService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class UserController {
@@ -55,11 +56,11 @@ public class UserController {
         User saved=userService.save(user);
         return new ResponseEntity<>(saved, status);
     }
+
     // get all users
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
-
 
 }

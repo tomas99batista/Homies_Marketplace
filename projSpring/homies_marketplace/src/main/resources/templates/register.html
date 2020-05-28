@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <!-- Required meta tags-->
@@ -30,75 +29,112 @@
     <script src="https://rawgithub.com/markmarkoh/datamaps/master/dist/datamaps.none.min.js"></script>
     <script src="https://rawgithub.com/markmarkoh/datamaps/master/dist/datamaps.prt.js"></script>
 </head>
-<body>
-<div class="container">
-<div class="row justify-content-center">
-    <div class="">
-        <div class="card">
-            <header class="card-header">
-                <a href="" class="float-right btn btn-outline-primary mt-1">Log in</a>
-                <h4 class="card-title mt-2">Sign up</h4>
-            </header>
-            <article class="card-body">
-                <form>
-                    <div class="form-row">
-                        <div class="col form-group">
-                            <label>First name </label>
-                            <input type="text" class="form-control" placeholder="">
-                        </div> <!-- form-group end.// -->
-                        <div class="col form-group">
-                            <label>Last name</label>
-                            <input type="text" class="form-control" placeholder=" ">
-                        </div> <!-- form-group end.// -->
-                    </div> <!-- form-row end.// -->
-                    <div class="form-group">
-                        <label>Email address</label>
-                        <input type="email" class="form-control" placeholder="">
-                        <small class="form-text text-muted">We'll never share your email with anyone else.</small>
-                    </div> <!-- form-group end.// -->
-                    <div class="form-group">
-                        <label class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="gender" value="option1">
-                            <span class="form-check-label"> Male </span>
-                        </label>
-                        <label class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="gender" value="option2">
-                            <span class="form-check-label"> Female</span>
-                        </label>
-                    </div> <!-- form-group end.// -->
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label>City</label>
-                            <input type="text" class="form-control">
-                        </div> <!-- form-group end.// -->
-                        <div class="form-group col-md-6">
-                            <label>Country</label>
-                            <select id="inputState" class="form-control">
-                                <option> Choose...</option>
-                                <option>Uzbekistan</option>
-                                <option>Russia</option>
-                                <option selected="">United States</option>
-                                <option>India</option>
-                                <option>Afganistan</option>
-                            </select>
-                        </div> <!-- form-group end.// -->
-                    </div> <!-- form-row.// -->
-                    <div class="form-group">
-                        <label>Create password</label>
-                        <input class="form-control" type="password">
-                    </div> <!-- form-group end.// -->
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block"> Register  </button>
-                    </div> <!-- form-group// -->
-                    <small class="text-muted">By clicking the 'Sign Up' button, you confirm that you accept our <br> Terms of use and Privacy Policy.</small>
-                </form>
-            </article> <!-- card-body end .// -->
-            <div class="border-top card-body text-center">Have an account? <a href="">Log In</a></div>
-        </div> <!-- card.// -->
-    </div>      <!-- col.//-->
 
-</div> <!-- row.//-->
-</div>
+<body>
+  
+<div class="col-10" style="padding:10px, border">
+    <header class="card-header">
+        <a href="" class="float-right btn btn-outline-primary mt-1">Log in</a>
+        <h4 class="card-title mt-2">Sign up</h4>
+    </header>
+
+    <article class="card-body">
+
+        <form name="myForm" action="#" th:action="@{/register}" th:object="${user}" onsubmit="return validateForm()" method="post">
+
+            <!-- NAME -->
+            <div class="form-row">
+                <div class="col form-group">
+                    <label>First name </label>
+                    <input type="text" required class="form-control" th:field="*{firstName}">
+                </div> <!-- form-group end.// -->
+                <div class="col form-group">
+                    <label>Last name</label>
+                    <input type="text"  required  class="form-control" th:field="*{lastName}">
+                </div> <!-- form-group end.// -->
+            </div> <!-- form-row end.// -->
+
+            <!-- EMAIL -->
+            <div class="form-group">
+                <label>Email address</label>
+                <input type="email"  required  class="form-control" th:field="*{email}">
+            </div> <!-- form-group end.// -->
+
+
+            <!-- CITY -->
+            <div class="form-group col-md-6">
+                <label>City</label>
+                <!--Lista de Cidades-->
+                <select id="inputState" name="city" required th:field="*{city}"  class="form-control">
+                    <option value="" selected=""> Choose...</option>
+                    <option value="Lisboa">Lisboa</option>
+                    <option value="Lisboa">Porto</option>
+                    <option value="Lisboa">Braga</option>
+                    <option value="Lisboa">Setúbal</option>
+                    <option value="Lisboa">Aveiro</option>
+                    <option value="Lisboa">Faro</option>
+                    <option value="Lisboa">Leiria</option>
+                    <option value="Lisboa">Coimbra</option>
+                    <option value="Lisboa">Santarém</option>
+                    <option value="Lisboa">Viseu</option>
+                    <option value="Lisboa">R.A da Madeira</option>
+                    <option value="Lisboa">R.A dos Açores</option>
+                    <option value="Lisboa">Viana Do Castelo</option>
+                    <option value="Lisboa">Vila Real</option>
+                    <option value="Lisboa">Castelo Branco</option>
+                    <option value="Lisboa">Évora</option>
+                    <option value="Lisboa">Guarda</option>
+                    <option value="Lisboa">Beja</option>
+                    <option value="Lisboa">Bragança</option>
+                    <option value="Lisboa">Portalegre</option>
+                </select>
+            </div> <!-- form-group end.// -->
+
+
+
+            <!-- PASSWORD-->
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Create password</label>
+                    <input class="form-control" name="password" required  th:field="*{password}" type="password">
+                </div> <!-- form-group end.// -->
+                <div class="form-group">
+                    <label>confirm password</label>
+                    <input class="form-control"  name="confpassword" required  th:field="*{matchingPassword}" type="password">
+                </div> <!-- form-group end.// -->
+            </div> <!-- form-row.// -->
+
+
+
+            <!-- REGISTER BUTTON -->
+            <div class="form-group">
+                <button type="submit" value="Submit" class="btn btn-primary btn-block"> Register  </button>
+            </div> <!-- form-group// -->
+        </form>
+
+    </article> <!-- card-body end .// -->
+    <div class="border-top card-body text-center">Have an account? <a href="">Log In</a></div>
+</div> <!-- col.//-->
+
+<script>
+    function validateForm() {
+        var city = document.forms["myForm"]["city"].value;
+        var password = document.forms["myForm"]["password"].value;
+        var confpassword = document.forms["myForm"]["confpassword"].value;
+        if (password !== confpassword) {
+            alert("Passwords dont match");
+            return false;
+        }
+        if (password.length < 4) {
+            alert("Password too short (<4)");
+            return false;
+        }
+        if (city === ""){
+            alert("Please select a city");
+            return false;
+        }
+    }
+</script>
 
 </body>
 </html>
