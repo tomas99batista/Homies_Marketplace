@@ -1,8 +1,8 @@
 # Homies - Marketplace
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/2a9bd2d58c1f4b8ebf3d3f8790873a64)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=tomas99batista/Homies_Marketplace&amp;utm_campaign=Badge_Grade)
-
 ![Java CI with Maven](https://github.com/tomas99batista/Homies_Marketplace/workflows/Java%20CI%20with%20Maven/badge.svg)
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/2a9bd2d58c1f4b8ebf3d3f8790873a64)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=tomas99batista/Homies_Marketplace&amp;utm_campaign=Badge_Grade)
 
 ## Project Abstract
 
