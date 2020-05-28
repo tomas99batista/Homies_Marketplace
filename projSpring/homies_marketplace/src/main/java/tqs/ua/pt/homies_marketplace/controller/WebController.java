@@ -57,7 +57,7 @@ public class WebController {
             user.setCity(userRegistrationForm.getCity());
             System.out.println("new user: " + user);
             userService.save(user);
-            return "login";
+            return "index";
         } else {
             System.out.println("User already picked");
             return "user_picked";
