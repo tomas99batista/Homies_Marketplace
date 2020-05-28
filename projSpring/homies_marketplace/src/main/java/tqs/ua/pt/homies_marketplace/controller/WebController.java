@@ -43,7 +43,7 @@ public class WebController {
             user.setCity(userRegistrationForm.getCity());
             System.out.println("new user: " + user);
             userService.save(user);
-            return "index";
+            return "login";
         } else {
             System.out.println("User already picked");
             return "user_picked";
@@ -57,12 +57,13 @@ public class WebController {
     }
 
     @PostMapping("/login")
-    String loginSubmit(@ModelAttribute LoginRegistrationForm loginRegistrationForm){
+    String loginSubmit(@ModelAttribute LoginRegistrationForm loginRegistrationForm, Model model){
         System.out.println("login - all users: " + userService.getAllUsers());
         if (userService.getUserByEmail(loginRegistrationForm.getEmail()) != null){
             if (userService.getUserByEmail(loginRegistrationForm.getEmail()).getPassword().equals(loginRegistrationForm.getPassword())){
                 User user = userService.getUserByEmail(loginRegistrationForm.getEmail());
                 System.out.println("logged user: " + user);
+                model.addAttribute("user_logged", user);
                 return "index";
             } else {
                 System.out.println("wrong password");
