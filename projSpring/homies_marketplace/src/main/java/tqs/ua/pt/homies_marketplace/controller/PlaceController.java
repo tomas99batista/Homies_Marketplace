@@ -22,7 +22,6 @@ public class PlaceController {
 
     @GetMapping("/places/{id}/reviews")
     public List<Review> getReviews(@PathVariable("id") long id){
-
         return placeService.getReviews(id);
     }
 
@@ -56,6 +55,7 @@ public class PlaceController {
     public String getPlaceDetails(@PathVariable("id") long id, Model model){
         Place place = placeService.getPlaceById(0L);
         model.addAttribute("placeTitle", place.getTitle());
+        model.addAttribute("place", place);
         model.addAttribute("placeFeatures", place.getFeatures());
         System.out.println(place.getFeatures());
         return "details";

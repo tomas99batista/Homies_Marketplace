@@ -3,6 +3,7 @@ package tqs.ua.pt.homies_marketplace.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.PlaceId;
@@ -47,7 +48,12 @@ public class UserController {
         return placeService.getPublishedHouses(email);
     }
 
-
+    @RequestMapping(value="/profile")
+    public String profile(Model model){
+        List<User> users = getAllUsers();
+        model.addAttribute("users",users);
+        return "profile";
+    }
 
     @PostMapping("/users")
     public ResponseEntity<User> createUser(@RequestBody User user){

@@ -8,6 +8,24 @@ body{
     height:100%;
 }
 
+body::after{
+    opacity:0.6;
+}
+
 .card{
-    height:400px;
+    height: fit-content;
+    min-width:max-content;
+    max-width:300px;
+    padding:0;
+    border-radius:10px;
+    box-shadow: 0 0.250em 0.375em rgba(50,50,93,.19);
+    overflow: hidden;
+    margin:10px;
+}
+
+.card-row{
+    align-items: center;
+    justify-content: center;
+    display:inline-flex;
+    width:100%;
 }
