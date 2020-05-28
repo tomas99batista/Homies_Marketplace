@@ -32,36 +32,23 @@
 				</div>
 
 				<div class="row">
+					<div class="col-12">
+						<form method="post" th:object="${cities}">
+							<div class="form-group">
+								<label>City</label>
+								<select id="cities_filter" onchange="val()" class="form-control select2-single" style="border-radius: 20px; z-index:999">
+									<option th:each="city : ${cities}" th:value="${city}" th:text='${city}'></option>
+								</select>
+							</div>
+
+							<button class="btn btn-primary" type="submit">Submit form</button>
+						</form>
+					</div>
+
 				</div>
 			</div>
 			<div class="col-9 houseTab">
 				<div class="" th:each="place: ${places}">
-					<!--
-					<div class="row houseImage">
-						<img th:src="@{/media/room-1.jpg}" />
-					</div>
-					<div class="row">
-
-						<div class="houseInfo">
-							<div class="information">
-								<div th:text="${place['title']}"></div>
-								<div>1 person</div>
-								<div th:text="${place['numberBedrooms']} + ' bedrooms'"></div>
-								<div th:text="${place['numberBathrooms']} + ' bathrooms'"></div>
-								<div class="favButton">Add Fav</div>
-								<div style="grid-row-start: 2; grid-row-end: 3"></div>
-								<div th:text="${place['city']}"></div>
-							</div>
-							<div class="details">
-								<div th:text="'Rating: ' + ${place['rating']}"></div>
-								<div th:text="${place['price'] + '€/mês'}"></div>
-								<div class="detailsStyle">Button</div>
-								<div style="grid-row-start: 3; grid-row-end: 4;"></div>
-							</div>
-						</div>
-
-					</div>
-					-->
 					<section class="section mt-5">
 						<div class="container houseCard">
 							<div class="row">
@@ -103,6 +90,19 @@
 				}
 			}
 		}
+
+	$('#cities_filter').change(function(){
+    	console.log($(this).val());
+		//$.ajax({
+    	//	type:"post",
+    	//	data:{ "city", $(this).val() },
+    	//	url:"/places",
+    	//	dataType: "json",
+    	//	success: function(result){
+       	//		$(element).append(result);
+    	//	}
+		//});
+	})
 	</script>
 </body>
 </html>
