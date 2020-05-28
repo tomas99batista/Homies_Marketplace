@@ -41,6 +41,7 @@ public class PlaceServiceImpl implements PlaceService{
         else {
             spec = new PlaceSpecification(filter);
         }
+
         return placeRepository.findAll(spec);
     }
 
