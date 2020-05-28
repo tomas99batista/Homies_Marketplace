@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.BDDMockito.given;
@@ -64,8 +65,7 @@ class PlaceControllerITest {
         long placeId=place.getId();
         Review review= new Review("jose@email.com", 4.0, "comment1");
         mvc.perform(post("/places/"+placeId+"/reviews").contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.toJson(review))).andReturn().getResponse().getContentAsString().equals("true");
-
+                .content(JsonUtil.toJson(review))).andReturn().getResponse().getContentAsString().equals(true);
     }
 
     @Test

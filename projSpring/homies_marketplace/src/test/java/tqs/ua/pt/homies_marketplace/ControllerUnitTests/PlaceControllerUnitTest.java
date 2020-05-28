@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import tqs.ua.pt.homies_marketplace.JsonUtil;
 import tqs.ua.pt.homies_marketplace.controller.PlaceController;
+import tqs.ua.pt.homies_marketplace.dtos.PlaceDTO;
 import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.Review;
 import tqs.ua.pt.homies_marketplace.service.PlaceService;
@@ -120,14 +121,14 @@ import static org.mockito.Mockito.reset;
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "aveiro");
         List<Place> allPlaces = Arrays.asList(place);
-
-        given(service.search("city", null, null, null, null, null, null, null)).willReturn(allPlaces);
-        mvc.perform(get("/search?city=city").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+        PlaceDTO placeDTO= new PlaceDTO(place.getCity(), null, null, null, null, null);
+        given(service.search(Mockito.any(), Mockito.anyString(), Mockito.anyString())).willReturn(allPlaces);
+        mvc.perform(get("/search?city=aveiro&minPrice=0&maxPrice=5").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].title", is(place.getTitle())));
-        verify(service, VerificationModeFactory.times(1)).search("city", null, null, null, null, null, null, null);
+        verify(service, VerificationModeFactory.times(1)).search(Mockito.any(), Mockito.anyString(), Mockito.anyString());
         reset(service);
     }
 

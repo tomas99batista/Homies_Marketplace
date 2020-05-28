@@ -1,5 +1,7 @@
 package tqs.ua.pt.homies_marketplace.models;
 
+import tqs.ua.pt.homies_marketplace.dtos.PlaceDTO;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -71,6 +73,18 @@ public class Place {
         this.photos = photos;
     }
 
+    public Place(PlaceDTO placeDTO){
+        this.title = placeDTO.getTitle();
+        this.price = placeDTO.getPrice();
+        this.rating = placeDTO.getRating();
+        this.features = placeDTO.getFeatures();
+        this.numberBathrooms = placeDTO.getNumberBathrooms();
+        this.numberBedrooms = placeDTO.getNumberBedrooms();
+        this.type = placeDTO.getType();
+        this.city = placeDTO.getCity();
+        this.reviews = placeDTO.getReviews();
+        this.photos = placeDTO.getPhotos();
+    }
     public String getTitle() {
         return title;
     }
@@ -117,29 +131,10 @@ public class Place {
     }
 
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public void setPrice(double price) {
         this.price = price;
     }
 
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
-
-    public void setFeatures(List<String> features) {
-        this.features = features;
-    }
-
-    public void setNumberBathrooms(int numberBathrooms) {
-        this.numberBathrooms = numberBathrooms;
-    }
-
-    public void setNumberBedrooms(int numberBedrooms) {
-        this.numberBedrooms = numberBedrooms;
-    }
 
     public void setType(String type) {
         this.type = type;

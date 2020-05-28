@@ -3,6 +3,7 @@ package tqs.ua.pt.homies_marketplace.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import tqs.ua.pt.homies_marketplace.dtos.PlaceDTO;
 import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.PlaceSpecification;
 import tqs.ua.pt.homies_marketplace.models.Review;
@@ -29,14 +30,9 @@ public class PlaceServiceImpl implements PlaceService{
 
 
     @Override
-    public List<Place> search(String city, String price, String rating, String bedrooms, String bathrooms, String type, String minPrice, String maxPrice) {
-        Place filter= new Place();
-        filter.setCity(city);
-        filter.setPrice(price != null ? Double.parseDouble(price): -1);
-        filter.setRating(rating !=null ? Double.parseDouble(rating): -1);
-        filter.setNumberBedrooms(bedrooms !=null ? Integer.parseInt(bedrooms): -1);
-        filter.setNumberBathrooms(bathrooms != null ? Integer.parseInt(bathrooms): -1);
-        filter.setType(type);
+    public List<Place> search(PlaceDTO placeDTO, String minPrice, String maxPrice) {
+
+        Place filter= new Place(placeDTO);
         Specification<Place> spec;
 
         if (minPrice !=null || maxPrice !=null){

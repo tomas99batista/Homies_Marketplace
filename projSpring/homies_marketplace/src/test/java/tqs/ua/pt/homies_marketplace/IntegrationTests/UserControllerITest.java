@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.BDDMockito.given;
@@ -68,8 +69,9 @@ class UserControllerITest {
         User user= new User(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
         PlaceId placeId= new PlaceId(saved.getId());
         userRepository.saveAndFlush(user);
-        mvc.perform(post("/users/jose@email.com/favorites").contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.toJson(placeId))).andReturn().getResponse().getContentAsString().equals("true");
+        String result=mvc.perform(post("/users/jose@email.com/favorites").contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.toJson(placeId))).andReturn().getResponse().getContentAsString();
+        assertThat(result).isEqualTo("true");
     }
 
     @Test

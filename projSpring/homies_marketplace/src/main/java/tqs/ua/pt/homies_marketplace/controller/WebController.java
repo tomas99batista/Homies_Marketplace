@@ -21,7 +21,7 @@ public class WebController {
 
     // lisbon page
     @GetMapping
-    String index(Model model){
+    public String index(Model model){
         model.addAttribute("user", "user");
         model.addAttribute("place", "place");
         return "index";

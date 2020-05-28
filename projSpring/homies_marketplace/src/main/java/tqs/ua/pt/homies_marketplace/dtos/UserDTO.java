@@ -1,44 +1,21 @@
-package tqs.ua.pt.homies_marketplace.models;
+package tqs.ua.pt.homies_marketplace.dtos;
 
-import tqs.ua.pt.homies_marketplace.dtos.UserDTO;
-
-import javax.persistence.*;
 import java.util.List;
 
-@Entity(name="users")
-@Table(name="users")
-public class User {
-    @Id
-    @Column(nullable=false, unique=false)
+public class UserDTO {
     private String email;
-
-    @ElementCollection
     private List<Long> favorites;
-
-    @Column(nullable=false, unique=false)
     private String password;
-
-    @Column(name="first_name",nullable=false, unique=false)
     private String firstName;
-
-    @Column(name="last_name",nullable=false, unique=false)
     private String lastName;
-
     private String city;
-
-    @ElementCollection
     private List<Long> publishedHouses;
-
-    @ElementCollection
     private List<Long> rentedHouses;
 
+    public UserDTO(){
 
-
-    //needed for hibernate
-    public User() {
     }
-
-    public User(String email, List<Long> favorites, String password, String firstName, String lastName, String city, List<Long> publishedHouses, List<Long> rentedHouses) {
+    public UserDTO(String email, List<Long> favorites, String password, String firstName, String lastName, String city,List<Long> publishedHouses, List<Long> rentedHouses){
         this.email = email;
         this.favorites = favorites;
         this.password = password;
@@ -49,16 +26,6 @@ public class User {
         this.rentedHouses = rentedHouses;
     }
 
-    public User(UserDTO userDTO){
-        this.email = userDTO.getEmail();
-        this.favorites = userDTO.getFavorites();
-        this.password = userDTO.getPassword();
-        this.firstName = userDTO.getFirstName();
-        this.lastName = userDTO.getLastName();
-        this.city = userDTO.getCity();
-        this.publishedHouses = userDTO.getPublishedHouses();
-        this.rentedHouses = userDTO.getRentedHouses();
-    }
     public String getEmail() {
         return email;
     }

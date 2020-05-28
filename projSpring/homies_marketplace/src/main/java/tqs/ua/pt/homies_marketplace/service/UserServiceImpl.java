@@ -28,11 +28,11 @@ public class UserServiceImpl implements UserService{
     public boolean addToRentedHouses(String email, PlaceId placeId){
         if (exists(email)){
             //check if the number of rows updated is one
-            if (placeService.getPlaceById(placeId.getPlaceId())!=null) {
-                int rowsUpdated = userRepository.insertRentedHouse(email, placeId.getPlaceId());
+            if (placeService.getPlaceById(placeId.getId())!=null) {
+                int rowsUpdated = userRepository.insertRentedHouse(email, placeId.getId());
                 //see owner of the place
-                User owner=userRepository.findOwner(placeId.getPlaceId());
-                bookService.createBooking(new Booking(owner.getEmail(), email, placeId.getPlaceId()));
+                User owner=userRepository.findOwner(placeId.getId());
+                bookService.createBooking(new Booking(owner.getEmail(), email, placeId.getId()));
                 return rowsUpdated == 1;
             }
             return false;
@@ -45,8 +45,8 @@ public class UserServiceImpl implements UserService{
     public boolean addToFavorites(String email, PlaceId placeId) {
         if (exists(email)){
             //check if the number of rows updated is one
-            if (placeService.getPlaceById(placeId.getPlaceId())!=null) {
-                int rowsUpdated = userRepository.insertFavoriteHouse(email, placeId.getPlaceId());
+            if (placeService.getPlaceById(placeId.getId())!=null) {
+                int rowsUpdated = userRepository.insertFavoriteHouse(email, placeId.getId());
                 return rowsUpdated == 1;
             }
             return false;
