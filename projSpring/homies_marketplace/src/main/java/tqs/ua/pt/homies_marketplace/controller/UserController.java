@@ -61,22 +61,4 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    
-    @PostMapping("/login")
-    public void loginUser(@RequestBody Map<String,String> login_infos){
-        System.out.println(login_infos);
-        User user = userService.getUserByEmail(login_infos.get("email"));
-        if (user == null){
-            System.out.println("user nao existe");
-        }
-        else if (user.getPassword() == login_infos.get("password")){
-            System.out.println("pwd iguais: " + user.getPassword() + login_infos.get("password"));
-        } else {
-            System.out.println("pwd diferentes: " + user.getPassword() + login_infos.get("password"));
-        }
-        //HttpStatus status=HttpStatus.CREATED;
-        //User saved=userService.save(user);
-        //return new ResponseEntity<>(saved, status);
-    }
-
 }
