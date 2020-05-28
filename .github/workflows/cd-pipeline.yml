@@ -36,4 +36,5 @@ jobs:
       run: mvn -f projSpring/homies_marketplace/pom.xml clean verify
     
     - uses: actions/checkout@v2
+    - name: Execute app
       run: mvn -f projSpring/homies_marketplace/pom.xml spring-boot:run
