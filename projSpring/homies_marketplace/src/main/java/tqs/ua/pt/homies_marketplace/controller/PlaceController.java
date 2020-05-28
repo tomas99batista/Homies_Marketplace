@@ -55,6 +55,19 @@ public class PlaceController {
         return placeService.getPlaceById(id);
     }
 
-
-
+    public List<String> getAllCities(){
+        List<String> cities = new ArrayList<>();
+        cities.add("Aveiro");
+        cities.add("Viseu");
+        cities.add("Porto");
+        cities.add("Lisboa");
+        cities.add("Vila Real");
+        cities.add("Guarda");
+        cities.add("Braga");
+        cities.add("Bragança");
+        cities.add("Portalegre");
+        cities.add("Leiria");
+        cities.add("Évora");
+        return cities;
+    }
 }

@@ -1,6 +1,7 @@
 package tqs.ua.pt.homies_marketplace.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,20 +50,8 @@ public class WebController {
 
     @RequestMapping(value = "/places", method = RequestMethod.GET)
     public String places(Model model){
-        List<String> cities = new ArrayList<>();
-        cities.add("Aveiro");
-        cities.add("Viseu");
-        cities.add("Porto");
-        cities.add("Lisboa");
-        cities.add("Vila Real");
-        cities.add("Guarda");
-        cities.add("Braga");
-        cities.add("Bragança");
-        cities.add("Portalegre");
-        cities.add("Leiria");
-        cities.add("Évora");
-
         List<Place> places = placeController.getAllPlaces();
+        List<String> cities = placeController.getAllCities();
         model.addAttribute("places", places);
         model.addAttribute("cities", cities);
         return "houseList";
@@ -74,6 +63,7 @@ public class WebController {
         model.addAttribute("placeTitle", place.getTitle());
         model.addAttribute("place", place);
         model.addAttribute("placeFeatures", place.getFeatures());
+
         System.out.println(place.getFeatures());
         return "details";
     }
@@ -82,8 +72,10 @@ public class WebController {
     public String places_by_city(Model model, @PathVariable("city") String city) {
         //Quando tiver alguma coisa na bd
         //List<Place> placesbycity = placeController.search_by_city(city);
+        List<String> cities = placeController.getAllCities();
         System.out.println("City>> " + city);
         List<Place> places = placeController.getAllPlaces();
+        System.out.println(cities);
         List<Place> returnPlaces = new ArrayList<>();
         for(Place p: places){
             if(p.getCity().equals(city))
@@ -91,6 +83,7 @@ public class WebController {
         }
         System.out.println(returnPlaces);
         model.addAttribute("places", returnPlaces);
+        model.addAttribute("cities", cities);
         return "houseList";
     }
 
