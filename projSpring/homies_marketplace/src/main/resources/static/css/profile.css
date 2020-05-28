@@ -3,7 +3,7 @@
 
 html{
     font-family: 'Poppins',sans-serif;
-    background: whitesmoke;
+    background: white;
 }
 a{
     text-decoration: none;
@@ -38,8 +38,10 @@ hr{
 }
 #image,#profile-photo{
     position: relative;
-    width: 80px;
-    height: 80px;
+    width: 200px;
+    height: 200px;
+    margin-bottom: 20px;
+    object-fit: cover;
     border-radius: 10px;
 }
 #image > a{
