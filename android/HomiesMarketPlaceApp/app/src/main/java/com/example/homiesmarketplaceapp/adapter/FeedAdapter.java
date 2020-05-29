@@ -41,8 +41,11 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         public final View mView;
 
         ImageView placeImage;
-        TextView placeName;
-        TextView placeDetails;
+        TextView placeType;
+        TextView placeLocation;
+        TextView placePrice;
+        TextView placeBedrooms;
+        TextView placeBathrooms;
         ImageButton addToFavorites;
 
 
@@ -51,9 +54,13 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
             mView = itemView;
 
             placeImage=mView.findViewById(R.id.placeImage);
-            placeName = mView.findViewById(R.id.place_name);
-            placeDetails=mView.findViewById(R.id.place_details);
+            placeType = mView.findViewById(R.id.placeType);
+            placeLocation=mView.findViewById(R.id.placeLocation);
+            placePrice=mView.findViewById(R.id.placePrice);
+            placeBedrooms=mView.findViewById(R.id.placeBedrooms);
+            placeBathrooms=mView.findViewById(R.id.placeBathrooms);
             addToFavorites=mView.findViewById(R.id.add_to_favorites);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -90,11 +97,11 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
     @Override
     public void onBindViewHolder(FeedViewHolder holder, int position) {
 
-        //holder.txtId.setText(dataList.get(position).getEvent_id().toString());
-        holder.placeName.setText(dataList.get(position).getTitle());
-
-        holder.placeDetails.setText(dataList.get(position).getCity());
-
+        holder.placeType.setText(dataList.get(position).getType());
+        holder.placeLocation.setText(dataList.get(position).getCity());
+        holder.placePrice.setText(String.valueOf(dataList.get(position).getPrice()) + " euros/month");
+        holder.placeBedrooms.setText(dataList.get(position).getNumberBedrooms() + " bedrooms");
+        holder.placeBathrooms.setText(dataList.get(position).getNumberBathrooms() + " bathrooms");
         Glide.with(context).load(dataList.get(position).getPhotos()).into(holder.placeImage);
     }
 

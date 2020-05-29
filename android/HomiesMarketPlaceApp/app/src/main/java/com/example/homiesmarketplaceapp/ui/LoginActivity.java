@@ -41,6 +41,9 @@ public class LoginActivity extends AppCompatActivity {
         password=findViewById(R.id.password);
         login=findViewById(R.id.login);
         register=findViewById(R.id.register);
+
+        email.setText("jose@email.com");
+        password.setText("password");
         mPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         login.setOnClickListener(new View.OnClickListener() {

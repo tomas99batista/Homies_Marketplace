@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.homiesmarketplaceapp.R;
@@ -87,7 +88,7 @@ public class HomeFragment extends Fragment {
     private void generateFeed(final List<Place> placeList) {
         RecyclerView recyclerView = root.findViewById(R.id.recycler_view);
         FeedAdapter adapter = new FeedAdapter(getContext(), placeList);
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
