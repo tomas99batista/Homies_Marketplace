@@ -41,7 +41,7 @@ public class DetailsFragment extends Fragment {
     TextView placeTitle;
     TextView placeCity;
     TextView placePrice;
-    TextView placeRating;
+    RatingBar placeRating;
     TextView placeNoBedrooms;
     TextView placeNoBathrooms;
     TextView placeType;
@@ -126,11 +126,11 @@ public class DetailsFragment extends Fragment {
         Glide.with(getContext()).load(place.getPhotos()).into(placeImage);
         placeTitle.setText(place.getTitle());
         placeCity.setText(place.getCity());
-        placePrice.setText(String.valueOf(place.getPrice()));
-        placeFeatures.setText(place.getFeatures().toString());
-        placeRating.setText(String.valueOf(place.getRating()));
-        placeNoBedrooms.setText(String.valueOf(place.getNumberBedrooms()));
-        placeNoBathrooms.setText(String.valueOf(place.getNumberBathrooms()));
+        placePrice.setText(place.getPrice()+ " euros/month");
+        placeFeatures.setText(place.getAllFeatures());
+        placeRating.setRating((float)place.getRating());
+        placeNoBedrooms.setText(place.getNumberBedrooms() + " bedrooms");
+        placeNoBathrooms.setText(place.getNumberBathrooms()+ " bathrooms");
         placeType.setText(place.getType());
     }
 

@@ -27,7 +27,8 @@
                 android:layout_marginEnd="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="35sp"
+                android:textSize="30sp"
+                android:fontFamily="@font/montserrat_bold"
                 android:gravity="center"
 
                 />
@@ -36,26 +37,30 @@
                 android:id="@+id/details_place_city"
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
-
+                android:fontFamily="@font/montserrat"
                 android:textSize="25sp"
                 android:layout_marginStart="16dp"
                 android:gravity="start"
                 android:layout_height="wrap_content"/>
 
-            <TextView
+
+            <RatingBar
                 android:id="@+id/details_place_rating"
-                android:layout_width="match_parent"
+                style="?android:attr/ratingBarStyleSmall"
                 android:layout_marginTop="10dp"
-                android:textSize="25sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:gravity="start"
-                android:layout_height="wrap_content"/>
+                android:layout_marginEnd="16dp"
+                android:numStars="5"
+                android:saveEnabled="true" />
 
             <TextView
                 android:id="@+id/details_place_price"
                 android:layout_width="match_parent"
                 android:layout_marginStart="16dp"
-                android:textSize="18sp"
+                android:layout_marginTop="10dp"
+                android:textSize="20sp"
                 android:gravity="start"
                 android:layout_height="wrap_content"/>
 
@@ -63,7 +68,7 @@
                 android:id="@+id/details_place_features"
                 android:layout_width="match_parent"
                 android:layout_marginStart="16dp"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:gravity="start"
                 android:layout_height="wrap_content"/>
 
@@ -71,7 +76,7 @@
                 android:id="@+id/details_place_type"
                 android:layout_width="match_parent"
                 android:layout_marginStart="16dp"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content"/>
@@ -79,13 +84,14 @@
                 android:id="@+id/details_place_no_bedrooms"
                 android:layout_width="match_parent"
                 android:layout_marginStart="16dp"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:layout_height="wrap_content"/>
             <TextView
                 android:id="@+id/details_place_no_bathrooms"
                 android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
                 android:layout_marginStart="16dp"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>
