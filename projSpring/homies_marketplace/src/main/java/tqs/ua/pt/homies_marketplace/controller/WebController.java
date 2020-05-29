@@ -100,8 +100,8 @@ public class WebController {
 
     @RequestMapping(value = "/places", method = RequestMethod.GET)
     public String places(Model model){
-        List<String> cities = placeController.getAllCities();
         List<Place> places = placeController.getAllPlaces();
+        List<String> cities = placeController.getAllCities();
         model.addAttribute("places", places);
         model.addAttribute("cities", cities);
         return "houseList";
@@ -113,6 +113,7 @@ public class WebController {
         model.addAttribute("placeTitle", place.getTitle());
         model.addAttribute("place", place);
         model.addAttribute("placeFeatures", place.getFeatures());
+
         System.out.println(place.getFeatures());
         return "details";
     }
@@ -121,9 +122,11 @@ public class WebController {
     public String places_by_city(Model model, @PathVariable("city") String city) {
         //Quando tiver alguma coisa na bd
         //List<Place> placesbycity = placeController.search_by_city(city);
+        List<String> cities = placeController.getAllCities();
         System.out.println("City>> " + city);
         List<String> cities = placeController.getAllCities();
         List<Place> places = placeController.getAllPlaces();
+        System.out.println(cities);
         List<Place> returnPlaces = new ArrayList<>();
         for(Place p: places){
             if(p.getCity().equals(city))
