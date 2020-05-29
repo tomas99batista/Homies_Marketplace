@@ -40,7 +40,6 @@
 									<option th:each="city : ${cities}" th:value="${city}" th:text='${city}'></option>
 								</select>
 							</div>
-
 							<button class="btn btn-primary" type="submit">Submit form</button>
 						</form>
 					</div>
@@ -80,7 +79,8 @@
 		</div>
 		</div>
 	</div>
-	<script type="text/javascript">
+</body>
+<script type="text/javascript">
 		function searchPlace(){
 			document.getElementById("searchBar");
 			var arrayLocals = document.getElementsByClassName("searchResult");
@@ -93,16 +93,20 @@
 
 	$('#cities_filter').change(function(){
     	console.log($(this).val());
-		//$.ajax({
-    	//	type:"post",
-    	//	data:{ "city", $(this).val() },
-    	//	url:"/places",
-    	//	dataType: "json",
-    	//	success: function(result){
-       	//		$(element).append(result);
-    	//	}
-		//});
+    	var data = '{ "city", $(this).val() }';
+		$.ajax({
+    		type:"POST",
+    		contentType : "application/json",
+    		data: JSON.stringify(data),
+    		url: "/places/"+ $(this).val(),
+    		dataType: "json",
+    		success: function(result){
+       			$(element).append(result);
+    		},
+    		 error: function (e) {
+    		 	console.log("ERROR:" , e)
+    		 }
+		});
 	})
 	</script>
-</body>
 </html>

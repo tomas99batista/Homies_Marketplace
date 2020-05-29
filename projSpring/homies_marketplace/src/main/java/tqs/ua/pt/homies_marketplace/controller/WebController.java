@@ -10,6 +10,7 @@ import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.User;
 import tqs.ua.pt.homies_marketplace.repository.PlaceRepository;
 import tqs.ua.pt.homies_marketplace.repository.UserRepository;
+import tqs.ua.pt.homies_marketplace.service.PlaceService;
 import tqs.ua.pt.homies_marketplace.service.UserService;
 
 import java.util.ArrayList;
@@ -25,6 +26,9 @@ public class WebController {
 
     @Autowired
     PlaceController placeController;
+
+    @Autowired
+    UserController userController;
 
     @Autowired
     UserService userService;
@@ -103,6 +107,21 @@ public class WebController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String places(Model model){
         //cities
+        List<String> cities = placeController.getAllCities();
+
+        List<Place> places = placeService.getAllPlaces();
+        model.addAttribute("places", places);
+        model.addAttribute("cities", cities);
+        model.addAttribute("user_status",user_status);
+        return "houseList";
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    public String filter_places(Model model, @ModelAttribute String city){
+        //cities
+
+        System.out.println(city);
+
         List<String> cities = placeController.getAllCities();
 
         List<Place> places = placeService.getAllPlaces();
