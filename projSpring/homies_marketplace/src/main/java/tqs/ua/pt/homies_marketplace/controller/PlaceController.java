@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/places")
+@RequestMapping("/api")
 public class PlaceController {
 
     @Autowired
@@ -59,7 +59,7 @@ public class PlaceController {
         return placeService.getPlaceById(id);
     }
 
-    public List<String> getAllCities(){
+    public List<String> getAllCities() {
         List<String> cities = new ArrayList<>();
         cities.add("Aveiro");
         cities.add("Viseu");
@@ -73,7 +73,7 @@ public class PlaceController {
         cities.add("Leiria");
         cities.add("Évora");
         return cities;
-
+    }
   @GetMapping("/search")
     public List<Place> search(@RequestParam(value = "city", required = false) String city, @RequestParam(value="price", required = false ) String price, @RequestParam(value="rating", required = false ) String rating, @RequestParam(value = "bedrooms", required = false) String bedrooms, @RequestParam(value = "bathrooms", required = false) String bathrooms, @RequestParam(value = "type", required = false) String type, @RequestParam(value = "minPrice", required = false) String minPrice, @RequestParam(value = "maxPrice", required = false) String maxPrice)  {
         PlaceDTO placeDTO= new PlaceDTO(city, price, rating, bedrooms, bathrooms, type);

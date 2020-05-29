@@ -29,8 +29,6 @@ public class PlaceServiceImpl implements PlaceService{
     private ReviewServiceImpl reviewService;
 
 
-
-
     @Override
     public List<Place> search(PlaceDTO placeDTO, String minPrice, String maxPrice) {
 
@@ -60,11 +58,7 @@ public class PlaceServiceImpl implements PlaceService{
             Review saved=reviewService.save(review);
             //get id of the review
             if (saved!=null) {
-
-
-
                 long savedId = saved.getId();
-
                 //save it in places_review
                 if (placeRepository.insertReview(placeId, savedId) == 1){
                     //update rating
@@ -91,12 +85,8 @@ public class PlaceServiceImpl implements PlaceService{
 
     @Override
     public Place getPlaceById(long id){
-        //return placeRepository.findById(id);
-        Place place;
-        for(Place p : getAllPlaces())
-            if(p.getId() == id)
-                return p;
-        return null;
+        return placeRepository.findById(id);
+
     }
 
     @Override
@@ -110,15 +100,6 @@ public class PlaceServiceImpl implements PlaceService{
 
     @Override
     public List<Place> getAllPlaces() {
-        List<String> features = new ArrayList<>();
-        features.add("Barato");
-        features.add("Not caro");
-        Place place = new Place(0L, "Test", 100.0, 3.0, features, 1, 1, "casa", "Lisboa");
-        Place newPlace = new Place(1L, "NEWTEST", 10.0, 2.3, features, 1, 1, "coisa", "Porto");
-        List<Place> places = new ArrayList<>();
-        places.add(place);
-        places.add(newPlace);
-        return places;
-        //return placeRepository.findAll();
+        return placeRepository.findAll();
     }
 }

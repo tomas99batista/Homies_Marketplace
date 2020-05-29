@@ -33,12 +33,12 @@ public class WebController {
     UserController userController; // Podemos usar este e chamamos os metodos da API
     @Autowired
     UserRepository userRepository; // OU USAR O REPOSITORY E CHAMAR PELO REPOSITORY
-
+    /*
     @RequestMapping(method = GET, value = "/")
     String index(Model model){
         return "index";
     }
-
+     */
     @RequestMapping(method = GET, value = "/register")
     String register(Model model){
         model.addAttribute("user", new UserRegistrationForm());
