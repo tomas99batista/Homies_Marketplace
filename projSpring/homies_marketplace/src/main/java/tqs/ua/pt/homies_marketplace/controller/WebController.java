@@ -9,6 +9,7 @@ import tqs.ua.pt.homies_marketplace.form.LoginRegistrationForm;
 import tqs.ua.pt.homies_marketplace.form.UserRegistrationForm;
 import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.User;
+import org.springframework.web.bind.annotation.GetMapping;
 import tqs.ua.pt.homies_marketplace.repository.PlaceRepository;
 import tqs.ua.pt.homies_marketplace.repository.UserRepository;
 import tqs.ua.pt.homies_marketplace.service.UserService;
@@ -92,7 +93,7 @@ public class WebController {
 
 
     @RequestMapping(method = RequestMethod.GET, value = "/test")
-    String test(Model model){
+    public String index(Model model){
         model.addAttribute("user", "user");
         model.addAttribute("place", "place");
         return "test";

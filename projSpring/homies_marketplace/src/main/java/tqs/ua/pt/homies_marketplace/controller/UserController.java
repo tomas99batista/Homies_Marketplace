@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import tqs.ua.pt.homies_marketplace.dtos.PlaceDTO;
+import tqs.ua.pt.homies_marketplace.dtos.UserDTO;
 import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.PlaceId;
 import tqs.ua.pt.homies_marketplace.models.User;
@@ -24,7 +26,7 @@ public class UserController {
     @Autowired
     private PlaceService placeService;
 
-    @PostMapping("/users/{email}/rentedHouses")
+    @PostMapping("/users/{email}/booking")
     public boolean addToRentedHouses(@PathVariable("email") String email, @RequestBody PlaceId placeId){
         return userService.addToRentedHouses(email, placeId);
     }
@@ -40,7 +42,8 @@ public class UserController {
 
     //publish new house
     @PostMapping("/users/{email}/publishedHouses")
-    public boolean addPublishedHouse(@PathVariable("email") String email, @RequestBody Place place){
+    public boolean addPublishedHouse(@PathVariable("email") String email, @RequestBody PlaceDTO placeDTO){
+        Place place= new Place(placeDTO);
         return userService.addPublishedHouse(email, place);
     }
 
@@ -51,8 +54,9 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<User> createUser(@RequestBody User user){
+    public ResponseEntity<User> createUser(@RequestBody UserDTO userDTO){
         HttpStatus status=HttpStatus.CREATED;
+        User user= new User(userDTO);
         User saved=userService.save(user);
         return new ResponseEntity<>(saved, status);
     }

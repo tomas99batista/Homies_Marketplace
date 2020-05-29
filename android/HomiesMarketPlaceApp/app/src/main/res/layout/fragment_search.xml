@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:text="Search places"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+    <EditText
+            android:id="@+id/cityFilter"
+            android:layout_margin="16dp"
+            android:layout_width="wrap_content"
+            android:drawablePadding="5dp"
+            android:layout_gravity="center"
+            android:layout_height="40dp"
+            android:paddingRight="30dp"
+            android:drawableStart="@drawable/ic_location"
+            android:hint="City"
+            />
+
+        <EditText
+            android:id="@+id/typeFilter"
+            android:layout_margin="16dp"
+            android:layout_width="wrap_content"
+            android:drawablePadding="5dp"
+            android:layout_gravity="center"
+            android:layout_height="40dp"
+            android:paddingRight="30dp"
+            android:drawableStart="@drawable/ic_house"
+            android:hint="Type"
+            />
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/minPriceFilter"
+                android:layout_margin="16dp"
+                android:layout_width="wrap_content"
+                android:drawablePadding="5dp"
+                android:layout_gravity="center"
+                android:layout_height="40dp"
+                android:paddingRight="30dp"
+                android:drawableStart="@drawable/ic_price"
+                android:hint="Min Price"
+                />
+
+            <EditText
+                android:id="@+id/maxPriceFilter"
+                android:layout_margin="16dp"
+                android:layout_width="wrap_content"
+                android:drawablePadding="5dp"
+                android:layout_gravity="center"
+                android:layout_height="40dp"
+                android:paddingRight="30dp"
+                android:drawableStart="@drawable/ic_price"
+                android:hint="Max Price"
+                />
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/bedroomsFilter"
+                android:layout_margin="16dp"
+                android:layout_width="wrap_content"
+                android:drawablePadding="5dp"
+                android:layout_gravity="center"
+                android:layout_height="40dp"
+                android:paddingRight="30dp"
+                android:drawableStart="@drawable/ic_bedrooms"
+                android:hint="Bedrooms"
+                />
+
+            <EditText
+                android:id="@+id/bathroomsFilter"
+                android:layout_margin="16dp"
+                android:layout_width="wrap_content"
+                android:drawablePadding="5dp"
+                android:layout_gravity="center"
+                android:layout_height="40dp"
+                android:paddingRight="30dp"
+                android:drawableStart="@drawable/ic_bathrooms"
+                android:hint="Bathrooms"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+        </LinearLayout>
+        <RatingBar
+            android:id="@+id/ratingFilter"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:saveEnabled="true"
+            android:numStars="5"
+            />
+
+        <Button
+            android:layout_gravity="center"
+            android:id="@+id/searchBtn"
+            android:layout_width="wrap_content"
+            android:text="Search"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

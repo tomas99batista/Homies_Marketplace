@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class UserRepositoryUnitTests {
+ class UserRepositoryUnitTests {
 
     @Autowired
     private TestEntityManager entityManager;
@@ -27,7 +27,7 @@ public class UserRepositoryUnitTests {
     private UserRepository userRepository;
 
     @Test
-    public void whenFindByEmail_thenReturnUser() {
+     void whenFindByEmail_thenReturnUser() {
         List<Long> favorites= new ArrayList<>();
         favorites.add(1L);
         favorites.add(2L);
@@ -56,7 +56,7 @@ public class UserRepositoryUnitTests {
     }
 
     @Test
-    public void whenInvalidEmail_thenReturnNull() {
+     void whenInvalidEmail_thenReturnNull() {
         User fromDb = userRepository.findByEmail("DoesNotExist@email.com");
         assertThat(fromDb).isNull();
     }
