@@ -10,7 +10,6 @@ import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.User;
 import tqs.ua.pt.homies_marketplace.repository.PlaceRepository;
 import tqs.ua.pt.homies_marketplace.repository.UserRepository;
-import tqs.ua.pt.homies_marketplace.service.PlaceService;
 import tqs.ua.pt.homies_marketplace.service.UserService;
 
 import java.util.ArrayList;
@@ -73,10 +72,10 @@ public class WebController {
 
     @PostMapping("/login")
     String loginSubmit(@ModelAttribute LoginRegistrationForm loginRegistrationForm, Model model){
-        System.out.println("login - all users: " + userService.getAllUsers());
-        if (userService.getUserByEmail(loginRegistrationForm.getEmail()) != null){
-            if (userService.getUserByEmail(loginRegistrationForm.getEmail()).getPassword().equals(loginRegistrationForm.getPassword())){
-                User user = userService.getUserByEmail(loginRegistrationForm.getEmail());
+        System.out.println("login - all users: " + userController.getAllUsers());
+        if (userController.getUserByEmail(loginRegistrationForm.getEmail()) != null){
+            if (userController.getUserByEmail(loginRegistrationForm.getEmail()).getPassword().equals(loginRegistrationForm.getPassword())){
+                User user = userController.getUserByEmail(loginRegistrationForm.getEmail());
                 System.out.println("logged user: " + user);
                 user_status = "user_logged";
                 model.addAttribute("user_status",user_status);

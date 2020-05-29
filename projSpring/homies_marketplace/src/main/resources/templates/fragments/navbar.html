@@ -4,7 +4,7 @@
     <link  th:href="@{/css/fragments.css}" href="/css/fragments.css" rel="stylesheet" media="all">
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-light">
+<nav class="navbar navbar-expand-md navbar-light" th:switch="${logged}">
     <a href="/" class="navbar-brand">
         <img th:src="@{/media/logo.png}" height="70" alt="Homies">
     </a>
@@ -12,7 +12,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarCollapse">
+    <div th:case="'not_logged'" class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav">
         </div>
         <th:block th:switch="${user_status}">
@@ -25,6 +25,12 @@
             </div>
         </th:block>
     </div>
+
+<div th:case="'logged'">
+    <div class="navbar-nav">
+    </div>
+</div>
 </nav>
+
 </body>
 </html>
