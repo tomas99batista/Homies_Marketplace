@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tqs.ua.pt.homies_marketplace.dtos.PlaceDTO;
+import tqs.ua.pt.homies_marketplace.dtos.UserDTO;
 import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.PlaceId;
 import tqs.ua.pt.homies_marketplace.models.User;
@@ -11,8 +13,10 @@ import tqs.ua.pt.homies_marketplace.service.PlaceService;
 import tqs.ua.pt.homies_marketplace.service.UserService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
+@RequestMapping("/api")
 public class UserController {
 
     @Autowired
@@ -37,7 +41,8 @@ public class UserController {
 
     //publish new house
     @PostMapping("/users/{email}/publishedHouses")
-    public boolean addPublishedHouse(@PathVariable("email") String email, @RequestBody Place place){
+    public boolean addPublishedHouse(@PathVariable("email") String email, @RequestBody PlaceDTO placeDTO){
+        Place place= new Place(placeDTO);
         return userService.addPublishedHouse(email, place);
     }
 
@@ -47,19 +52,24 @@ public class UserController {
         return placeService.getPublishedHouses(email);
     }
 
-
-
     @PostMapping("/users")
-    public ResponseEntity<User> createUser(@RequestBody User user){
+    public ResponseEntity<User> createUser(@RequestBody UserDTO userDTO){
         HttpStatus status=HttpStatus.CREATED;
+        User user= new User(userDTO);
         User saved=userService.save(user);
         return new ResponseEntity<>(saved, status);
     }
+
     // get all users
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
+    // get users by email
+    @GetMapping("/users/{email}")
+    public User getUserByEmail(@PathVariable("email") String email){
+        return userService.getUserByEmail(email);
+    }
 
 }

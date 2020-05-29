@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -34,17 +35,70 @@ public class SearchResultsFragment extends Fragment {
 
         Bundle bundle=this.getArguments();
         if (bundle!=null){
-            if (bundle.getString("query")!=null){
-                String city=bundle.getString("query");
-                searchByCity(city);
-            }
+                String city=bundle.getString("city");
+                String minPrice=bundle.getString("minPrice");
+                String maxPrice=bundle.getString("maxPrice");
+                String bedrooms=bundle.getString("bedrooms");
+                String bathrooms=bundle.getString("bathrooms");
+                String rating=bundle.getString("rating");
+                String type=bundle.getString("type");
+                search(city, type, minPrice, maxPrice, bedrooms, bathrooms, rating);
+
         }
         return root;
     }
 
-    private void searchByCity(String city){
+    private void search(String city, String type, String minPrice, String maxPrice, String bedrooms, String bathrooms, String rating){
+        String initialUrl="http://10.0.2.2:8080/search/";
+        String searchUrl="";
+        if (city!=null && !city.equals("")){
+            searchUrl+="?city="+city;
+        }
+        if (type!=null && !type.equals("") && searchUrl.isEmpty()){
+            searchUrl+="?type="+type;
+        }
+        if (type!=null && !type.equals("") && !searchUrl.isEmpty() && !searchUrl.contains("type")){
+            searchUrl+="&type="+type;
+        }
+        if (minPrice!=null && !minPrice.equals("") && searchUrl.isEmpty()){
+            searchUrl+="?minPrice="+minPrice;
+        }
+        if (minPrice!=null && !minPrice.equals("") && !searchUrl.isEmpty() && !searchUrl.contains("minPrice")){
+            searchUrl+="&minPrice="+minPrice;
+        }
+        if (maxPrice!=null && !maxPrice.equals("") && searchUrl.isEmpty()){
+            searchUrl+="?maxPrice="+maxPrice;
+        }
+        if (maxPrice!=null && !maxPrice.equals("") && !searchUrl.isEmpty() && !searchUrl.contains("maxPrice")){
+            searchUrl+="&maxPrice="+maxPrice;
+        }
+        if (bedrooms!=null && !bedrooms.equals("") && searchUrl.isEmpty()){
+            searchUrl+="?bedrooms="+bedrooms;
+        }
+        if (bedrooms!=null && !bedrooms.equals("") && !searchUrl.isEmpty() && !searchUrl.contains("bedrooms")){
+            searchUrl+="&bedrooms="+bedrooms;
+        }
+
+        if (bathrooms!=null && !bathrooms.equals("") && searchUrl.isEmpty()){
+            searchUrl+="?bathrooms="+bathrooms;
+        }
+        if (bathrooms!=null && !bathrooms.equals("") && !searchUrl.isEmpty() && !searchUrl.contains("bathrooms")){
+            searchUrl+="&bathrooms="+bathrooms;
+        }
+
+        if (rating!=null && !rating.equals("0.0") && searchUrl.isEmpty()){
+            searchUrl+="?rating="+rating;
+        }
+        if (rating!=null && !rating.equals("0.0") && !searchUrl.isEmpty() && !searchUrl.contains("rating")){
+            searchUrl+="&rating="+rating;
+        }
+
+        Log.d("url", searchUrl);
+        String fullUrl=initialUrl+searchUrl;
+
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-        Call<List<Place>> callSearch=service.search(city);
+        Call<List<Place>> callSearch=service.search(fullUrl);
+
         callSearch.enqueue(new Callback<List<Place>>() {
             @Override
             public void onResponse(Call<List<Place>> call, Response<List<Place>> response) {
@@ -57,6 +111,8 @@ public class SearchResultsFragment extends Fragment {
 
             }
         });
+
+
     }
 
     private void generateResults(final List<Place> placeList){

@@ -15,7 +15,7 @@ import java.util.List;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class PlaceRepositoryUnitTest {
+ class PlaceRepositoryUnitTest {
 
     @Autowired
     private TestEntityManager entityManager;
@@ -24,7 +24,7 @@ public class PlaceRepositoryUnitTest {
     private PlaceRepository placeRepository;
 
     @Test
-    public void whenFindById_thenReturnPlace() {
+     void whenFindById_thenReturnPlace() {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
@@ -38,27 +38,33 @@ public class PlaceRepositoryUnitTest {
     }
 
     @Test
-    public void whenInvalidId_thenReturnNull() {
+     void whenInvalidId_thenReturnNull() {
         Place fromDb = placeRepository.findById(-1L);
         assertThat(fromDb).isNull();
     }
 
     @Test
-    public void whenFindByCity_thenReturnPlace() {
+     void whenFindByCity_thenReturnPlace() {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "city", new ArrayList<>(), "photo1");
+        Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "cityTesting", new ArrayList<>(), "photo1");
         entityManager.persistAndFlush(place);
 
-        List<Place> found = placeRepository.findByCity("city");
+        List<Place> found = placeRepository.findByCity("cityTesting");
         assertThat(found).hasSize(1).extracting(Place::getTitle).containsOnly(place.getTitle());
     }
 
     @Test
-    public void whenInvalidName_thenReturnNull() {
+     void whenInvalidName_thenReturnNull() {
         List<Place> fromDb = placeRepository.findByCity("CityDoesNotExist");
         assertThat(fromDb).isEmpty();
     }
+
+
+
+
+
+
 
 }

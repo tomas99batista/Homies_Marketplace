@@ -4,17 +4,17 @@ import com.google.gson.annotations.SerializedName;
 
 public class PlaceId {
 
-    @SerializedName("placeId")
-    private long placeId;
+    @SerializedName("id")
+    private long id;
 
     public PlaceId(){
 
     }
-    public PlaceId(long placeId) {
-        this.placeId = placeId;
+    public PlaceId(long id) {
+        this.id = id;
     }
 
-    public long getPlaceId() {
-        return placeId;
+    public long getId() {
+        return id;
     }
 }

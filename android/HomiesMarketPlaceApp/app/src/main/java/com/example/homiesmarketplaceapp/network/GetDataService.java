@@ -14,6 +14,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 public interface GetDataService {
 
@@ -23,8 +24,8 @@ public interface GetDataService {
     @GET("/places/{id}/")
     Call<Place> getPlaceDetails(@Path("id") long placeId);
 
-    @GET("/search/")
-    Call<List<Place>> search(@Query("city") String city);
+    @GET
+    Call<List<Place>> search(@Url String url);
 
     @GET("/places/{id}/reviews/")
     Call<List<Review>> getPlaceReviews(@Path("id") long placeId);
