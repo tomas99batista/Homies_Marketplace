@@ -15,10 +15,15 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav">
         </div>
-        <div class="navbar-nav ml-auto btn-active">
-            <a href="" class="nav-item">Login</a>
-            <a href="/register" class="nav-item">Register</a>
-        </div>
+        <th:block th:switch="${user_status}">
+            <div th:case="'user_not_logged'" class="navbar-nav ml-auto btn-active" >
+                <a href="login" class="nav-item">Login</a>
+                <a href="/register" class="nav-item">Register</a>
+            </div>
+            <div th:case="'user_logged'" class="navbar-nav ml-auto btn-active" >
+                <span th:text="${user_status}"></span>
+            </div>
+        </th:block>
     </div>
 </nav>
 </body>
