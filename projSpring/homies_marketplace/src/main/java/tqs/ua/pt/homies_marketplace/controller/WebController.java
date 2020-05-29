@@ -4,20 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import tqs.ua.pt.homies_marketplace.models.Place;
-
 import org.springframework.web.bind.annotation.*;
 import tqs.ua.pt.homies_marketplace.form.LoginRegistrationForm;
 import tqs.ua.pt.homies_marketplace.form.UserRegistrationForm;
-
+import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.User;
 import tqs.ua.pt.homies_marketplace.repository.PlaceRepository;
 import tqs.ua.pt.homies_marketplace.repository.UserRepository;
-import tqs.ua.pt.homies_marketplace.service.PlaceService;
 import tqs.ua.pt.homies_marketplace.service.UserService;
 
 import java.util.ArrayList;
@@ -28,10 +21,17 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @Controller
 public class WebController {
     @Autowired
-    PlaceService placeService;
+    PlaceController placeController; // Podemos usar este e chamamos os metodos da API
+    @Autowired
+    PlaceRepository placeRepository; // OU USAR O REPOSITORY E CHAMAR PELO REPOSITORY
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    UserController userController; // Podemos usar este e chamamos os metodos da API
+    @Autowired
+    UserRepository userRepository; // OU USAR O REPOSITORY E CHAMAR PELO REPOSITORY
 
     @RequestMapping(method = GET, value = "/")
     String index(Model model){
@@ -47,8 +47,8 @@ public class WebController {
 
     @PostMapping("/register")
     String registerSubmit(@ModelAttribute UserRegistrationForm userRegistrationForm){
-        System.out.println("all users: " + userService.getAllUsers());
-        if (userService.getUserByEmail(userRegistrationForm.getEmail()) == null){
+        System.out.println("all users: " + userController.getAllUsers());
+        if (userController.getUserByEmail(userRegistrationForm.getEmail()) == null){
             User user = new User();
             user.setEmail(userRegistrationForm.getEmail());
             user.setFirstName(userRegistrationForm.getFirstName());
@@ -72,10 +72,10 @@ public class WebController {
 
     @PostMapping("/login")
     String loginSubmit(@ModelAttribute LoginRegistrationForm loginRegistrationForm, Model model){
-        System.out.println("login - all users: " + userService.getAllUsers());
-        if (userService.getUserByEmail(loginRegistrationForm.getEmail()) != null){
-            if (userService.getUserByEmail(loginRegistrationForm.getEmail()).getPassword().equals(loginRegistrationForm.getPassword())){
-                User user = userService.getUserByEmail(loginRegistrationForm.getEmail());
+        System.out.println("login - all users: " + userController.getAllUsers());
+        if (userController.getUserByEmail(loginRegistrationForm.getEmail()) != null){
+            if (userController.getUserByEmail(loginRegistrationForm.getEmail()).getPassword().equals(loginRegistrationForm.getPassword())){
+                User user = userController.getUserByEmail(loginRegistrationForm.getEmail());
                 System.out.println("logged user: " + user);
                 model.addAttribute("user_logged", user);
                 return "index";
@@ -124,6 +124,7 @@ public class WebController {
         //List<Place> placesbycity = placeController.search_by_city(city);
         List<String> cities = placeController.getAllCities();
         System.out.println("City>> " + city);
+        List<String> cities = placeController.getAllCities();
         List<Place> places = placeController.getAllPlaces();
         System.out.println(cities);
         List<Place> returnPlaces = new ArrayList<>();
@@ -133,7 +134,7 @@ public class WebController {
         }
         System.out.println(returnPlaces);
         model.addAttribute("places", returnPlaces);
-        model.addAttribute("cities", cities);
+        model.addAttribute("cities",cities);
         return "houseList";
     }
 
