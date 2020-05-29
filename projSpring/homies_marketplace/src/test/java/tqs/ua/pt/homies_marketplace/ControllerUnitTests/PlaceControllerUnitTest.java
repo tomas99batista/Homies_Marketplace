@@ -46,7 +46,7 @@ import static org.mockito.Mockito.reset;
     void whenPostReview_thenReturnTrue() throws Exception{
        Review review= new Review("jose@email.com", 4.0, "comment1");
        given(service.addReview(1L, review)).willReturn(true);
-       mvc.perform(post("/places/1/reviews").contentType(MediaType.APPLICATION_JSON)
+       mvc.perform(post("/api/places/1/reviews").contentType(MediaType.APPLICATION_JSON)
                .content(JsonUtil.toJson(review))).andReturn().getResponse().getContentAsString().equals("true");
        verify(service, VerificationModeFactory.times(1)).addReview(Mockito.anyLong(), Mockito.any());
        reset(service);
@@ -59,7 +59,7 @@ import static org.mockito.Mockito.reset;
 
        given(service.getReviews(1L)).willReturn(reviews);
 
-       mvc.perform(get("/places/1/reviews").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+       mvc.perform(get("/api/places/1/reviews").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                .andExpect(jsonPath("$", hasSize(1)))
                .andExpect(jsonPath("$[0].email", is(review.getEmail())));
        verify(service, VerificationModeFactory.times(1)).getReviews(1L);
@@ -75,7 +75,7 @@ import static org.mockito.Mockito.reset;
         Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
         given(service.save(Mockito.any())).willReturn(place);
 
-        mvc.perform(post("/places").contentType(MediaType.APPLICATION_JSON).content(JsonUtil.toJson(place))).andExpect(status().isCreated())
+        mvc.perform(post("/api/places").contentType(MediaType.APPLICATION_JSON).content(JsonUtil.toJson(place))).andExpect(status().isCreated())
                 .andExpect(jsonPath("$.title", is("title1")));
         verify(service, VerificationModeFactory.times(1)).save(Mockito.any());
         reset(service);
@@ -94,7 +94,7 @@ import static org.mockito.Mockito.reset;
 
         given(service.getAllPlaces()).willReturn(allPlaces);
 
-        mvc.perform(get("/places").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+        mvc.perform(get("/api/places").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].title", is(place.getTitle())));
         verify(service, VerificationModeFactory.times(1)).getAllPlaces();
@@ -110,7 +110,7 @@ import static org.mockito.Mockito.reset;
 
         given(service.getPlaceById(1L)).willReturn(place);
 
-        mvc.perform(get("/places/1").contentType(MediaType.APPLICATION_JSON))
+        mvc.perform(get("/api/places/1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.title", is("title1")));
         verify(service, VerificationModeFactory.times(1)).getPlaceById(1L);
         reset(service);
@@ -125,7 +125,7 @@ import static org.mockito.Mockito.reset;
         List<Place> allPlaces = Arrays.asList(place);
         PlaceDTO placeDTO= new PlaceDTO(place.getCity(), null, null, null, null, null);
         given(service.search(Mockito.any(), Mockito.anyString(), Mockito.anyString())).willReturn(allPlaces);
-        mvc.perform(get("/search?city=aveiro&minPrice=0&maxPrice=5").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+        mvc.perform(get("/api/search?city=aveiro&minPrice=0&maxPrice=5").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].title", is(place.getTitle())));
         verify(service, VerificationModeFactory.times(1)).search(Mockito.any(), Mockito.anyString(), Mockito.anyString());

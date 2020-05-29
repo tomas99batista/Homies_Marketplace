@@ -1,7 +1,6 @@
 package tqs.ua.pt.homies_marketplace.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -121,6 +120,7 @@ public class WebController {
     @RequestMapping(method = RequestMethod.GET, value="/places/city/{city}")
     public String places_by_city(Model model, @PathVariable("city") String city) {
         //Quando tiver alguma coisa na bd
+        //usa o search em vez de search_by_city
         //List<Place> placesbycity = placeController.search_by_city(city);
         System.out.println("City>> " + city);
         List<String> cities = placeController.getAllCities();

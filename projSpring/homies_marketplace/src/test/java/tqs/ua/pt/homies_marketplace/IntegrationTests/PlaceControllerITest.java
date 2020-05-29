@@ -64,7 +64,7 @@ class PlaceControllerITest {
         placeRepository.saveAndFlush(place);
         long placeId=place.getId();
         Review review= new Review("jose@email.com", 4.0, "comment1");
-        mvc.perform(post("/places/"+placeId+"/reviews").contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(post("/api/places/"+placeId+"/reviews").contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.toJson(review))).andReturn().getResponse().getContentAsString().equals(true);
     }
 
@@ -81,7 +81,7 @@ class PlaceControllerITest {
         Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "city", reviews, "photo1");
         placeRepository.saveAndFlush(place);
         long placeId=place.getId();
-        mvc.perform(get("/places/"+placeId+"/reviews").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+        mvc.perform(get("/api/places/"+placeId+"/reviews").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].email", is(review.getEmail())));
 
@@ -95,7 +95,7 @@ class PlaceControllerITest {
         Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "city", new ArrayList<>(), "photo1");
         placeRepository.saveAndFlush(place);
 
-        mvc.perform(post("/places").contentType(MediaType.APPLICATION_JSON).content(JsonUtil.toJson(place))).andExpect(status().isCreated())
+        mvc.perform(post("/api/places").contentType(MediaType.APPLICATION_JSON).content(JsonUtil.toJson(place))).andExpect(status().isCreated())
                 .andExpect(jsonPath("$.title", is("title1")));
     }
 
@@ -108,7 +108,7 @@ class PlaceControllerITest {
 
         placeRepository.saveAndFlush(place);
 
-        mvc.perform(get("/places").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+        mvc.perform(get("/api/places").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].title", is(place.getTitle())));
     }
@@ -121,7 +121,7 @@ class PlaceControllerITest {
         Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "city", new ArrayList<>(), "photo1");
 
         Place saved=placeRepository.saveAndFlush(place);
-        mvc.perform(get("/places/"+saved.getId()).contentType(MediaType.APPLICATION_JSON))
+        mvc.perform(get("/api/places/"+saved.getId()).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.title", is("title1")));
 
     }
@@ -135,7 +135,7 @@ class PlaceControllerITest {
 
         placeRepository.saveAndFlush(place);
 
-        mvc.perform(get("/search?city=city").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+        mvc.perform(get("/api/search?city=city").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].title", is(place.getTitle())));
 
@@ -150,7 +150,7 @@ class PlaceControllerITest {
 
         placeRepository.saveAndFlush(place);
 
-        mvc.perform(get("/search?city=city&price=5&rating=5&bathrooms=1&bedrooms=1&type=type1").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+        mvc.perform(get("/api/search?city=city&price=5&rating=5&bathrooms=1&bedrooms=1&type=type1").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].title", is(place.getTitle())));
 
@@ -165,7 +165,7 @@ class PlaceControllerITest {
 
         placeRepository.saveAndFlush(place);
 
-        mvc.perform(get("/search?minPrice=0&maxPrice=5").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+        mvc.perform(get("/api/search?minPrice=0&maxPrice=5").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].title", is(place.getTitle())));
 
@@ -180,7 +180,7 @@ class PlaceControllerITest {
 
         placeRepository.saveAndFlush(place);
 
-        mvc.perform(get("/search?minPrice=0").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+        mvc.perform(get("/api/search?minPrice=0").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].title", is(place.getTitle())));
 
@@ -195,7 +195,7 @@ class PlaceControllerITest {
 
         placeRepository.saveAndFlush(place);
 
-        mvc.perform(get("/search?maxPrice=5").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+        mvc.perform(get("/api/search?maxPrice=5").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].title", is(place.getTitle())));
 

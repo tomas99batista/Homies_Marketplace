@@ -69,7 +69,7 @@ class UserControllerITest {
         User user= new User(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
         PlaceId placeId= new PlaceId(saved.getId());
         userRepository.saveAndFlush(user);
-        String result=mvc.perform(post("/users/jose@email.com/favorites").contentType(MediaType.APPLICATION_JSON)
+        String result=mvc.perform(post("/api/users/jose@email.com/favorites").contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.toJson(placeId))).andReturn().getResponse().getContentAsString();
         assertThat(result).isEqualTo("true");
     }
@@ -88,7 +88,7 @@ class UserControllerITest {
         User user= new User(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
         userRepository.saveAndFlush(user);
 
-        mvc.perform(get("/users").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+        mvc.perform(get("/api/users").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].email", is(user.getEmail())));
     }
@@ -112,7 +112,7 @@ class UserControllerITest {
         String city="Aveiro";
         User user= new User(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
         userRepository.saveAndFlush(user);
-        mvc.perform(get("/users/josefrias@email.com/publishedHouses").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+        mvc.perform(get("/api/users/josefrias@email.com/publishedHouses").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].title", is(place.getTitle())));
 
@@ -137,7 +137,7 @@ class UserControllerITest {
         String city="Aveiro";
         User user= new User(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
         userRepository.saveAndFlush(user);
-        mvc.perform(get("/users/josefrias@email.com/favorites").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+        mvc.perform(get("/api/users/josefrias@email.com/favorites").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].title", is(place.getTitle())));
     }

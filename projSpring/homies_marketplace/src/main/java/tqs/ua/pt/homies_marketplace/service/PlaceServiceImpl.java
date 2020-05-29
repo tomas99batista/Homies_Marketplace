@@ -10,8 +10,6 @@ import tqs.ua.pt.homies_marketplace.models.Review;
 import tqs.ua.pt.homies_marketplace.repository.PlaceRepository;
 
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
 import java.util.List;
 
 
