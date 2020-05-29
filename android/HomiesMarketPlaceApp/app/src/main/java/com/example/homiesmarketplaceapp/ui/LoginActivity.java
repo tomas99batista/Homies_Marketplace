@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.homiesmarketplaceapp.MainActivity;
 import com.example.homiesmarketplaceapp.R;
@@ -62,8 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         String mail=email.getText().toString();
         String pass=password.getText().toString();
         postLogin(mail, pass);
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(intent);
+
     }
     private void goToRegister(){
         Intent intent= new Intent(LoginActivity.this, RegisterActivity.class);
@@ -77,9 +77,15 @@ public class LoginActivity extends AppCompatActivity {
         callLogin.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
+                Log.d("logged in", response.body().toString());
                 if (response.body()!=null){
                     Log.d("logged in", "log");
                     writeUserEmailToPreferences(response.body());
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Error in credentials", Toast.LENGTH_SHORT).show();
                 }
             }
 

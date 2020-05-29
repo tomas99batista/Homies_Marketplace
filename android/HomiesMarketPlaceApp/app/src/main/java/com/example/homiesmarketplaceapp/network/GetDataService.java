@@ -18,37 +18,37 @@ import retrofit2.http.Url;
 
 public interface GetDataService {
 
-    @GET("/places/")
+    @GET("api/places/")
     Call<List<Place>> getAllPlaces();
 
-    @GET("/places/{id}/")
+    @GET("api/places/{id}/")
     Call<Place> getPlaceDetails(@Path("id") long placeId);
 
     @GET
     Call<List<Place>> search(@Url String url);
 
-    @GET("/places/{id}/reviews/")
+    @GET("api/places/{id}/reviews/")
     Call<List<Review>> getPlaceReviews(@Path("id") long placeId);
 
 
-    @POST("/users/{email}/favorites/")
+    @POST("api/users/{email}/favorites/")
     Call<String> addPlaceToFavorites(@Path("email") String email, @Body PlaceId body);
 
-    @GET("/users/{email}/favorites/")
+    @GET("api/users/{email}/favorites/")
     Call<List<Place>> getFavoritePlaces(@Path("email") String email);
 
-    @POST("/places/{id}/reviews/")
+    @POST("api/places/{id}/reviews/")
     Call<String> addReview(@Path("id") long placeId, @Body Review review);
 
-    @POST("/users/")
+    @POST("api/users/")
     Call<User> registerUser(@Body User body);
 
-    @GET("/users/{email}/publishedHouses/")
+    @GET("api/users/{email}/publishedHouses/")
     Call<List<Place>> getPublishedHouses(@Path("email") String email);
 
-    @POST("/users/{email}/publishedHouses/")
+    @POST("api/users/{email}/publishedHouses/")
     Call<String> addPublishedHouse(@Path("email") String email, @Body Place body);
 
-    @POST("/login/")
+    @POST("api/login/")
     Call<User> login(@Body User user);
 }

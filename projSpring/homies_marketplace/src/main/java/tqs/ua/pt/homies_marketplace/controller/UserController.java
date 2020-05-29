@@ -72,4 +72,15 @@ public class UserController {
         return userService.getUserByEmail(email);
     }
 
+    @PostMapping("/login")
+    public User login(@RequestBody UserDTO userDTO){
+        if (userService.exists(userDTO.getEmail())){
+            User user= userService.getUserByEmail(userDTO.getEmail());
+            if (user.getPassword().equals(userDTO.getPassword())){
+                return user;
+            }
+            return null;
+        }
+        return null;
+    }
 }

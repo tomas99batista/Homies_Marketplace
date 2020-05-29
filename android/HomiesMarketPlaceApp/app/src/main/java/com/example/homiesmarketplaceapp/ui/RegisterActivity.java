@@ -57,8 +57,9 @@ public class RegisterActivity extends AppCompatActivity {
         registerUser.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
+                Log.d("user created", response.body().toString());
                 if (response.body()!=null){
-                    Log.d("user created", "user created");
+
                     Intent intent= new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
@@ -66,6 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                Log.d("user not created", t.getLocalizedMessage());
 
             }
         });

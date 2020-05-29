@@ -49,7 +49,7 @@ public class SearchResultsFragment extends Fragment {
     }
 
     private void search(String city, String type, String minPrice, String maxPrice, String bedrooms, String bathrooms, String rating){
-        String initialUrl="http://10.0.2.2:8080/search/";
+        String initialUrl="http://10.0.2.2:8080/api/search/";
         String searchUrl="";
         if (city!=null && !city.equals("")){
             searchUrl+="?city="+city;
