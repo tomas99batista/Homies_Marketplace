@@ -58,10 +58,18 @@ public class PlaceServiceImpl implements PlaceService{
             Review saved=reviewService.save(review);
             //get id of the review
             if (saved!=null) {
+
+
+
                 long savedId = saved.getId();
 
                 //save it in places_review
-                return placeRepository.insertReview(placeId, savedId) == 1;
+                if (placeRepository.insertReview(placeId, savedId) == 1){
+                    //update rating
+                    placeRepository.updatePlaceRating(placeId);
+                    return true;
+                }
+                return false;
             }
             return false;
         }
