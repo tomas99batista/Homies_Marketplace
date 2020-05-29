@@ -1,5 +1,6 @@
 package com.example.homiesmarketplaceapp.ui.addHouse;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.preference.PreferenceManager;
 
 import com.example.homiesmarketplaceapp.R;
 import com.example.homiesmarketplaceapp.model.Place;
@@ -35,6 +37,7 @@ public class AddHouseFragment extends Fragment {
     EditText New_place_no_bathrooms;
     Button submitHouse;
     View root;
+    String email;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_add_house, container, false);
@@ -47,6 +50,9 @@ public class AddHouseFragment extends Fragment {
         New_place_no_bedrooms=root.findViewById(R.id.New_place_no_bedrooms);
         New_place_no_bathrooms=root.findViewById(R.id.New_place_no_bathrooms);
         submitHouse=root.findViewById(R.id.submitHouse);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        email=prefs.getString("email", "");
+
 
         submitHouse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +66,6 @@ public class AddHouseFragment extends Fragment {
     }
 
     private void addHouse(){
-        String email="jose@email.com";
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         String imageUrl= NewplaceImage.getText().toString();
         String placeTitle=New_place_title.getText().toString();

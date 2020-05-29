@@ -1,5 +1,6 @@
 package com.example.homiesmarketplaceapp.ui.publishedHouses;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,10 +31,13 @@ import retrofit2.Response;
 public class PublishedHousesFragment extends Fragment {
     View root;
     FloatingActionButton addHouse;
+    String email;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_published_houses, container, false);
         addHouse=root.findViewById(R.id.addHouse);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        email=prefs.getString("email", "");
 
         addHouse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,7 +52,6 @@ public class PublishedHousesFragment extends Fragment {
 
     private void getUserPublishedHouses(){
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-        String email="jose@email.com";
         Call<List<Place>> callPublishedHouses=service.getPublishedHouses(email);
         callPublishedHouses.enqueue(new Callback<List<Place>>() {
             @Override

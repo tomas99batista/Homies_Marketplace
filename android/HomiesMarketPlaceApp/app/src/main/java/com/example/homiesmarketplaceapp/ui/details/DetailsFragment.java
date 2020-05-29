@@ -1,6 +1,7 @@
 package com.example.homiesmarketplaceapp.ui.details;
 
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -47,6 +49,7 @@ public class DetailsFragment extends Fragment {
     RecyclerView reviews;
 
     ReviewAdapter adapter;
+    String email;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_details, container, false);
@@ -60,6 +63,8 @@ public class DetailsFragment extends Fragment {
         placeNoBathrooms=root.findViewById(R.id.details_place_no_bathrooms);
         placeType=root.findViewById(R.id.details_place_type);
         reviews=root.findViewById(R.id.recycler_view_reviews);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        email=prefs.getString("email", "");
 
         Bundle bundle=this.getArguments();
         if (bundle!=null) {
@@ -162,7 +167,7 @@ public class DetailsFragment extends Fragment {
 
     private void postReview(long placeId, String comment, float rating){
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-        Call<String> callAddReview=service.addReview(placeId, new Review("jose@email.com",comment, rating));
+        Call<String> callAddReview=service.addReview(placeId, new Review(email,comment, rating));
         callAddReview.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {

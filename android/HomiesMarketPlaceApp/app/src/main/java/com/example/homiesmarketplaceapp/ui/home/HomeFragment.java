@@ -1,6 +1,7 @@
 package com.example.homiesmarketplaceapp.ui.home;
 
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,12 +39,14 @@ public class HomeFragment extends Fragment {
 
     ProgressDialog progressDialog;
     View root;
+    String email;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         root = inflater.inflate(R.layout.fragment_home, container, false);
-
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        email=prefs.getString("email", "");
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Loading....");
         progressDialog.show();
@@ -99,7 +103,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onAddToFavorites(int position) {
                 Log.d("adding to favorites", "adding to favorites");
-                String email="jose@email.com";
                 addPlaceToFavorites(email, placeList.get(position).getId());
             }
         });
