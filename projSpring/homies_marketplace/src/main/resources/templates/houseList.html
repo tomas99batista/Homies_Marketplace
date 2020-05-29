@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+	<title>Homies</title>
+
+	<!-- Bootstrap CSS-->
+	<link th:href="@{/css/bootstrap.min.css}" href="/css/bootstrap.min.css" rel="stylesheet" media="all">
+
+	<!-- Main CSS-->
+	<link  th:href="@{/css/houseList.css}" href="/css/houselist.css" rel="stylesheet" media="all">
+
+	<!-- Bootstrap JS-->
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div th:replace="fragments/navbar"></div>
+
+	<div class="mainBod">
+		<div style="margin-bottom: 20px;"></div>
+		<div class="wrapper">
+			<div class="col-2 filterTab">
+				<h2 style="text-align: center; color: #0099ff">Find your place</h2>
+				<div class="form-group has-search">
+					<span class="fa fa-search form-control-feedback"></span>
+					<input id="searchBar" type="text" class="form-control" placeholder="Search" style="max-width: 250px">
+				</div>
+
+				<div class="row">
+					<div class="col-12">
+						<form method="post" th:object="${cities}">
+							<div class="form-group">
+								<label>City</label>
+								<select id="cities_filter" onchange="val()" class="form-control select2-single" style="border-radius: 20px; z-index:999">
+									<option th:each="city : ${cities}" th:value="${city}" th:text='${city}'></option>
+								</select>
+							</div>
+
+							<button class="btn btn-primary" type="submit">Submit form</button>
+						</form>
+					</div>
+
+				</div>
+			</div>
+			<div class="col-9 houseTab">
+				<div class="" th:each="place: ${places}">
+					<section class="section mt-5">
+						<div class="container houseCard">
+							<div class="row">
+								<div class="col-md-6">
+									<div>
+										<img alt="room" class="img-fluid"  onclick="window.open('/places/1')" th:src="@{/media/room-1.jpg}" />
+									</div>
+								</div>
+								<div class="col-md-6 col-lg-5 ml-auto d-flex align-items-center mt-4 mt-md-0">
+									<div>
+										<h2 th:text="${place['title']}"></h2>
+										<div th:text="${place['numberBedrooms']} + ' bedrooms'"></div>
+										<div th:text="${place['numberBathrooms']} + ' bathrooms'"></div>
+										<div th:text="'Rating: ' + ${place['rating']}"></div>
+										<div th:text="${place['price'] + '€/mês'}"></div>
+										<div th:text="${place['city']}"></div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+				</div>
+
+
+			</div>
+			<div class="col-1"></div>
+			<div>
+		</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		function searchPlace(){
+			document.getElementById("searchBar");
+			var arrayLocals = document.getElementsByClassName("searchResult");
+			for(var i = 0; i < arrayLocals.len; i++){
+				if(arrayLocals[i].innerText != "Lisboa"){
+					arrayLocals[i].style.display = "none";
+				}
+			}
+		}
+
+	$('#cities_filter').change(function(){
+    	console.log($(this).val());
+		//$.ajax({
+    	//	type:"post",
+    	//	data:{ "city", $(this).val() },
+    	//	url:"/places",
+    	//	dataType: "json",
+    	//	success: function(result){
+       	//		$(element).append(result);
+    	//	}
+		//});
+	})
+	</script>
+</body>
+</html>

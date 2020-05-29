@@ -3,6 +3,8 @@ package tqs.ua.pt.homies_marketplace.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import tqs.ua.pt.homies_marketplace.dtos.PlaceDTO;
 import tqs.ua.pt.homies_marketplace.dtos.UserDTO;
@@ -13,6 +15,7 @@ import tqs.ua.pt.homies_marketplace.service.PlaceService;
 import tqs.ua.pt.homies_marketplace.service.UserService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class UserController {
@@ -50,8 +53,6 @@ public class UserController {
         return placeService.getPublishedHouses(email);
     }
 
-
-
     @PostMapping("/users")
     public ResponseEntity<User> createUser(@RequestBody UserDTO userDTO){
         HttpStatus status=HttpStatus.CREATED;
@@ -59,11 +60,17 @@ public class UserController {
         User saved=userService.save(user);
         return new ResponseEntity<>(saved, status);
     }
+
     // get all users
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
+    // get users by email
+    @GetMapping("/users/{email}")
+    public User getUserByEmail(@PathVariable("email") String email){
+        return userService.getUserByEmail(email);
+    }
 
 }

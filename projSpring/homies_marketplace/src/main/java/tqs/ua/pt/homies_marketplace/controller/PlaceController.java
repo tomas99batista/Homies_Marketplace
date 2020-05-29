@@ -1,6 +1,8 @@
 package tqs.ua.pt.homies_marketplace.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,9 +12,12 @@ import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.Review;
 import tqs.ua.pt.homies_marketplace.service.PlaceService;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/places")
 public class PlaceController {
 
     @Autowired
@@ -21,7 +26,6 @@ public class PlaceController {
 
     @GetMapping("/places/{id}/reviews")
     public List<Review> getReviews(@PathVariable("id") long id){
-
         return placeService.getReviews(id);
     }
 
@@ -39,22 +43,40 @@ public class PlaceController {
         return new ResponseEntity<>(saved, status);
     }
 
-    // get all places
+    //get all places
     @GetMapping("/places")
     public List<Place> getAllPlaces() {
         return placeService.getAllPlaces();
+    }
 
+    @GetMapping("/places/{city}")
+    public List<Place> search_by_city(@PathVariable("city") String city){
+        return placeService.searchByCity(city);
     }
 
     @GetMapping("/places/{id}")
-    public Place getPlaceDetails(@PathVariable("id") long id){
+    public Place getPlaceById(@PathVariable("id") long id) {
         return placeService.getPlaceById(id);
     }
 
-    @GetMapping("/search")
+    public List<String> getAllCities(){
+        List<String> cities = new ArrayList<>();
+        cities.add("Aveiro");
+        cities.add("Viseu");
+        cities.add("Porto");
+        cities.add("Lisboa");
+        cities.add("Vila Real");
+        cities.add("Guarda");
+        cities.add("Braga");
+        cities.add("Bragança");
+        cities.add("Portalegre");
+        cities.add("Leiria");
+        cities.add("Évora");
+        return cities;
+
+  @GetMapping("/search")
     public List<Place> search(@RequestParam(value = "city", required = false) String city, @RequestParam(value="price", required = false ) String price, @RequestParam(value="rating", required = false ) String rating, @RequestParam(value = "bedrooms", required = false) String bedrooms, @RequestParam(value = "bathrooms", required = false) String bathrooms, @RequestParam(value = "type", required = false) String type, @RequestParam(value = "minPrice", required = false) String minPrice, @RequestParam(value = "maxPrice", required = false) String maxPrice)  {
         PlaceDTO placeDTO= new PlaceDTO(city, price, rating, bedrooms, bathrooms, type);
         return placeService.search(placeDTO, minPrice, maxPrice);
-
     }
 }
