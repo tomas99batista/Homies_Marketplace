@@ -51,4 +51,7 @@ public interface GetDataService {
 
     @POST("api/login/")
     Call<User> login(@Body User user);
+
+    @POST("/api/users/{email}/booking/")
+    Call<String> addHouseBooking(@Path("email") String email, @Body PlaceId body);
 }

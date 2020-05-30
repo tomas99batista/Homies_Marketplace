@@ -99,7 +99,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
 
         holder.placeType.setText(dataList.get(position).getType());
         holder.placeLocation.setText(dataList.get(position).getCity());
-        holder.placePrice.setText(String.valueOf(dataList.get(position).getPrice()) + " euros/month");
+        holder.placePrice.setText(((int)dataList.get(position).getPrice()) + " €/month");
         holder.placeBedrooms.setText(dataList.get(position).getNumberBedrooms() + " bedrooms");
         holder.placeBathrooms.setText(dataList.get(position).getNumberBathrooms() + " bathrooms");
         Glide.with(context).load(dataList.get(position).getPhotos()).into(holder.placeImage);

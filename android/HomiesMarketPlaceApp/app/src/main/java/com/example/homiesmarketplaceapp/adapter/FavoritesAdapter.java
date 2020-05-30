@@ -44,14 +44,16 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         public final View mView;
         ImageView favorite_place_image;
         TextView favorite_place_title;
-        TextView favorite_place_details;
+        TextView favorite_place_location;
+        TextView favorite_place_price;
         FavoritesViewHolder(View itemView,final FavoritesAdapter.OnItemClickListener listener) {
             super(itemView);
             mView = itemView;
 
-            favorite_place_image=mView.findViewById(R.id.favorite_event_image);
-            favorite_place_title=mView.findViewById(R.id.favorite_event_name);
-            favorite_place_details=mView.findViewById(R.id.favorite_event_details);
+            favorite_place_image=mView.findViewById(R.id.favorite_place_image);
+            favorite_place_title=mView.findViewById(R.id.favorite_place_name);
+            favorite_place_location=mView.findViewById(R.id.favorite_place_location);
+            favorite_place_price=mView.findViewById(R.id.favorite_place_price);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +82,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
     @Override
     public void onBindViewHolder(@NonNull FavoritesAdapter.FavoritesViewHolder holder, int position) {
         holder.favorite_place_title.setText(dataList.get(position).getTitle());
-        holder.favorite_place_details.setText(dataList.get(position).getCity());
+        holder.favorite_place_location.setText(dataList.get(position).getCity());
+        holder.favorite_place_price.setText(((int)dataList.get(position).getPrice()) + " €/month");
         Glide.with(context).load(dataList.get(position).getPhotos()).into(holder.favorite_place_image);
     }
 
