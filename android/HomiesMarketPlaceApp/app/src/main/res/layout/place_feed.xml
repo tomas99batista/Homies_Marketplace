@@ -19,8 +19,8 @@ app:cardElevation="10dp">
 
     <ImageView
         android:id="@+id/placeImage"
-        android:layout_width="175dp"
-        android:layout_height="175dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_centerVertical="true"
         android:scaleType="centerCrop"
         >
@@ -33,7 +33,7 @@ app:cardElevation="10dp">
         android:layout_marginStart="20dp"
         android:layout_toEndOf="@+id/placeImage"
         android:fontFamily="@font/montserrat_bold"
-        android:textSize="20sp" />
+        android:textSize="17sp" />
 
     <TextView
         android:id="@+id/placeLocation"
@@ -44,7 +44,7 @@ app:cardElevation="10dp">
         android:layout_marginTop="6dp"
         android:layout_toEndOf="@+id/placeImage"
         android:fontFamily="@font/montserrat"
-        android:textSize="20sp" />
+        android:textSize="17sp" />
 
     <TextView
         android:id="@+id/placeBedrooms"
@@ -55,7 +55,7 @@ app:cardElevation="10dp">
         android:layout_marginTop="6dp"
         android:layout_toEndOf="@+id/placeImage"
         android:fontFamily="@font/montserrat"
-        android:textSize="20sp" />
+        android:textSize="17sp" />
 
     <TextView
         android:id="@+id/placeBathrooms"
@@ -66,7 +66,7 @@ app:cardElevation="10dp">
         android:layout_marginTop="6dp"
         android:layout_toEndOf="@+id/placeImage"
         android:fontFamily="@font/montserrat"
-        android:textSize="20sp" />
+        android:textSize="17sp" />
 
     <TextView
         android:id="@+id/placePrice"
@@ -77,7 +77,7 @@ app:cardElevation="10dp">
         android:layout_marginTop="6dp"
         android:fontFamily="@font/montserrat_bold"
         android:layout_toEndOf="@+id/placeImage"
-        android:textSize="20sp" />
+        android:textSize="17sp" />
 
 
 </RelativeLayout>
@@ -87,7 +87,7 @@ app:cardElevation="10dp">
     android:layout_width="wrap_content"
     android:background="@drawable/ic_favorite_border"
     android:layout_gravity="top|end"
-    android:layout_margin="16dp"
+    android:layout_margin="8dp"
     android:layout_height="wrap_content"
     />
 

@@ -130,10 +130,10 @@ public class SearchResultsFragment extends Fragment {
         adapter.setOnItemClickListener(new FeedAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Log.d("event_id", Long.toString(placeList.get(position).getId()));
+                Log.d("placeId", Long.toString(placeList.get(position).getId()));
                 Log.d("clicked", Integer.toString(position));
                 Bundle bundle = new Bundle();
-                bundle.putLong("event_id", placeList.get(position).getId());
+                bundle.putLong("placeId", placeList.get(position).getId());
                 NavHostFragment.findNavController(SearchResultsFragment.this).navigate(R.id.search_results_to_details,bundle);
             }
 

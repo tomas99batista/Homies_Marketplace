@@ -81,6 +81,8 @@
         android:layout_marginBottom="64dp"
         android:enabled="true"
         android:text="Submit"
+        android:background="@drawable/button_search_shape"
+        android:textColor="#fff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
