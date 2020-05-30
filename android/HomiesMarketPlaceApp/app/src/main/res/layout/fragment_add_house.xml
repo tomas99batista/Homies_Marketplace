@@ -94,7 +94,7 @@
                 android:orientation="horizontal">
             <EditText
                 android:id="@+id/New_place_features"
-                android:hint="Features"
+                android:hint="Wifi, TV"
                 android:paddingRight="30dp"
                 android:drawablePadding="5dp"
                 android:background="@drawable/search_edit_text"

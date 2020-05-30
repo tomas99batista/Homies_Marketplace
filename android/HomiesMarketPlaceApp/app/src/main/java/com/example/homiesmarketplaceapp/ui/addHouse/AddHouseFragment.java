@@ -21,6 +21,7 @@ import com.example.homiesmarketplaceapp.network.GetDataService;
 import com.example.homiesmarketplaceapp.network.RetrofitClientInstance;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,7 +72,7 @@ public class AddHouseFragment extends Fragment {
         String placeTitle=New_place_title.getText().toString();
         String placeCity=New_place_city.getText().toString();
         String placePrice=New_place_price.getText().toString();
-        String features= New_place_features.getText().toString();
+        String[] features= New_place_features.getText().toString().split(",");
         String placeType=New_place_type.getText().toString();
         String no_bedrooms=New_place_no_bedrooms.getText().toString();
         String no_bathrooms=New_place_no_bathrooms.getText().toString();
@@ -79,7 +80,7 @@ public class AddHouseFragment extends Fragment {
         int No_bedrooms=Integer.parseInt(no_bedrooms);
         int No_bathrooms=Integer.parseInt(no_bathrooms);
         ArrayList<String> placeFeatures= new ArrayList<>();
-        placeFeatures.add(features);
+        placeFeatures.addAll(Arrays.asList(features));
         Place place= new Place(0L, placeTitle, price, 0.0, placeFeatures, No_bathrooms, No_bedrooms, placeType, placeCity, new ArrayList<Long>(), imageUrl);
         Call<String> addPublishedHouse=service.addPublishedHouse(email, place);
         addPublishedHouse.enqueue(new Callback<String>() {
