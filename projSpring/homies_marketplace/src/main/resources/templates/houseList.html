@@ -16,6 +16,8 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 </head>
 <body>
@@ -25,23 +27,62 @@
 		<div style="margin-bottom: 20px;"></div>
 		<div class="wrapper">
 			<div class="col-2 filterTab">
-				<h2 style="text-align: center; color: #0099ff">Find your place</h2>
+				<h2 style="text-align: center; color: #0099ff; margin-bottom: 40px">Find your place</h2>
 				<div class="form-group has-search">
 					<span class="fa fa-search form-control-feedback"></span>
-					<input id="searchBar" type="text" class="form-control" placeholder="Search" style="max-width: 250px">
+					<input id="searchBar" type="text" class="form-control" placeholder="Search">
 				</div>
 
 				<div class="row">
 					<div class="col-12">
 						<form method="post" th:object="${cities}">
 							<div class="form-group">
-								<label>City</label>
-								<select id="cities_filter" onchange="val()" class="form-control select2-single" style="border-radius: 20px; z-index:999">
+								<label class="filter_title">City</label>
+								<select id="cities_filter" onchange="val()" class="form-control select2-single"
+										style="	width:14rem;
+												padding-left:25px;
+												font-size:0.9rem;
+												border-radius: 20px;
+												z-index:999">
 									<option th:each="city : ${cities}" th:value="${city}" th:text='${city}'></option>
 								</select>
 							</div>
-							<button class="btn btn-primary" type="submit">Submit form</button>
+							<!--<button class="btn btn-primary" type="submit">Submit form</button>-->
 						</form>
+						<label class="filter_title">Price Range</label>
+						<div class="price-slider">
+							<input type="range" name="min-price" id="min-price" onchange="slider()"
+								   class="price-slider-range"  value="0" min="0" max="1500" step="1" >
+							<input type="range" name="max-price" id="max-price" onchange="slider()"
+								   class="price-slider-range" value="1500" min="0" max="1500" step="1" >
+							<div class="price-progress" id="price-progress"></div>
+						</div>
+						<div style="text-align: center;">
+							<p style="margin-top:30px; font-size:1rem;" id="price-slider-paragraph">
+								00,00 € - 1.500,00 €
+							</p>
+						</div>
+						<div>
+							<label class="filter_title">Features</label>
+							<form>
+								<input type="checkbox" id="wifi" name="wifi" value="features">
+									<label for="wifi">Wifi</label><br>
+								<input type="checkbox" id="tv" name="tv" value="features">
+									<label for="tv">TV</label><br>
+								<input type="checkbox" id="exterior" name="exterior" value="features">
+									<label for="exterior">Área Exterior</label><br>
+								<input type="checkbox" id="elevador" name="elevador" value="features">
+									<label for="elevador">Elevador</label><br>
+								<input type="checkbox" id="ac" name="ac" value="features">
+									<label for="ac">Ar Condicionado</label><br>
+								<input type="checkbox" id="aquecimento" name="aquecimento" value="features">
+									<label for="aquecimento">Aquecimento Central</label><br>
+								<input type="checkbox" id="fumar" name="fumar" value="features">
+									<label for="fumar">Aceita Fumadores</label><br>
+								<input type="checkbox" id="animal" name="animal" value="features">
+									<label for="animal">Aceita Animais de Estimação</label><br>
+							</form>
+						</div>
 					</div>
 
 				</div>
@@ -53,18 +94,35 @@
 							<div class="row">
 								<div class="col-md-6">
 									<div>
-										<img alt="room" class="img-fluid"  onclick="window.open('/places/1')" th:src="@{/media/room-1.jpg}" />
+										<img alt="room" class="img-fluid houseCard_image" onclick="window.open('/places/1')" th:src="@{/media/room-1.jpg}" />
 									</div>
 								</div>
-								<div class="col-md-6 col-lg-5 ml-auto d-flex align-items-center mt-4 mt-md-0">
+								<div class="col-md-6 col-lg-5 d-flex align-items-center mt-4 mt-md-0">
 									<div>
-										<h2 th:text="${place['title']}"></h2>
-										<div th:text="${place['numberBedrooms']} + ' bedrooms'"></div>
-										<div th:text="${place['numberBathrooms']} + ' bathrooms'"></div>
-										<div th:text="'Rating: ' + ${place['rating']}"></div>
-										<div th:text="${place['price'] + '€/mês'}"></div>
-										<div th:text="${place['city']}"></div>
-
+										<div class="col-2">
+											<h2 th:text="${place['title']}"></h2>
+										</div>
+										<div class="col-6">
+											<div class="element">
+												<img th:src="@{/media/bed.svg}">
+												<div class="text" th:text="${place['numberBedrooms']} + ' bedrooms'"></div>
+											</div>
+											<div class="element">
+												<img th:src="@{/media/wash.svg}">
+												<div class="text" th:text="${place['numberBathrooms']} + ' bathrooms'"></div>
+											</div>
+										</div>
+										<div class="col-4">
+											<div th:text="'Rating: ' + ${place['rating']}"></div>
+											<div th:text="${place['city']}"></div>
+										</div>
+									</div>
+									<div class="row">
+										<img style="bottom: 0;
+    												left: 0;
+    												position: absolute;
+    												margin: 27px 27px 27px -39px;}" th:src="@{/media/blank_heart.svg}">
+										<div class="price" th:text="${place['price'] + '€/mês'}"></div>
 									</div>
 								</div>
 							</div>
@@ -108,5 +166,20 @@
     		 }
 		});
 	})
+slider();
+
+
+function slider(){
+  const range = document.getElementsByClassName('price-slider-range');
+  const min = Math.min(range[0].value, range[1].value);
+  const max = Math.max(range[0].value, range[1].value);
+  document.getElementById('price-slider-paragraph').innerHTML = `${min}€ - ${max}€`;
+
+  const progress = document.getElementById('price-progress');
+  progress.style.setProperty('--max', max);
+  progress.style.setProperty('--min', min);
+}
+
+
 	</script>
 </html>
