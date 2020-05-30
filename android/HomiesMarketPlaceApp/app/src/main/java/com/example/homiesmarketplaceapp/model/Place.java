@@ -100,4 +100,13 @@ public class Place {
     public String getPhotos() {
         return photos;
     }
+
+
+    public String getAllFeatures(){
+        String strFeatures="";
+        for (String s: features){
+            strFeatures+=s+ "\n";
+        }
+        return strFeatures;
+    }
 }

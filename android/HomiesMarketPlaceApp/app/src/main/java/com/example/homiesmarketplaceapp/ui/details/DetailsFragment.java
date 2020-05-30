@@ -1,6 +1,7 @@
 package com.example.homiesmarketplaceapp.ui.details;
 
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.example.homiesmarketplaceapp.R;
 import com.example.homiesmarketplaceapp.adapter.ReviewAdapter;
 import com.example.homiesmarketplaceapp.model.Place;
+import com.example.homiesmarketplaceapp.model.PlaceId;
 import com.example.homiesmarketplaceapp.model.Review;
 import com.example.homiesmarketplaceapp.network.GetDataService;
 import com.example.homiesmarketplaceapp.network.RetrofitClientInstance;
@@ -39,7 +42,7 @@ public class DetailsFragment extends Fragment {
     TextView placeTitle;
     TextView placeCity;
     TextView placePrice;
-    TextView placeRating;
+    RatingBar placeRating;
     TextView placeNoBedrooms;
     TextView placeNoBathrooms;
     TextView placeType;
@@ -47,6 +50,10 @@ public class DetailsFragment extends Fragment {
     RecyclerView reviews;
 
     ReviewAdapter adapter;
+    String email;
+    List<Review> reviewList;
+    Button addBooking;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_details, container, false);
@@ -60,6 +67,9 @@ public class DetailsFragment extends Fragment {
         placeNoBathrooms=root.findViewById(R.id.details_place_no_bathrooms);
         placeType=root.findViewById(R.id.details_place_type);
         reviews=root.findViewById(R.id.recycler_view_reviews);
+        addBooking=root.findViewById(R.id.addBooking);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        email=prefs.getString("email", "");
 
         Bundle bundle=this.getArguments();
         if (bundle!=null) {
@@ -76,6 +86,27 @@ public class DetailsFragment extends Fragment {
                     public void onClick(View v) {
                         // TODO Auto-generated method stub
                         showReviewDialog(placeId);
+                    }
+                });
+
+                addBooking.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+                        Call<String> callAddBooking=service.addHouseBooking(email,new PlaceId(placeId));
+                        callAddBooking.enqueue(new Callback<String>() {
+                            @Override
+                            public void onResponse(Call<String> call, Response<String> response) {
+                                if (response.body().equals("true")){
+                                    Log.d("book added", "book added");
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<String> call, Throwable t) {
+
+                            }
+                        });
                     }
                 });
             }
@@ -121,15 +152,16 @@ public class DetailsFragment extends Fragment {
         Glide.with(getContext()).load(place.getPhotos()).into(placeImage);
         placeTitle.setText(place.getTitle());
         placeCity.setText(place.getCity());
-        placePrice.setText(String.valueOf(place.getPrice()));
-        placeFeatures.setText(place.getFeatures().toString());
-        placeRating.setText(String.valueOf(place.getRating()));
-        placeNoBedrooms.setText(String.valueOf(place.getNumberBedrooms()));
-        placeNoBathrooms.setText(String.valueOf(place.getNumberBathrooms()));
+        placePrice.setText(((int)place.getPrice())+ " €/month");
+        placeFeatures.setText(place.getAllFeatures());
+        placeRating.setRating((float)place.getRating());
+        placeNoBedrooms.setText(place.getNumberBedrooms() + " bedrooms");
+        placeNoBathrooms.setText(place.getNumberBathrooms()+ " bathrooms");
         placeType.setText(place.getType());
     }
 
-    private void showReviews(List<Review> reviewList){
+    private void showReviews(List<Review> reviewListResponse){
+        reviewList=reviewListResponse;
         adapter = new ReviewAdapter(getContext(), reviewList);
         adapter.notifyDataSetChanged();
         reviews.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -160,14 +192,16 @@ public class DetailsFragment extends Fragment {
         builder.show();
     }
 
-    private void postReview(long placeId, String comment, float rating){
+    private void postReview(final long placeId, final String comment, final float rating){
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-        Call<String> callAddReview=service.addReview(placeId, new Review("jose@email.com",comment, rating));
+        Call<String> callAddReview=service.addReview(placeId, new Review(email,comment, rating));
         callAddReview.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.body().equals("true")){
                     Log.d("revieew added", "review added");
+                    reviewList.add(0,new Review(email,comment, rating));
+                    adapter.notifyItemInserted(0);
                     adapter.notifyDataSetChanged();
                 }
             }

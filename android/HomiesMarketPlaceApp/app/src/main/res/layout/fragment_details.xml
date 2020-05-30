@@ -27,7 +27,8 @@
                 android:layout_marginEnd="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="35sp"
+                android:textSize="30sp"
+                android:fontFamily="@font/montserrat_bold"
                 android:gravity="center"
 
                 />
@@ -36,34 +37,35 @@
                 android:id="@+id/details_place_city"
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
-
+                android:fontFamily="@font/montserrat"
                 android:textSize="25sp"
+                android:drawableStart="@drawable/ic_location"
+                android:drawablePadding="5dp"
                 android:layout_marginStart="16dp"
                 android:gravity="start"
                 android:layout_height="wrap_content"/>
 
-            <TextView
+
+            <RatingBar
                 android:id="@+id/details_place_rating"
-                android:layout_width="match_parent"
+                style="?android:attr/ratingBarStyleSmall"
                 android:layout_marginTop="10dp"
-                android:textSize="25sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:gravity="start"
-                android:layout_height="wrap_content"/>
+                android:layout_marginEnd="16dp"
+                android:numStars="5"
+                android:saveEnabled="true" />
 
             <TextView
                 android:id="@+id/details_place_price"
                 android:layout_width="match_parent"
+                android:drawableStart="@drawable/ic_price"
+                android:drawablePadding="5dp"
                 android:layout_marginStart="16dp"
-                android:textSize="18sp"
-                android:gravity="start"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:id="@+id/details_place_features"
-                android:layout_width="match_parent"
-                android:layout_marginStart="16dp"
-                android:textSize="18sp"
+                android:layout_marginTop="10dp"
+                android:textSize="20sp"
+                android:fontFamily="@font/montserrat"
                 android:gravity="start"
                 android:layout_height="wrap_content"/>
 
@@ -71,24 +73,63 @@
                 android:id="@+id/details_place_type"
                 android:layout_width="match_parent"
                 android:layout_marginStart="16dp"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/montserrat"
+                android:drawableStart="@drawable/ic_house"
+                android:drawablePadding="5dp"
                 android:layout_height="wrap_content"/>
             <TextView
                 android:id="@+id/details_place_no_bedrooms"
                 android:layout_width="match_parent"
                 android:layout_marginStart="16dp"
-                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:drawableStart="@drawable/ic_bedrooms"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/montserrat"
+                android:textSize="20sp"
                 android:layout_height="wrap_content"/>
             <TextView
                 android:id="@+id/details_place_no_bathrooms"
                 android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
                 android:layout_marginStart="16dp"
-                android:textSize="15sp"
+                android:drawableStart="@drawable/ic_bathrooms"
+                android:fontFamily="@font/montserrat"
+                android:drawablePadding="5dp"
+                android:textSize="20sp"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:layout_margin="16dp"
+                android:textColor="#000000"
+                android:textSize="22sp"
+                android:text="Features"/>
+
+            <TextView
+                android:id="@+id/details_place_features"
+                android:layout_width="match_parent"
+                android:layout_marginStart="16dp"
+                android:textSize="20sp"
+                android:fontFamily="@font/montserrat"
+                android:gravity="start"
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>
+
+        <Button
+            android:layout_margin="16dp"
+            android:id="@+id/addBooking"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:text="Book"
+            android:background="@drawable/button_search_shape"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -102,9 +143,10 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:fontFamily="@font/open_sans"
                 android:text="Reviews"
                 android:textColor="#000000"
-                android:textSize="20sp" />
+                android:textSize="22sp" />
 
             <Button
                 android:id="@+id/addReviewBtn"
@@ -115,6 +157,7 @@
                 android:layout_marginEnd="16dp"
                 android:padding="5dp"
                 android:text="Add a review"
+                android:background="@drawable/button_search_shape"
                 android:textColor="#ffffff" />
 
         </LinearLayout>

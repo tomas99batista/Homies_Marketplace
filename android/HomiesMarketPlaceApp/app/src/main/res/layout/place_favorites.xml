@@ -4,12 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="180dp"
     android:layout_margin="2dp"
     app:cardElevation="10dp">
 
     <ImageView
-        android:id="@+id/favorite_event_image"
+        android:id="@+id/favorite_place_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
@@ -20,30 +20,47 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/favorite_event_name"
+            android:id="@+id/favorite_place_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginTop="120dp"
-            android:gravity="center"
+            android:layout_margin="16dp"
+
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:gravity="start"
+            android:maxLength="30"
             android:textColor="#fff"
             android:textSize="17sp"
-            android:maxLength="30"
+            app:layout_constraintBottom_toTopOf="@+id/favorite_place_location"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/favorite_event_details"
+            android:id="@+id/favorite_place_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:layout_marginBottom="16dp"
-            android:gravity="center"
+            android:fontFamily="@font/montserrat_bold"
+            android:gravity="start"
+            android:textColor="#fff"
+            app:layout_constraintBottom_toTopOf="@+id/favorite_place_price"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/favorite_place_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:gravity="start"
             android:textColor="#fff"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

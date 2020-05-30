@@ -1,5 +1,6 @@
 package com.example.homiesmarketplaceapp.ui.search_results;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +19,7 @@ import com.example.homiesmarketplaceapp.R;
 import com.example.homiesmarketplaceapp.adapter.FavoritesAdapter;
 import com.example.homiesmarketplaceapp.adapter.FeedAdapter;
 import com.example.homiesmarketplaceapp.model.Place;
+import com.example.homiesmarketplaceapp.model.PlaceId;
 import com.example.homiesmarketplaceapp.network.GetDataService;
 import com.example.homiesmarketplaceapp.network.RetrofitClientInstance;
 
@@ -29,10 +32,12 @@ import retrofit2.Response;
 public class SearchResultsFragment extends Fragment {
 
     View root;
+    String email;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_search_results, container, false);
-
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        email=prefs.getString("email", "");
         Bundle bundle=this.getArguments();
         if (bundle!=null){
                 String city=bundle.getString("city");
@@ -49,7 +54,7 @@ public class SearchResultsFragment extends Fragment {
     }
 
     private void search(String city, String type, String minPrice, String maxPrice, String bedrooms, String bathrooms, String rating){
-        String initialUrl="http://10.0.2.2:8080/search/";
+        String initialUrl="http://10.0.2.2:8080/api/search/";
         String searchUrl="";
         if (city!=null && !city.equals("")){
             searchUrl+="?city="+city;
@@ -117,19 +122,45 @@ public class SearchResultsFragment extends Fragment {
 
     private void generateResults(final List<Place> placeList){
         RecyclerView recyclerView = root.findViewById(R.id.recycler_view_search_results);
-        FavoritesAdapter adapter = new FavoritesAdapter(getContext(), placeList);
+        FeedAdapter adapter = new FeedAdapter(getContext(), placeList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(new FavoritesAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new FeedAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Log.d("event_id", Long.toString(placeList.get(position).getId()));
+                Log.d("placeId", Long.toString(placeList.get(position).getId()));
                 Log.d("clicked", Integer.toString(position));
                 Bundle bundle = new Bundle();
-                bundle.putLong("event_id", placeList.get(position).getId());
+                bundle.putLong("placeId", placeList.get(position).getId());
                 NavHostFragment.findNavController(SearchResultsFragment.this).navigate(R.id.search_results_to_details,bundle);
+            }
+
+            @Override
+            public void onAddToFavorites(int position) {
+                Log.d("adding to favorites", "adding to favorites");
+                addPlaceToFavorites(email, placeList.get(position).getId());
+            }
+        });
+    }
+
+    private void addPlaceToFavorites(String email, long placeId){
+
+        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+        Call<String> callAddToFavorites=service.addPlaceToFavorites(email, new PlaceId(placeId));
+        callAddToFavorites.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.d("response", response.body().toString());
+                if (response.body().toString().equals("true")) {
+                    Toast.makeText(getContext(), "Place added to favorites", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e("response", t.getLocalizedMessage().toString());
             }
         });
     }
