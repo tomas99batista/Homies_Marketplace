@@ -3,6 +3,7 @@ package tqs.ua.pt.homies_marketplace.models;
 import tqs.ua.pt.homies_marketplace.dtos.PlaceDTO;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name="place")
@@ -58,6 +59,18 @@ public class Place {
         this.city=city;
     }
 
+    public Place(String title, double price, double rating, List<String> features, int numberBathrooms, int numberBedrooms, String type, String city, String photos) {
+        this.title = title;
+        this.price = price;
+        this.rating = rating;
+        this.features = features;
+        this.numberBathrooms = numberBathrooms;
+        this.numberBedrooms = numberBedrooms;
+        this.type = type;
+        this.city = city;
+        reviews = new ArrayList<>();
+        this.photos = photos;
+    }
 
     public Place(Long id, String title, double price, double rating, List<String> features, int numberBathrooms, int numberBedrooms, String type, String city, List<Long> reviews, String photos) {
         this.id = id;
