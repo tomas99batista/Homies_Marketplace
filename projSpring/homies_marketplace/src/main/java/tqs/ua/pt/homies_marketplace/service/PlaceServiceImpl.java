@@ -1,14 +1,15 @@
 package tqs.ua.pt.homies_marketplace.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import tqs.ua.pt.homies_marketplace.dtos.PlaceDTO;
 import tqs.ua.pt.homies_marketplace.models.Place;
+import tqs.ua.pt.homies_marketplace.models.PlaceSpecification;
 import tqs.ua.pt.homies_marketplace.models.Review;
 import tqs.ua.pt.homies_marketplace.repository.PlaceRepository;
 
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,6 +28,23 @@ public class PlaceServiceImpl implements PlaceService{
 
 
     @Override
+    public List<Place> search(PlaceDTO placeDTO, String minPrice, String maxPrice) {
+
+        Place filter= new Place(placeDTO);
+        Specification<Place> spec;
+
+        if (minPrice !=null || maxPrice !=null){
+            spec = new PlaceSpecification(filter, minPrice !=null ? Double.parseDouble(minPrice): -1, maxPrice != null ? Double.parseDouble(maxPrice): -1);
+        }
+        else {
+            spec = new PlaceSpecification(filter);
+        }
+
+        return placeRepository.findAll(spec);
+    }
+
+
+    @Override
     public List<Review> getReviews(long placeId) {
         return reviewService.getReviews(placeId);
     }
@@ -39,9 +57,13 @@ public class PlaceServiceImpl implements PlaceService{
             //get id of the review
             if (saved!=null) {
                 long savedId = saved.getId();
-
                 //save it in places_review
-                return placeRepository.insertReview(placeId, savedId) == 1;
+                if (placeRepository.insertReview(placeId, savedId) == 1){
+                    //update rating
+                    placeRepository.updatePlaceRating(placeId);
+                    return true;
+                }
+                return false;
             }
             return false;
         }
@@ -61,12 +83,8 @@ public class PlaceServiceImpl implements PlaceService{
 
     @Override
     public Place getPlaceById(long id){
-        //return placeRepository.findById(id);
-        Place place;
-        for(Place p : getAllPlaces())
-            if(p.getId() == id)
-                return p;
-        return null;
+        return placeRepository.findById(id);
+
     }
 
     @Override
@@ -80,15 +98,6 @@ public class PlaceServiceImpl implements PlaceService{
 
     @Override
     public List<Place> getAllPlaces() {
-        List<String> features = new ArrayList<>();
-        features.add("Barato");
-        features.add("Not caro");
-        Place place = new Place(0L, "Test", 100.0, 3.0, features, 1, 1, "casa", "Lisboa");
-        Place newPlace = new Place(1L, "NEWTEST", 10.0, 2.3, features, 1, 1, "coisa", "Porto");
-        List<Place> places = new ArrayList<>();
-        places.add(place);
-        places.add(newPlace);
-        return places;
-        //return placeRepository.findAll();
+        return placeRepository.findAll();
     }
 }

@@ -1,11 +1,14 @@
 package tqs.ua.pt.homies_marketplace.service;
 
+import tqs.ua.pt.homies_marketplace.dtos.PlaceDTO;
 import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.Review;
 
 import java.util.List;
 
 public interface PlaceService {
+
+    List<Place> search(PlaceDTO placeDTO,String minPrice, String maxPrice);
     List<Review> getReviews(long placeId);
     boolean addReview(long placeId, Review review);
     List<Place> getFavoriteHouses(String email);
@@ -14,6 +17,5 @@ public interface PlaceService {
     List<Place> getPublishedHouses(String email);
     Place save(Place place);
     List<Place> getAllPlaces();
-
 
 }

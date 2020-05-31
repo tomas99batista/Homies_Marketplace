@@ -1,6 +1,9 @@
 package tqs.ua.pt.homies_marketplace.models;
 
+import tqs.ua.pt.homies_marketplace.dtos.PlaceDTO;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name="place")
@@ -36,8 +39,9 @@ public class Place {
 
     @ElementCollection
     private List<Long> reviews;
-    //@Column(nullable=false, unique=false)
-    //private String photos;
+
+    @Column(nullable=false, unique=false)
+    private String photos;
 
     //needed for hibernate
     public Place(){
@@ -55,7 +59,20 @@ public class Place {
         this.city=city;
     }
 
-    public Place(Long id, String title, double price, double rating, List<String> features, int numberBathrooms, int numberBedrooms, String type, String city, List<Long> reviews) {
+    public Place(String title, double price, double rating, List<String> features, int numberBathrooms, int numberBedrooms, String type, String city, String photos) {
+        this.title = title;
+        this.price = price;
+        this.rating = rating;
+        this.features = features;
+        this.numberBathrooms = numberBathrooms;
+        this.numberBedrooms = numberBedrooms;
+        this.type = type;
+        this.city = city;
+        reviews = new ArrayList<>();
+        this.photos = photos;
+    }
+
+    public Place(Long id, String title, double price, double rating, List<String> features, int numberBathrooms, int numberBedrooms, String type, String city, List<Long> reviews, String photos) {
         this.id = id;
         this.title = title;
         this.price = price;
@@ -66,8 +83,21 @@ public class Place {
         this.type = type;
         this.city = city;
         this.reviews = reviews;
+        this.photos = photos;
     }
 
+    public Place(PlaceDTO placeDTO){
+        this.title = placeDTO.getTitle();
+        this.price = placeDTO.getPrice();
+        this.rating = placeDTO.getRating();
+        this.features = placeDTO.getFeatures();
+        this.numberBathrooms = placeDTO.getNumberBathrooms();
+        this.numberBedrooms = placeDTO.getNumberBedrooms();
+        this.type = placeDTO.getType();
+        this.city = placeDTO.getCity();
+        this.reviews = placeDTO.getReviews();
+        this.photos = placeDTO.getPhotos();
+    }
     public String getTitle() {
         return title;
     }
@@ -107,4 +137,24 @@ public class Place {
     public List<Long> getReviews() {
         return reviews;
     }
+
+
+    public String getPhotos() {
+        return photos;
+    }
+
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
 }

@@ -35,10 +35,10 @@
 
 				<div class="row">
 					<div class="col-12">
-						<form method="post" th:object="${cities}">
+						<form method="post" th:object="${cities}" action="/list">
 							<div class="form-group">
 								<label class="filter_title">City</label>
-								<select id="cities_filter" onchange="val()" class="form-control select2-single"
+								<select id="cities_filter" class="form-control select2-single"
 										style="	width:14rem;
 												padding-left:25px;
 												font-size:0.9rem;
@@ -65,30 +65,34 @@
 						<div>
 							<label class="filter_title">Features</label>
 							<form>
-								<input type="checkbox" id="wifi" name="wifi" value="features">
+								<input type="checkbox" id="wifi" name="features" value="wifi">
 									<label for="wifi">Wifi</label><br>
-								<input type="checkbox" id="tv" name="tv" value="features">
+								<input type="checkbox" id="tv" name="features" value="tv">
 									<label for="tv">TV</label><br>
-								<input type="checkbox" id="exterior" name="exterior" value="features">
+								<input type="checkbox" id="exterior" name="features" value="exterior">
 									<label for="exterior">Área Exterior</label><br>
-								<input type="checkbox" id="elevador" name="elevador" value="features">
+								<input type="checkbox" id="elevador" name="features" value="elevador">
 									<label for="elevador">Elevador</label><br>
-								<input type="checkbox" id="ac" name="ac" value="features">
+								<input type="checkbox" id="ac" name="features" value="aquecimento">
 									<label for="ac">Ar Condicionado</label><br>
-								<input type="checkbox" id="aquecimento" name="aquecimento" value="features">
+								<input type="checkbox" id="aquecimento" name="features" value="aquecimento">
 									<label for="aquecimento">Aquecimento Central</label><br>
-								<input type="checkbox" id="fumar" name="fumar" value="features">
+								<input type="checkbox" id="fumar" name="features" value="fumar">
 									<label for="fumar">Aceita Fumadores</label><br>
-								<input type="checkbox" id="animal" name="animal" value="features">
+								<input type="checkbox" id="animal" name="features" value="animal">
 									<label for="animal">Aceita Animais de Estimação</label><br>
 							</form>
 						</div>
+						<div id="search_button" style="background-color: #3d5170; width:200px; height: 100px;">
+							CLICK ME
+						</div>
+
 					</div>
 
 				</div>
 			</div>
 			<div class="col-9 houseTab">
-				<div class="" th:each="place: ${places}">
+				<div class="" modelAttribute="places" th:each="place: ${places}">
 					<section class="section mt-5">
 						<div class="container houseCard">
 							<div class="row">
@@ -149,23 +153,61 @@
 			}
 		}
 
-	$('#cities_filter').change(function(){
-    	console.log($(this).val());
-    	var data = '{ "city", $(this).val() }';
+	// search(city, price, rating, bedrooms, bathrooms, type, minPrice, maxPrice)
+	var city = null ;
+	var price = null;
+	var rating = null;
+	var bedrooms = null;
+	var bathrooms = null;
+	var type = null;
+	var minPrice = null;
+	var maxPrice = null;
+	var features = []
+
+	$('#search_button').on('click', function () {
+		var features = []
+		var city = null ;
+		var minPrice = null;
+		var maxPrice = null;
+
+		// City
+		city = $('#cities_filter :selected').text()
+
+		// Prince Range
+		const range = document.getElementsByClassName('price-slider-range');
+  		minPrice = (Math.min(range[0].value, range[1].value)).toString();
+  		maxPrice = (Math.max(range[0].value, range[1].value)).toString();
+
+		// Features
+		$('input:checkbox[name=features]:checked').each(function(){
+  				features.push(($(this).serializeArray())[0]);
+			});
+		console.log("City: ", city);
+		console.log("Price Range: Min - ", minPrice, "; Max - ", maxPrice);
+  		console.log("Features: ", features);
+
+  			var data = { 'city' : city,
+				 'features' : features,
+				 'minPrice' : minPrice,
+				 'maxPrice' : maxPrice
+				}
+
 		$.ajax({
     		type:"POST",
     		contentType : "application/json",
     		data: JSON.stringify(data),
-    		url: "/places/"+ $(this).val(),
-    		dataType: "json",
+    		url: "/list",
+    		dataType: "application/json",
     		success: function(result){
-       			$(element).append(result);
-    		},
-    		 error: function (e) {
-    		 	console.log("ERROR:" , e)
-    		 }
+	    		 $("body").html(result);
+    		}
 		});
-	})
+
+	});
+
+
+
+
 slider();
 
 

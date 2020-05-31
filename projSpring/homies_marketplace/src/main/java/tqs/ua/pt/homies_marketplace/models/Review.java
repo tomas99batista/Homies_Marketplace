@@ -1,5 +1,7 @@
 package tqs.ua.pt.homies_marketplace.models;
 
+import tqs.ua.pt.homies_marketplace.dtos.ReviewDTO;
+
 import javax.persistence.*;
 
 @Entity(name="reviews")
@@ -36,6 +38,12 @@ public class Review {
         this.comment = comment;
     }
 
+    public Review(ReviewDTO reviewDTO){
+        this.email=reviewDTO.getEmail();
+        this.rating=reviewDTO.getRating();
+        this.comment=reviewDTO.getComment();
+    }
+    
     public Long getId(){
         return id;
     }

@@ -1,16 +1,16 @@
 package tqs.ua.pt.homies_marketplace.models;
 
 public class PlaceId {
-    private long placeId;
+    private long id;
 
     public PlaceId(){
 
     }
-    public PlaceId(long placeId) {
-        this.placeId = placeId;
+    public PlaceId(long id) {
+        this.id = id;
     }
 
-    public long getPlaceId() {
-        return placeId;
+    public long getId() {
+        return id;
     }
 }
