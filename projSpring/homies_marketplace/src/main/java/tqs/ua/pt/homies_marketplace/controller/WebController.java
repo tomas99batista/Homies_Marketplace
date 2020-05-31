@@ -6,8 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import tqs.ua.pt.homies_marketplace.dtos.PlaceDTO;
+import tqs.ua.pt.homies_marketplace.form.FilterForm;
 import tqs.ua.pt.homies_marketplace.form.LoginRegistrationForm;
 import tqs.ua.pt.homies_marketplace.form.UserRegistrationForm;
 import tqs.ua.pt.homies_marketplace.models.Place;
@@ -18,11 +20,11 @@ import tqs.ua.pt.homies_marketplace.repository.UserRepository;
 import tqs.ua.pt.homies_marketplace.service.PlaceService;
 import tqs.ua.pt.homies_marketplace.service.UserService;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.*;
 
 @Controller
 public class WebController {
-    @Autowired
     public static String user_status = "user_not_logged";
 
     @Autowired
@@ -111,12 +113,36 @@ public class WebController {
         model.addAttribute("places", places);
         model.addAttribute("cities", cities);
         model.addAttribute("user_status",user_status);
+        model.addAttribute("filtered_places", new FilterForm());
         return "houseList";
     }
 
+
+    @PostMapping("/list")
+    public String filters(Model model, @ModelAttribute FilterForm myFormObject, BindingResult result){
+        List<String> cities = placeController.getAllCities();
+        model.addAttribute("cities", cities);
+        model.addAttribute("user_status",user_status);
+        try{
+            String city = myFormObject.getCity();
+            System.out.println("ENtrOU");
+            System.out.println(city);
+            System.out.println(result);
+            List<Place> places = placeService.searchByCity(city);
+            model.addAttribute("places", places);
+            return "houseList";
+        }
+        catch(Exception e){
+            List<Place> places = placeService.getAllPlaces();
+            model.addAttribute("places", places);
+            return "houseList";
+        }
+    }
+
+
+    /* AJAX REQUEST ATTEMPT
     @PostMapping(value = "/list", headers = "Accept=application/json")
-    @ResponseBody
-    public String filter_places(Model model, @RequestParam Map<String,Object> data) throws Exception {
+    public String filter_places(Model model, @ResponseBody Map<String,Object> data) throws Exception {
 
         List<String> cities = placeController.getAllCities();   //cities
         try {
@@ -145,7 +171,7 @@ public class WebController {
             return "error";
         }
 
-    }
+    }*/
 
     @GetMapping("/list/{id}")
     public String details(@PathVariable("id") long id, Model model){
@@ -177,7 +203,8 @@ public class WebController {
         model.addAttribute("cities", cities);
         model.addAttribute("places", returnPlaces);
         model.addAttribute("user_status",user_status);
-        return "index";
+        model.addAttribute("filtered_places", new FilterForm());
+        return "houseList";
     }
 
 
