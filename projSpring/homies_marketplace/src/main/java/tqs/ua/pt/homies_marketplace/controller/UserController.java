@@ -13,7 +13,6 @@ import tqs.ua.pt.homies_marketplace.service.PlaceService;
 import tqs.ua.pt.homies_marketplace.service.UserService;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api")

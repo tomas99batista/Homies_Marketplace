@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import tqs.ua.pt.homies_marketplace.JsonUtil;
 import tqs.ua.pt.homies_marketplace.controller.UserController;
+import tqs.ua.pt.homies_marketplace.dtos.UserDTO;
 import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.PlaceId;
 import tqs.ua.pt.homies_marketplace.models.User;
@@ -46,6 +47,128 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     @BeforeEach
     public void setUp() throws Exception {
     }
+
+    @Test
+    void WhenGetUserByEmail_IfUserExists_thenReturnUser() throws Exception{
+       List<Long> favorites= new ArrayList<>();
+       favorites.add(1L);
+       favorites.add(2L);
+
+       List<Long> publishedHouses= new ArrayList<>();
+       publishedHouses.add(3L);
+       publishedHouses.add(4L);
+
+       List<Long> rentedHouses= new ArrayList<>();
+       rentedHouses.add(5L);
+       rentedHouses.add(6L);
+
+       String email="josefrias@email.com";
+       String password="password";
+       String firstName="Jose";
+       String lastName="Frias";
+       String city="Aveiro";
+
+       User user= new User(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
+       given(service.getUserByEmail("jose@email.com")).willReturn(user);
+       mvc.perform(get("/api/users/jose@email.com").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+               .andExpect(jsonPath("$.email", is(user.getEmail())));
+       verify(service, VerificationModeFactory.times(1)).getUserByEmail("jose@email.com");
+       reset(service);
+    }
+
+   @Test
+   void whenPostLogin_IfPasswordIsNotEqual_thenReturnNull() throws Exception{
+      List<Long> favorites= new ArrayList<>();
+      favorites.add(1L);
+      favorites.add(2L);
+
+      List<Long> publishedHouses= new ArrayList<>();
+      publishedHouses.add(3L);
+      publishedHouses.add(4L);
+
+      List<Long> rentedHouses= new ArrayList<>();
+      rentedHouses.add(5L);
+      rentedHouses.add(6L);
+
+      String email="josefrias@email.com";
+      String password="password";
+      String firstName="Jose";
+      String lastName="Frias";
+      String city="Aveiro";
+
+      User user= new User(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
+      UserDTO userDTO=new UserDTO(email, favorites, "wrong_password", firstName, lastName, city, publishedHouses, rentedHouses);
+      given(service.exists("josefrias@email.com")).willReturn(true);
+      given(service.getUserByEmail("josefrias@email.com")).willReturn(user);
+      mvc.perform(post("/api/login").contentType(MediaType.APPLICATION_JSON)
+              .content(JsonUtil.toJson(userDTO))).andReturn().getResponse().getContentAsString().equals(null);;
+      verify(service, VerificationModeFactory.times(1)).exists(Mockito.anyString());
+      reset(service);
+   }
+
+   @Test
+   void whenPostLogin_IfEmailNotExists_thenReturnNull() throws Exception{
+      List<Long> favorites= new ArrayList<>();
+      favorites.add(1L);
+      favorites.add(2L);
+
+      List<Long> publishedHouses= new ArrayList<>();
+      publishedHouses.add(3L);
+      publishedHouses.add(4L);
+
+      List<Long> rentedHouses= new ArrayList<>();
+      rentedHouses.add(5L);
+      rentedHouses.add(6L);
+
+      String email="josefrias@email.com";
+      String password="password";
+      String firstName="Jose";
+      String lastName="Frias";
+      String city="Aveiro";
+
+      User user= new User(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
+      UserDTO userDTO=new UserDTO(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
+      given(service.exists("josefrias@email.com")).willReturn(false);
+      given(service.getUserByEmail("josefrias@email.com")).willReturn(user);
+      mvc.perform(post("/api/login").contentType(MediaType.APPLICATION_JSON)
+              .content(JsonUtil.toJson(userDTO))).andReturn().getResponse().getContentAsString().equals(null);;
+      verify(service, VerificationModeFactory.times(1)).exists(Mockito.anyString());
+      reset(service);
+   }
+
+
+    @Test
+    void whenPostLogin_IfValidCredentials_thenReturnUser() throws Exception{
+       List<Long> favorites= new ArrayList<>();
+       favorites.add(1L);
+       favorites.add(2L);
+
+       List<Long> publishedHouses= new ArrayList<>();
+       publishedHouses.add(3L);
+       publishedHouses.add(4L);
+
+       List<Long> rentedHouses= new ArrayList<>();
+       rentedHouses.add(5L);
+       rentedHouses.add(6L);
+
+       String email="josefrias@email.com";
+       String password="password";
+       String firstName="Jose";
+       String lastName="Frias";
+       String city="Aveiro";
+
+       User user= new User(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
+       UserDTO userDTO=new UserDTO(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
+       given(service.exists("josefrias@email.com")).willReturn(true);
+       given(service.getUserByEmail("josefrias@email.com")).willReturn(user);
+       mvc.perform(post("/api/login").contentType(MediaType.APPLICATION_JSON)
+               .content(JsonUtil.toJson(userDTO))).andExpect(jsonPath("$.email", is("josefrias@email.com")));
+       verify(service, VerificationModeFactory.times(1)).exists(Mockito.anyString());
+       reset(service);
+    }
+
+
+
 
     @Test
     void whenPostFavorites_thenReturnTrue() throws Exception{
