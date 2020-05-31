@@ -119,17 +119,41 @@ public class WebController {
 
 
     @PostMapping("/list")
-    public String filters(Model model, @ModelAttribute FilterForm myFormObject, BindingResult result){
+    public String filters(Model model, @ModelAttribute("filtered_places") FilterForm myFormObject, @RequestParam Map<String,String> data){
         List<String> cities = placeController.getAllCities();
         model.addAttribute("cities", cities);
         model.addAttribute("user_status",user_status);
         try{
             String city = myFormObject.getCity();
-            System.out.println("ENtrOU");
-            System.out.println(city);
+            List<String> features = (myFormObject.getFeatures());
+            String minPrice = data.get("min-price");
+            String maxPrice = data.get("max-price");
+
+            // System.out.println(city);
+            // System.out.println("minPrice: " + minPrice + " // maxPrice: " + maxPrice);
+            // System.out.println("Features: " + features);
+
+            // search(city, price, rating, bedrooms, bathrooms, type, minPrice, maxPrice)
+            PlaceDTO placeDTO = new PlaceDTO(city, null, null, null, null, null);
+            List<Place> places = placeService.search(placeDTO, minPrice, maxPrice);
+
+            List<Place> result = new ArrayList<>();
+            for(Place place : places){
+                List<String> features_place = place.getFeatures();
+                System.out.println("1: " + features_place);
+                System.out.println("2: " + features);
+                features_place.retainAll(features);
+                System.out.println("3: " + features_place);
+                if( features_place.size() != 0 || features.toString() == null){
+                    result.add(place);
+                    System.out.println("size: " + result.size());
+
+                };
+            }
+
             System.out.println(result);
-            List<Place> places = placeService.searchByCity(city);
-            model.addAttribute("places", places);
+
+            model.addAttribute("places", result);
             return "houseList";
         }
         catch(Exception e){

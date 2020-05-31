@@ -48,22 +48,21 @@
 																				font-size:0.9rem;
 																				border-radius: 20px;
 																				z-index:999">
-									<option th:each="city : ${cities}" th:value="${city}" th:text='${city}'></option>
+									<option th:each="city : ${cities}"  th:value="${city}" th:text='${city}'></option>
 								</select>
 							</div>
 
 							<!-- ! FILTER: Price Range Slider -->
-							<!--
 							<div class="form-group">
 
 								<label class="filter_title">Price Range</label>
 
 								<div class="price-slider">
-									<input type="range" name="min-price" id="min-price" onchange="slider()"
-										class="price-slider-range" th:field="*{minPrice}" value="0" min="0" max="1500"
+									<input type="range" th:name="min-price" th:id="min-price" onchange="slider()"
+										class="price-slider-range" th:value="0" min="0" max="1500"
 										step="1">
-									<input type="range" name="max-price" id="max-price" onchange="slider()"
-										class="price-slider-range" th:field="*{maxPrice}" value="1500" min="0"
+									<input type="range" th:name="max-price" th:id="max-price" onchange="slider()"
+										class="price-slider-range" th:value="1500" min="0"
 										max="1500" step="1">
 									<div class="price-progress" id="price-progress"></div>
 								</div>
@@ -73,45 +72,30 @@
 									</p>
 								</div>
 							</div>
-							-->
 
 							<!-- ! FILTER: Features -->
-							<!--
 							<div class="form-group">
-								<label class="filter_title">Features</label>
+								<label class="filter_title">Features</label><br>
 
-								<input type="checkbox" id="wifi" name="features" value="wifi" th:field="*{features}">
+								<input class="feature_filter" type="checkbox" id="wifi" name="features" value="Wifi" th:field="*{features}">
 								<label for="wifi">Wifi</label><br>
-								<input type="checkbox" id="tv" name="features" value="tv" th:field="*{features}">
+								<input class="feature_filter" type="checkbox" id="tv" name="features" value="TV" th:field="*{features}">
 								<label for="tv">TV</label><br>
-								<input type="checkbox" id="exterior" name="features" value="exterior"
-									th:field="*{features}">
+								<input class="feature_filter" type="checkbox" id="exterior" name="features" value="Área Exterior" th:field="*{features}">
 								<label for="exterior">Área Exterior</label><br>
-								<input type="checkbox" id="elevador" name="features" value="elevador"
-									th:field="*{features}">
+								<input class="feature_filter" type="checkbox" id="elevador" name="features" value="Elevador" th:field="*{features}">
 								<label for="elevador">Elevador</label><br>
-								<input type="checkbox" id="ac" name="features" value="aquecimento"
-									th:field="*{features}">
+								<input class="feature_filter" type="checkbox" id="ac" name="features" $ value="Ar Condicionado" th:field="*{features}">
 								<label for="ac">Ar Condicionado</label><br>
-								<input type="checkbox" id="aquecimento" name="features" value="aquecimento"
-									th:field="*{features}">
+								<input class="feature_filter" type="checkbox" id="aquecimento" name="features" value="Aquecimento Central" th:field="*{features}">
 								<label for="aquecimento">Aquecimento Central</label><br>
-								<input type="checkbox" id="fumar" name="features" value="fumar" th:field="*{features}">
+								<input class="feature_filter" type="checkbox" id="fumar" name="features" value="Fumar" th:field="*{features}">
 								<label for="fumar">Aceita Fumadores</label><br>
-								<input type="checkbox" id="animal" name="features" value="animal"
-									th:field="*{features}">
-								<label for="animal">Aceita Animais de Estimação</label><br>
+								<input class="feature_filter" type="checkbox" id="animal" name="features" value="Animais de Estimação" th:field="*{features}">
+								<label for="animal">Aceita Animais</label><br>
 							</div>
-							-->
-
-							<button class="btn btn-primary" type="submit">Submit form</button>
+							<button class="btn btn-primary" type="submit">Search</button>
 						</form>
-
-
-						<!--<div id="search_button" style="background-color: #3d5170; width:200px; height: 100px;">
-							CLICK ME
-						</div>-->
-
 					</div>
 
 				</div>
@@ -171,6 +155,24 @@
 	</div>
 </body>
 <script type="text/javascript">
+
+
+	var x = Object.values(document.getElementsByName("_features"));
+	x.forEach(function(e){
+		e.remove();
+	})
+
+
+	/*
+	$( document ).ready(function() {
+		document.getElementsByName("max-price").value = 1500;
+		document.getElementsByName("min-price").value = 0;
+	});
+
+
+	if(document.getElementById("testName").checked) {
+		document.getElementById('testNameHidden').disabled = true;
+	}
 	function searchPlace() {
 		document.getElementById("searchBar");
 		var arrayLocals = document.getElementsByClassName("searchResult");
@@ -181,65 +183,42 @@
 		}
 	}
 
-	// ----------------------
-	// AJAX REQUEST ATTEMPT  
-	/* ----------------------
+	// Features
+	let features = [];
+	document.getElementById('search_button').onclick = function() {
+		features = [];
+		let checkboxes = document.getElementsByName('features');
+		for (var checkbox of checkboxes) {
+			if (checkbox.checked){
+				features.push(checkbox.value);
+			}
+		}
+		console.log("features: ",features);
 
-	// search(city, price, rating, bedrooms, bathrooms, type, minPrice, maxPrice)
-	var city = null;
-	var price = null;
-	var rating = null;
-	var bedrooms = null;
-	var bathrooms = null;
-	var type = null;
-	var minPrice = null;
-	var maxPrice = null;
-	var features = []
+		console.log("features: ",features);
 
-	$('#search_button').on('click', function () {
-		var features = []
-		var city = null;
-		var minPrice = null;
-		var maxPrice = null;
-
-		// City
-		city = $('#cities_filter :selected').text()
-
-		// Prince Range
-		const range = document.getElementsByClassName('price-slider-range');
-		minPrice = (Math.min(range[0].value, range[1].value)).toString();
-		maxPrice = (Math.max(range[0].value, range[1].value)).toString();
-
-		// Features
-		$('input:checkbox[name=features]:checked').each(function () {
-			features.push(($(this).serializeArray())[0]);
-		});
-		console.log("City: ", city);
-		console.log("Price Range: Min - ", minPrice, "; Max - ", maxPrice);
-		console.log("Features: ", features);
-
-		var data = {
-			'city': city,
+		let data = {
 			'features': features,
-			'minPrice': minPrice,
-			'maxPrice': maxPrice
 		}
 
-		$.ajax({
-			type: "POST",
-			contentType: "application/json",
-			data: JSON.stringify(data),
-			url: "/list",
-			dataType: "application/json",
-			success: function (result) {
-				$("body").html(result);
-			}
-		});
+		console.log("data: ",data);
 
+	};
+	
+
+
+	$.ajax({
+		type: "POST",
+		dataType: "application/json",
+		data: JSON.stringify(data),
+		url: "/list",
+		success: function (result) {
+			console.log(result);
+		}
 	});
 
-*/
 
+*/
 
 	slider();
 

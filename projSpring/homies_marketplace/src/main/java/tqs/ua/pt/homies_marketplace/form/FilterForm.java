@@ -4,8 +4,8 @@ import java.util.List;
 
 public class FilterForm {
     private String city;
-    private Integer minPrice;
-    private Integer maxPrice;
+    //private Integer minPrice;
+    //private Integer maxPrice;
     private List<String> features;
 
     public String getCity() {
@@ -16,6 +16,7 @@ public class FilterForm {
         this.city = city;
     }
 
+    /*
     public Integer getMinPrice() {
         return minPrice;
     }
@@ -31,7 +32,7 @@ public class FilterForm {
     public void setMaxPrice(Integer maxPrice) {
         this.maxPrice = maxPrice;
     }
-
+    */
     public List<String> getFeatures() {
         return features;
     }
