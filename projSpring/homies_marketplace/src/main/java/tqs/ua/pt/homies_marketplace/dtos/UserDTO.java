@@ -1,5 +1,6 @@
 package tqs.ua.pt.homies_marketplace.dtos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserDTO {
@@ -15,15 +16,15 @@ public class UserDTO {
     public UserDTO(){
 
     }
-    public UserDTO(String email, List<Long> favorites, String password, String firstName, String lastName, String city,List<Long> publishedHouses, List<Long> rentedHouses){
+    public UserDTO(String email, String password, String firstName, String lastName, String city){
         this.email = email;
-        this.favorites = favorites;
+        this.favorites = new ArrayList<>();
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.city = city;
-        this.publishedHouses = publishedHouses;
-        this.rentedHouses = rentedHouses;
+        this.publishedHouses = new ArrayList<>();
+        this.rentedHouses = new ArrayList<>();
     }
 
     public String getEmail() {

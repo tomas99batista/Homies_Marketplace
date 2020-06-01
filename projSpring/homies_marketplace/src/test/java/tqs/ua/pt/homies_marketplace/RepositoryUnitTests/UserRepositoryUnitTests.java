@@ -28,17 +28,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
     @Test
      void whenFindByEmail_thenReturnUser() {
-        List<Long> favorites= new ArrayList<>();
-        favorites.add(1L);
-        favorites.add(2L);
-
-        List<Long> publishedHouses= new ArrayList<>();
-        publishedHouses.add(3L);
-        publishedHouses.add(4L);
-
-        List<Long> rentedHouses= new ArrayList<>();
-        rentedHouses.add(5L);
-        rentedHouses.add(6L);
 
         String email="josefrias20@email.com";
         String password="password";
@@ -46,7 +35,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         String lastName="Frias";
         String city="Aveiro";
 
-        User user= new User(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
+        User user= new User(email, password, firstName, lastName, city);
         entityManager.persistAndFlush(user);
 
         User fromDb = userRepository.findByEmail(user.getEmail());

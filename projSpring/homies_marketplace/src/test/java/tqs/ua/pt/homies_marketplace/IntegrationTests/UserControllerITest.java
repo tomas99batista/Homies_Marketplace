@@ -56,17 +56,15 @@ class UserControllerITest {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "cityTesting", new ArrayList<>(), "photo1");
+        Place place= new Place("title1", 5.0,features, 1,1,"type1", "cityTesting", "photo1");
         Place saved=placeRepository.saveAndFlush(place);
-        List<Long> favorites= new ArrayList<>();
-        List<Long> publishedHouses= new ArrayList<>();
-        List<Long> rentedHouses= new ArrayList<>();
+
         String email="jose@email.com";
         String password="password";
         String firstName="Jose";
         String lastName="Frias";
         String city="Aveiro";
-        User user= new User(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
+        User user= new User(email, password, firstName, lastName, city);
         PlaceId placeId= new PlaceId(saved.getId());
         userRepository.saveAndFlush(user);
         String result=mvc.perform(post("/api/users/jose@email.com/favorites").contentType(MediaType.APPLICATION_JSON)
@@ -76,16 +74,13 @@ class UserControllerITest {
 
     @Test
     void givenUsers_whenGetUsers_thenReturnJsonArray() throws Exception {
-        List<Long> favorites= new ArrayList<>();
-        List<Long> publishedHouses= new ArrayList<>();
-        List<Long> rentedHouses= new ArrayList<>();
-        String email="josefrias@email.com";
+        String email="josefriasusertest@email.com";
         String password="password";
         String firstName="Jose";
         String lastName="Frias";
         String city="Aveiro";
 
-        User user= new User(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
+        User user= new User(email, password, firstName, lastName, city);
         userRepository.saveAndFlush(user);
 
         mvc.perform(get("/api/users").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
@@ -98,19 +93,19 @@ class UserControllerITest {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "cityTesting", new ArrayList<>(), "photo1");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "cityTesting", "photo1");
         Place saved=placeRepository.saveAndFlush(place);
-        List<Long> favorites= new ArrayList<>();
         List<Long> publishedHouses= new ArrayList<>();
         publishedHouses.add(saved.getId());
-        List<Long> rentedHouses= new ArrayList<>();
+
 
         String email="josefrias@email.com";
         String password="password";
         String firstName="Jose";
         String lastName="Frias";
         String city="Aveiro";
-        User user= new User(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
+        User user= new User(email, password, firstName, lastName, city);
+        user.setPublishedHouses(publishedHouses);
         userRepository.saveAndFlush(user);
         mvc.perform(get("/api/users/josefrias@email.com/publishedHouses").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
@@ -123,19 +118,18 @@ class UserControllerITest {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "cityTesting", new ArrayList<>(), "photo1");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "cityTesting", "photo1");
         Place saved=placeRepository.saveAndFlush(place);
         List<Long> favorites= new ArrayList<>();
-        List<Long> publishedHouses= new ArrayList<>();
         favorites.add(saved.getId());
-        List<Long> rentedHouses= new ArrayList<>();
 
         String email="josefrias@email.com";
         String password="password";
         String firstName="Jose";
         String lastName="Frias";
         String city="Aveiro";
-        User user= new User(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
+        User user= new User(email, password, firstName, lastName, city);
+        user.setFavorites(favorites);
         userRepository.saveAndFlush(user);
         mvc.perform(get("/api/users/josefrias@email.com/favorites").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))

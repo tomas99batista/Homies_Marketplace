@@ -1,5 +1,6 @@
 package tqs.ua.pt.homies_marketplace.dtos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlaceDTO {
@@ -19,16 +20,16 @@ public class PlaceDTO {
 
     }
 
-    public PlaceDTO(String title, double price, double rating, List<String> features, int numberBathrooms, int numberBedrooms, String type, String city, List<Long> reviews, String photos) {
+    public PlaceDTO(String title, double price, List<String> features, int numberBathrooms, int numberBedrooms, String type, String city, String photos) {
         this.title = title;
         this.price = price;
-        this.rating = rating;
+        this.rating = 0.0;
         this.features = features;
         this.numberBathrooms = numberBathrooms;
         this.numberBedrooms = numberBedrooms;
         this.type = type;
         this.city = city;
-        this.reviews = reviews;
+        this.reviews = new ArrayList<>();
         this.photos = photos;
     }
 

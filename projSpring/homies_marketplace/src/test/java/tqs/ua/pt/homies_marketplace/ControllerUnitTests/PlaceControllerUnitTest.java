@@ -72,7 +72,7 @@ import static org.mockito.Mockito.reset;
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
         given(service.save(Mockito.any())).willReturn(place);
 
         mvc.perform(post("/api/places").contentType(MediaType.APPLICATION_JSON).content(JsonUtil.toJson(place))).andExpect(status().isCreated())
@@ -89,7 +89,7 @@ import static org.mockito.Mockito.reset;
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
         List<Place> allPlaces = Arrays.asList(place);
 
         given(service.getAllPlaces()).willReturn(allPlaces);
@@ -106,9 +106,9 @@ import static org.mockito.Mockito.reset;
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
 
-        given(service.getPlaceById(1L)).willReturn(place);
+        given(service.getPlaceById(Mockito.anyLong())).willReturn(place);
 
         mvc.perform(get("/api/places/1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.title", is("title1")));
@@ -121,7 +121,7 @@ import static org.mockito.Mockito.reset;
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "aveiro");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "aveiro", "photo1");
         List<Place> allPlaces = Arrays.asList(place);
         PlaceDTO placeDTO= new PlaceDTO(place.getCity(), null, null, null, null, null);
         given(service.search(Mockito.any(), Mockito.anyString(), Mockito.anyString())).willReturn(allPlaces);

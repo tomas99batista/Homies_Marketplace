@@ -50,17 +50,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
     @Test
     void WhenGetUserByEmail_IfUserExists_thenReturnUser() throws Exception{
-       List<Long> favorites= new ArrayList<>();
-       favorites.add(1L);
-       favorites.add(2L);
 
-       List<Long> publishedHouses= new ArrayList<>();
-       publishedHouses.add(3L);
-       publishedHouses.add(4L);
-
-       List<Long> rentedHouses= new ArrayList<>();
-       rentedHouses.add(5L);
-       rentedHouses.add(6L);
 
        String email="josefrias@email.com";
        String password="password";
@@ -68,7 +58,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
        String lastName="Frias";
        String city="Aveiro";
 
-       User user= new User(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
+       User user= new User(email, password, firstName, lastName, city);
        given(service.getUserByEmail("jose@email.com")).willReturn(user);
        mvc.perform(get("/api/users/jose@email.com").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                .andExpect(jsonPath("$.email", is(user.getEmail())));
@@ -78,17 +68,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
    @Test
    void whenPostLogin_IfPasswordIsNotEqual_thenReturnNull() throws Exception{
-      List<Long> favorites= new ArrayList<>();
-      favorites.add(1L);
-      favorites.add(2L);
-
-      List<Long> publishedHouses= new ArrayList<>();
-      publishedHouses.add(3L);
-      publishedHouses.add(4L);
-
-      List<Long> rentedHouses= new ArrayList<>();
-      rentedHouses.add(5L);
-      rentedHouses.add(6L);
 
       String email="josefrias@email.com";
       String password="password";
@@ -96,8 +75,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
       String lastName="Frias";
       String city="Aveiro";
 
-      User user= new User(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
-      UserDTO userDTO=new UserDTO(email, favorites, "wrong_password", firstName, lastName, city, publishedHouses, rentedHouses);
+      User user= new User(email, password, firstName, lastName, city);
+      UserDTO userDTO=new UserDTO(email, "wrong_password", firstName, lastName, city);
       given(service.exists("josefrias@email.com")).willReturn(true);
       given(service.getUserByEmail("josefrias@email.com")).willReturn(user);
       mvc.perform(post("/api/login").contentType(MediaType.APPLICATION_JSON)
@@ -108,17 +87,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
    @Test
    void whenPostLogin_IfEmailNotExists_thenReturnNull() throws Exception{
-      List<Long> favorites= new ArrayList<>();
-      favorites.add(1L);
-      favorites.add(2L);
-
-      List<Long> publishedHouses= new ArrayList<>();
-      publishedHouses.add(3L);
-      publishedHouses.add(4L);
-
-      List<Long> rentedHouses= new ArrayList<>();
-      rentedHouses.add(5L);
-      rentedHouses.add(6L);
 
       String email="josefrias@email.com";
       String password="password";
@@ -126,8 +94,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
       String lastName="Frias";
       String city="Aveiro";
 
-      User user= new User(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
-      UserDTO userDTO=new UserDTO(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
+      User user= new User(email,  password, firstName, lastName, city);
+      UserDTO userDTO=new UserDTO(email,  password, firstName, lastName, city);
       given(service.exists("josefrias@email.com")).willReturn(false);
       given(service.getUserByEmail("josefrias@email.com")).willReturn(user);
       mvc.perform(post("/api/login").contentType(MediaType.APPLICATION_JSON)
@@ -139,17 +107,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
     @Test
     void whenPostLogin_IfValidCredentials_thenReturnUser() throws Exception{
-       List<Long> favorites= new ArrayList<>();
-       favorites.add(1L);
-       favorites.add(2L);
-
-       List<Long> publishedHouses= new ArrayList<>();
-       publishedHouses.add(3L);
-       publishedHouses.add(4L);
-
-       List<Long> rentedHouses= new ArrayList<>();
-       rentedHouses.add(5L);
-       rentedHouses.add(6L);
 
        String email="josefrias@email.com";
        String password="password";
@@ -157,8 +114,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
        String lastName="Frias";
        String city="Aveiro";
 
-       User user= new User(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
-       UserDTO userDTO=new UserDTO(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
+       User user= new User(email, password, firstName, lastName, city);
+       UserDTO userDTO=new UserDTO(email,  password, firstName, lastName, city);
        given(service.exists("josefrias@email.com")).willReturn(true);
        given(service.getUserByEmail("josefrias@email.com")).willReturn(user);
        mvc.perform(post("/api/login").contentType(MediaType.APPLICATION_JSON)
@@ -185,7 +142,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
       List<String> features= new ArrayList<>();
       features.add("feature1");
       features.add("feature2");
-      Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "cityTesting", new ArrayList<>(), "photo1");
+      Place place= new Place("title1", 5.0, features, 1,1,"type1", "cityTesting","photo1");
       given(service.addPublishedHouse("jose@email.com", place)).willReturn(true);
       mvc.perform(post("/api/users/jose@email.com/publishedHouses").contentType(MediaType.APPLICATION_JSON)
               .content(JsonUtil.toJson(place))).andReturn().getResponse().getContentAsString().equals("true");
@@ -205,17 +162,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
     @Test
      void whenPostUser_thenCreatePUser() throws Exception {
-        List<Long> favorites= new ArrayList<>();
-        favorites.add(1L);
-        favorites.add(2L);
-
-        List<Long> publishedHouses= new ArrayList<>();
-        publishedHouses.add(3L);
-        publishedHouses.add(4L);
-
-        List<Long> rentedHouses= new ArrayList<>();
-        rentedHouses.add(5L);
-        rentedHouses.add(6L);
 
         String email="josefrias@email.com";
         String password="password";
@@ -223,7 +169,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         String lastName="Frias";
         String city="Aveiro";
 
-        User user= new User(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
+        User user= new User(email, password, firstName, lastName, city);
         given(service.save(Mockito.any())).willReturn(user);
 
         mvc.perform(post("/api/users").contentType(MediaType.APPLICATION_JSON).content(JsonUtil.toJson(user))).andExpect(status().isCreated())
@@ -236,17 +182,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
     @Test
      void givenUsers_whenGetUsers_thenReturnJsonArray() throws Exception {
-        List<Long> favorites= new ArrayList<>();
-        favorites.add(1L);
-        favorites.add(2L);
 
-        List<Long> publishedHouses= new ArrayList<>();
-        publishedHouses.add(3L);
-        publishedHouses.add(4L);
-
-        List<Long> rentedHouses= new ArrayList<>();
-        rentedHouses.add(5L);
-        rentedHouses.add(6L);
 
         String email="josefrias@email.com";
         String password="password";
@@ -254,7 +190,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         String lastName="Frias";
         String city="Aveiro";
 
-        User user= new User(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
+        User user= new User(email, password, firstName, lastName, city);
         List<User> allUsers = Arrays.asList(user);
 
         given(service.getAllUsers()).willReturn(allUsers);
@@ -272,7 +208,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
         List<Place> allPlaces = Arrays.asList(place);
 
 
@@ -291,7 +227,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
       List<String> features= new ArrayList<>();
       features.add("feature1");
       features.add("feature2");
-      Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+      Place place= new Place("title1", 5.0,features, 1,1,"type1", "city", "photo1");
       List<Place> allPlaces = Arrays.asList(place);
 
 
