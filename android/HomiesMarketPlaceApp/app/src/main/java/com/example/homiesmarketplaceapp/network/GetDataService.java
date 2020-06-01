@@ -10,7 +10,9 @@ import java.util.List;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -54,4 +56,9 @@ public interface GetDataService {
 
     @POST("/api/users/{email}/booking/")
     Call<String> addHouseBooking(@Path("email") String email, @Body PlaceId body);
+
+
+    @HTTP(method = "DELETE", path = "api/users/{email}/favorites/", hasBody = true)
+    Call<String> removeFavoriteHouse(@Path("email") String email, @Body PlaceId body);
+
 }

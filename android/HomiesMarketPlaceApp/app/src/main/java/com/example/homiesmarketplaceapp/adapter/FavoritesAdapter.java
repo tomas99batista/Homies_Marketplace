@@ -25,6 +25,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
     public interface OnItemClickListener{
         void onItemClick(int position);
+        void onRemovingFromFavoritesClick(int position);
     }
 
     public void setOnItemClickListener(FavoritesAdapter.OnItemClickListener listener){
@@ -46,6 +47,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         TextView favorite_place_title;
         TextView favorite_place_location;
         TextView favorite_place_price;
+        ImageButton remove;
         FavoritesViewHolder(View itemView,final FavoritesAdapter.OnItemClickListener listener) {
             super(itemView);
             mView = itemView;
@@ -54,7 +56,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
             favorite_place_title=mView.findViewById(R.id.favorite_place_name);
             favorite_place_location=mView.findViewById(R.id.favorite_place_location);
             favorite_place_price=mView.findViewById(R.id.favorite_place_price);
-
+            remove=mView.findViewById(R.id.remove_from_favorites);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -63,6 +65,18 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
                         int position=getAdapterPosition();
                         if (position !=RecyclerView.NO_POSITION){
                             listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
+            remove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener !=null){
+                        int position=getAdapterPosition();
+                        if (position !=RecyclerView.NO_POSITION){
+                            listener.onRemovingFromFavoritesClick(position);
                         }
                     }
                 }

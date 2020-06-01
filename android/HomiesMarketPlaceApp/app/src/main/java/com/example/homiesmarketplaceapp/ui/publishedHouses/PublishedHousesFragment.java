@@ -73,7 +73,7 @@ public class PublishedHousesFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new FavoritesAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new FavoritesAdapter.OnItemClickListener(){
             @Override
             public void onItemClick(int position) {
                 Log.d("clicked", "clicked favorites");
@@ -81,6 +81,11 @@ public class PublishedHousesFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putLong("placeId", placeList.get(position).getId());
                 NavHostFragment.findNavController(PublishedHousesFragment.this).navigate(R.id.publishedHouses_to_details,bundle);
+            }
+
+            @Override
+            public void onRemovingFromFavoritesClick(int position) {
+
             }
         });
     }

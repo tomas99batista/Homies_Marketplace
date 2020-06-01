@@ -20,6 +20,7 @@ import com.example.homiesmarketplaceapp.R;
 import com.example.homiesmarketplaceapp.adapter.FavoritesAdapter;
 import com.example.homiesmarketplaceapp.adapter.FeedAdapter;
 import com.example.homiesmarketplaceapp.model.Place;
+import com.example.homiesmarketplaceapp.model.PlaceId;
 import com.example.homiesmarketplaceapp.network.GetDataService;
 import com.example.homiesmarketplaceapp.network.RetrofitClientInstance;
 
@@ -71,8 +72,8 @@ public class FavoritesFragment extends Fragment {
     }
 
     private void generateFavorites(final List<Place> placeList){
-        RecyclerView recyclerView = root.findViewById(R.id.recycler_view_favorites);
-        FavoritesAdapter adapter = new FavoritesAdapter(getContext(), placeList);
+        final RecyclerView recyclerView = root.findViewById(R.id.recycler_view_favorites);
+        final FavoritesAdapter adapter = new FavoritesAdapter(getContext(), placeList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -85,6 +86,29 @@ public class FavoritesFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putLong("placeId", placeList.get(position).getId());
                 NavHostFragment.findNavController(FavoritesFragment.this).navigate(R.id.favorites_to_details,bundle);
+            }
+
+            @Override
+            public void onRemovingFromFavoritesClick(final int position) {
+                GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+                Call<String> callRemoveFromFavorites=service.removeFavoriteHouse(email, new PlaceId(placeList.get(position).getId()));
+
+                callRemoveFromFavorites.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if (response.body().equals("true")){
+                            Toast.makeText(getContext(), "Place removed from favorites", Toast.LENGTH_SHORT).show();
+                            placeList.remove(position);
+                            adapter.notifyDataSetChanged();
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+
+                    }
+                });
             }
         });
 
