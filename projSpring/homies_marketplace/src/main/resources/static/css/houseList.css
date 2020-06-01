@@ -80,7 +80,7 @@ path{
 
 .houseCard_image{
 	margin:-20px;
-	width:80%;
+	width:100%;
 }
 
 .cellStyle{
@@ -269,8 +269,8 @@ label:hover:before {
 	right: 0;
 	position: absolute;
 	bottom: 0;
-	margin: 40px;
 	font-size: 1.6rem;
+	margin:10px -50px 10px 10px;
 }
 
 .element{
@@ -286,6 +286,32 @@ label:hover:before {
 	margin: 0 0 0 20px;
 }
 
-.feature_filter{
+#cities_filter #type{
+	width:14rem;
+	padding-left:25px;
+	font-size:0.9rem;
+	border-radius: 20px;
+	z-index:999
+}
 
+#bedrooms #bathrooms{
+	width:5rem;
+	padding-left:25px;
+	font-size:0.9rem;
+	border-radius: 20px;
+	z-index:999
+}
+#fav{
+	top: 0;
+	right: 0;
+	position: absolute;
+	margin: 10px -30px 10px 0;
+}
+#house_title{
+	min-width: fit-content;
+	margin: 10px;
+}
+
+#house_title p{
+	margin-top:-10px;
 }

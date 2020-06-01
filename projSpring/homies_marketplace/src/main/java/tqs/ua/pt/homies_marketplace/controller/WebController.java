@@ -123,39 +123,42 @@ public class WebController {
         List<String> cities = placeController.getAllCities();
         model.addAttribute("cities", cities);
         model.addAttribute("user_status",user_status);
+
         try{
             String city = myFormObject.getCity();
             List<String> features = (myFormObject.getFeatures());
+            String bedrooms = (myFormObject.getBedrooms() == 0)? null : String.valueOf(myFormObject.getBedrooms());
+            String bathrooms = (myFormObject.getBathrooms() == 0)? null : String.valueOf(myFormObject.getBathrooms());
+            String type = ((myFormObject.getType()).equals("none"))? null : myFormObject.getType().replace('_',' ');
             String minPrice = data.get("min-price");
             String maxPrice = data.get("max-price");
 
-            // System.out.println(city);
-            // System.out.println("minPrice: " + minPrice + " // maxPrice: " + maxPrice);
-            // System.out.println("Features: " + features);
-
             // search(city, price, rating, bedrooms, bathrooms, type, minPrice, maxPrice)
-            PlaceDTO placeDTO = new PlaceDTO(city, null, null, null, null, null);
+            PlaceDTO placeDTO = new PlaceDTO(city, null, null, bedrooms, bathrooms, type);
             List<Place> places = placeService.search(placeDTO, minPrice, maxPrice);
 
-            List<Place> result = new ArrayList<>();
-            for(Place place : places){
-                List<String> features_place = place.getFeatures();
-                System.out.println("1: " + features_place);
-                System.out.println("2: " + features);
-                features_place.retainAll(features);
-                System.out.println("3: " + features_place);
-                if( features_place.size() != 0 || features.toString() == null){
-                    result.add(place);
-                    System.out.println("size: " + result.size());
 
-                };
+            if(features == null){
+                model.addAttribute("places", places);
+            }
+            else{
+                List<Place> result = new ArrayList<>();
+                for(Place place : places){
+                    List<String> features_place = place.getFeatures();
+                    System.out.println("1: " + features_place);
+                    System.out.println("2: " + features);
+                    features_place.retainAll(features);
+                    System.out.println("3: " + features_place);
+                    if( features_place.size() != 0){
+                        result.add(place);
+                    }
+                }
+                model.addAttribute("places", result);
             }
 
-            System.out.println(result);
-
-            model.addAttribute("places", result);
             return "houseList";
         }
+
         catch(Exception e){
             List<Place> places = placeService.getAllPlaces();
             model.addAttribute("places", places);
@@ -163,43 +166,9 @@ public class WebController {
         }
     }
 
-
-    /* AJAX REQUEST ATTEMPT
-    @PostMapping(value = "/list", headers = "Accept=application/json")
-    public String filter_places(Model model, @ResponseBody Map<String,Object> data) throws Exception {
-
-        List<String> cities = placeController.getAllCities();   //cities
-        try {
-            System.out.println(data.getClass().getName());
-            String city = (String) data.get("city");
-            System.out.println(city);
-
-            //List<Place> places = placeService.searchByCity((String) city);
-            PlaceDTO placeDTO = new PlaceDTO(city, null, null, null, null, null);
-
-            // search(city, price, rating, bedrooms, bathrooms, type, minPrice, maxPrice)
-            List<Place> places = placeService.search(placeDTO, (String) data.get("minPrice"), (String) data.get("maxPrice"));
-            System.out.print(places);
-            model.addAttribute("places", places);
-            model.addAttribute("cities", cities);
-            model.addAttribute("user_status",user_status);
-
-
-
-            return "houseList";
-        }
-        catch (Exception e){
-            model.addAttribute("cities", cities);
-            model.addAttribute("user_status",user_status);
-
-            return "error";
-        }
-
-    }*/
-
     @GetMapping("/list/{id}")
     public String details(@PathVariable("id") long id, Model model){
-        Place place = placeService.getPlaceById(0L);
+        Place place = placeService.getPlaceById(id);
         List<String> cities = placeController.getAllCities();
         model.addAttribute("cities", cities);
         model.addAttribute("placeTitle", place.getTitle());
@@ -212,20 +181,11 @@ public class WebController {
 
     @RequestMapping(method = RequestMethod.GET, value="/list/city/{city}")
     public String places_by_city(Model model, @PathVariable("city") String city) {
-        //Quando tiver alguma coisa na bd
-        //usa o search em vez de search_by_city
-        //List<Place> placesbycity = placeController.search_by_city(city);
         System.out.println("City>> " + city);
-        List<Place> places = placeService.getAllPlaces();
-        List<Place> returnPlaces = new ArrayList<>();
-        for(Place p: places){
-            if(p.getCity().equals(city))
-                returnPlaces.add(p);
-        }
-        System.out.println(returnPlaces);
+        List<Place> placesbycity = placeService.searchByCity(city);
         List<String> cities = placeController.getAllCities();
         model.addAttribute("cities", cities);
-        model.addAttribute("places", returnPlaces);
+        model.addAttribute("places", placesbycity);
         model.addAttribute("user_status",user_status);
         model.addAttribute("filtered_places", new FilterForm());
         return "houseList";

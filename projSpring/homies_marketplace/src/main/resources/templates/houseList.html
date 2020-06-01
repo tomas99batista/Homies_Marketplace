@@ -43,18 +43,15 @@
 
 								<label class="filter_title">City</label>
 								<select form="filter_form" name="city" id="cities_filter" th:field="*{city}"
-									class="form-control select2-single" style="	width:14rem;
-																				padding-left:25px;
-																				font-size:0.9rem;
-																				border-radius: 20px;
-																				z-index:999">
+									class="form-control select2-single">
+
+									<option selected th:value="none"> -- select an option -- </option>
 									<option th:each="city : ${cities}"  th:value="${city}" th:text='${city}'></option>
 								</select>
 							</div>
 
 							<!-- ! FILTER: Price Range Slider -->
 							<div class="form-group">
-
 								<label class="filter_title">Price Range</label>
 
 								<div class="price-slider">
@@ -71,6 +68,53 @@
 										00,00 € - 1.500,00 €
 									</p>
 								</div>
+							</div>
+							<!-- ! FILTER: Bedroom -->
+							<div class="form-group">
+
+								<label class="filter_title">Number of Bedrooms</label>
+								<select form="filter_form" name="bedrooms" id="bedrooms" th:field="*{bedrooms}"
+										class="form-control select2-single">
+									<option selected  th:value="0"> -- </option>
+									<option th:value="1">1</option>
+									<option th:value="2">2</option>
+									<option th:value="3">3</option>
+									<option th:value="4">4</option>
+									<option th:value="5">5</option>
+									<option th:value="6">6</option>
+									<option th:value="7">7</option>
+								</select>
+							</div>
+
+							<!-- ! FILTER: Bathrooms -->
+							<div class="form-group">
+
+								<label class="filter_title">Number of Bathrooms</label>
+								<select form="filter_form" name="bathrooms" id="bathrooms" th:field="*{bathrooms}"
+										class="form-control select2-single">
+									<option selected th:value="0"> -- </option>
+									<option th:value="1">1</option>
+									<option th:value="2">2</option>
+									<option th:value="3">3</option>
+									<option th:value="4">4</option>
+									<option th:value="5">5</option>
+									<option th:value="6">6</option>
+									<option th:value="7">7</option>
+								</select>
+							</div>
+
+							<!-- ! FILTER: Type -->
+							<div class="form-group">
+								<label class="filter_title">Type</label><br>
+
+								<select form="filter_form" name="type" id="type" th:field="*{type}"
+										class="form-control select2-single">
+									<option selected th:value="none"> -- select an option -- </option>
+									<option th:value="Quarto_partilhado">Quarto partilhado</option>
+									<option th:value="Quarto_privado">Quarto privado</option>
+									<option th:value="Casa_Inteira">Casa Inteira</option>
+
+								</select>
 							</div>
 
 							<!-- ! FILTER: Features -->
@@ -103,20 +147,26 @@
 			<div class="col-9 houseTab">
 				<div class="" modelAttribute="places" th:each="place: ${places}">
 					<section class="section mt-5">
-						<div class="container houseCard">
+						<div th:id="${place['id']}" onClick="reply_click(this.id)" class="container houseCard">
 							<div class="row">
 								<div class="col-md-6">
 									<div>
 										<img alt="room" class="img-fluid houseCard_image"
-											onclick="window.open('/list/1')" th:src="@{/media/room-1.jpg}" />
+											onclick="redirect()" th:src="@{/media/room-1.jpg}" />
 									</div>
 								</div>
 								<div class="col-md-6 col-lg-5 d-flex align-items-center mt-4 mt-md-0">
 									<div>
-										<div class="col-2">
-											<h2 th:text="${place['title']}"></h2>
+										<div class="col-4" id="house_title">
+											<h5 th:text="${place['title']}"></h5>
+											<p th:text="${place['type']}"></p>
 										</div>
+
 										<div class="col-6">
+											<div class="element">
+												<img th:src="@{/media/pin.svg}">
+												<p class="text" style="font-weight: bold" th:text="${place['city']}"></p>
+											</div>
 											<div class="element">
 												<img th:src="@{/media/bed.svg}">
 												<div class="text" th:text="${place['numberBedrooms']} + ' bedrooms'">
@@ -128,16 +178,12 @@
 												</div>
 											</div>
 										</div>
-										<div class="col-4">
+										<div  style="min-width: fit-content"  class="col-4">
 											<div th:text="'Rating: ' + ${place['rating']}"></div>
-											<div th:text="${place['city']}"></div>
 										</div>
 									</div>
 									<div class="row">
-										<img style="bottom: 0;
-    												left: 0;
-    												position: absolute;
-    												margin: 27px 27px 27px -39px;" th:src="@{/media/blank_heart.svg}">
+										<img id="fav" th:src="@{/media/blank_heart.svg}">
 										<div class="price" th:text="${place['price'] + '€/mês'}"></div>
 									</div>
 								</div>
@@ -156,69 +202,14 @@
 </body>
 <script type="text/javascript">
 
-
+	function reply_click(clicked_id)
+	{
+		window.location.href ="/list/"+ clicked_id;
+	}
 	var x = Object.values(document.getElementsByName("_features"));
 	x.forEach(function(e){
 		e.remove();
 	})
-
-
-	/*
-	$( document ).ready(function() {
-		document.getElementsByName("max-price").value = 1500;
-		document.getElementsByName("min-price").value = 0;
-	});
-
-
-	if(document.getElementById("testName").checked) {
-		document.getElementById('testNameHidden').disabled = true;
-	}
-	function searchPlace() {
-		document.getElementById("searchBar");
-		var arrayLocals = document.getElementsByClassName("searchResult");
-		for (var i = 0; i < arrayLocals.len; i++) {
-			if (arrayLocals[i].innerText != "Lisboa") {
-				arrayLocals[i].style.display = "none";
-			}
-		}
-	}
-
-	// Features
-	let features = [];
-	document.getElementById('search_button').onclick = function() {
-		features = [];
-		let checkboxes = document.getElementsByName('features');
-		for (var checkbox of checkboxes) {
-			if (checkbox.checked){
-				features.push(checkbox.value);
-			}
-		}
-		console.log("features: ",features);
-
-		console.log("features: ",features);
-
-		let data = {
-			'features': features,
-		}
-
-		console.log("data: ",data);
-
-	};
-	
-
-
-	$.ajax({
-		type: "POST",
-		dataType: "application/json",
-		data: JSON.stringify(data),
-		url: "/list",
-		success: function (result) {
-			console.log(result);
-		}
-	});
-
-
-*/
 
 	slider();
 

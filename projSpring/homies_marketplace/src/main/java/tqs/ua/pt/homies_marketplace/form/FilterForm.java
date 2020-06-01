@@ -4,9 +4,30 @@ import java.util.List;
 
 public class FilterForm {
     private String city;
+    private Integer bedrooms;
+    private Integer bathrooms;
+    private List<String> features;
+    private String type;
     //private Integer minPrice;
     //private Integer maxPrice;
-    private List<String> features;
+
+        /*
+        public Integer getMinPrice() {
+            return minPrice;
+        }
+
+        public void setMinPrice(Integer minPrice) {
+            this.minPrice = minPrice;
+        }
+
+        public Integer getMaxPrice() {
+            return maxPrice;
+        }
+
+        public void setMaxPrice(Integer maxPrice) {
+            this.maxPrice = maxPrice;
+        }
+        */
 
     public String getCity() {
         return city;
@@ -16,23 +37,30 @@ public class FilterForm {
         this.city = city;
     }
 
-    /*
-    public Integer getMinPrice() {
-        return minPrice;
+    public String getType() {
+        return type;
     }
 
-    public void setMinPrice(Integer minPrice) {
-        this.minPrice = minPrice;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public Integer getMaxPrice() {
-        return maxPrice;
+    public Integer getBedrooms() {
+        return bedrooms;
     }
 
-    public void setMaxPrice(Integer maxPrice) {
-        this.maxPrice = maxPrice;
+    public void setBedrooms(Integer bedrooms) {
+        this.bedrooms = bedrooms;
     }
-    */
+
+    public Integer getBathrooms() {
+        return bathrooms;
+    }
+
+    public void setBathrooms(Integer bathrooms) {
+        this.bathrooms = bathrooms;
+    }
+
     public List<String> getFeatures() {
         return features;
     }
