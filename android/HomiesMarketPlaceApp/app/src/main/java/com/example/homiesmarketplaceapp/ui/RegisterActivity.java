@@ -52,8 +52,8 @@ public class RegisterActivity extends AppCompatActivity {
     private void register(){
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
 
-        Call<User> registerUser = service.registerUser(new User(new_email.getText().toString(), new ArrayList<Long>(), new_password.getText().toString(),
-                new_firstName.getText().toString(), new_lastName.getText().toString(), "city", new ArrayList<Long>(), new ArrayList<Long>()));
+        Call<User> registerUser = service.registerUser(new User(new_email.getText().toString(), new_password.getText().toString(),
+                new_firstName.getText().toString(), new_lastName.getText().toString(), "city"));
         registerUser.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {

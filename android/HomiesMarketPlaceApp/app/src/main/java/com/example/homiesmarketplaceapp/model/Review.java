@@ -26,12 +26,6 @@ public class Review {
         this.rating=rating;
     }
 
-    public Review(Long id, String email, double rating, String comment) {
-        this.id = id;
-        this.email = email;
-        this.rating = rating;
-        this.comment = comment;
-    }
 
     public Long getId() {
         return id;

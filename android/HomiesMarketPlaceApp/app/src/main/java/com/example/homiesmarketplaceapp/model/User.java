@@ -2,6 +2,7 @@ package com.example.homiesmarketplaceapp.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
@@ -39,15 +40,15 @@ public class User {
         this.password = password;
     }
 
-    public User(String email, List<Long> favorites, String password, String firstName, String lastName, String city, List<Long> publishedHouses, List<Long> rentedHouses) {
+    public User(String email, String password, String firstName, String lastName, String city) {
         this.email = email;
-        this.favorites = favorites;
+        this.favorites = new ArrayList<>();
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.city = city;
-        this.publishedHouses = publishedHouses;
-        this.rentedHouses = rentedHouses;
+        this.publishedHouses = new ArrayList<>();
+        this.rentedHouses = new ArrayList<>();
     }
 
     public String getEmail() {

@@ -81,7 +81,7 @@ public class AddHouseFragment extends Fragment {
         int No_bathrooms=Integer.parseInt(no_bathrooms);
         ArrayList<String> placeFeatures= new ArrayList<>();
         placeFeatures.addAll(Arrays.asList(features));
-        Place place= new Place(0L, placeTitle, price, 0.0, placeFeatures, No_bathrooms, No_bedrooms, placeType, placeCity, new ArrayList<Long>(), imageUrl);
+        Place place= new Place( placeTitle, price, placeFeatures, No_bathrooms, No_bedrooms, placeType, placeCity, imageUrl);
         Call<String> addPublishedHouse=service.addPublishedHouse(email, place);
         addPublishedHouse.enqueue(new Callback<String>() {
             @Override
