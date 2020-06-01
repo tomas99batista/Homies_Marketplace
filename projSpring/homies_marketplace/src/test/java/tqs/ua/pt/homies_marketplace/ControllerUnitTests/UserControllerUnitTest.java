@@ -22,13 +22,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -239,4 +239,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
       verify(placeService, VerificationModeFactory.times(1)).getFavoriteHouses("josefrias@email.com");
       reset(placeService);
    }
+
+    @Test
+    void GivenUsersWithFavoriteHouses_WhenDeleteFavoriteHouses_thenReturnTrue() throws Exception{
+
+        PlaceId placeId= new PlaceId(1L);
+        Mockito.when(service.removeFavoritePlace(Mockito.anyString(),Mockito.any())).thenReturn(true);
+        String result=mvc.perform(delete("/api/users/josefrias@email.com/favorites").contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.toJson(placeId))).andReturn().getResponse().getContentAsString();
+        assertThat(result).isEqualTo("true");
+    }
 }

@@ -82,4 +82,9 @@ public class UserController {
         }
         return null;
     }
+
+    @DeleteMapping("/users/{email}/favorites")
+    public boolean deleteFavoritePlace(@PathVariable("email") String email, @RequestBody PlaceId placeId){
+        return userService.removeFavoritePlace(email, placeId);
+    }
 }

@@ -24,6 +24,13 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private BookServiceImpl bookService;
 
+
+
+    @Override
+    public boolean removeFavoritePlace(String email, PlaceId placeId) {
+        return userRepository.removeFavoriteHouse(email, placeId.getId())==1;
+    }
+
     @Override
     public boolean addToRentedHouses(String email, PlaceId placeId){
         if (exists(email)){

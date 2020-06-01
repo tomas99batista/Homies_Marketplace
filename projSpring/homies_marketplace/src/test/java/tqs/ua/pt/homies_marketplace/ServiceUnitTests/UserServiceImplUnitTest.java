@@ -290,6 +290,20 @@ class UserServiceImplUnitTest {
         assertThat(saved).isEqualTo(false);
     }
 
+    @Test
+    void whenDeleteFromFavorites_thenResponseShouldBeTrue(){
+        Mockito.when(userRepository.removeFavoriteHouse(Mockito.anyString(), Mockito.anyLong())).thenReturn(1);
+        boolean deleted=userService.removeFavoritePlace("jose@email.com", new PlaceId(1L));
+        assertThat(deleted).isEqualTo(true);
+    }
+
+    @Test
+    void whenDeleteDontDeleteFavorites_thenResponseShouldBeFalse(){
+        Mockito.when(userRepository.removeFavoriteHouse(Mockito.anyString(), Mockito.anyLong())).thenReturn(0);
+        boolean deleted=userService.removeFavoritePlace("jose@email.com", new PlaceId(1L));
+        assertThat(deleted).isEqualTo(false);
+    }
+
     //Verify if methods are called
     private void verifyFindByEmailIsCalledOnce(String email) {
         Mockito.verify(userRepository, VerificationModeFactory.times(1)).findByEmail(email);
