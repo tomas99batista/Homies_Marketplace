@@ -25,6 +25,7 @@ import java.util.*;
 
 @Controller
 public class WebController {
+
     public static String user_status = "user_not_logged";
 
     @Autowired
@@ -97,12 +98,10 @@ public class WebController {
     }
 
 
-    @RequestMapping(method = RequestMethod.GET, value = "/test")
+    @RequestMapping(method = RequestMethod.GET, value = "/")
     public String index(Model model){
-        model.addAttribute("user", "user");
-        model.addAttribute("place", "place");
         model.addAttribute("user_status",user_status);
-        return "test";
+        return "index";
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
