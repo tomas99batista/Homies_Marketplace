@@ -175,19 +175,33 @@ public class WebController {
     }
 
     @RequestMapping(value = "/addtofavorite", method = RequestMethod.POST, headers="Content-Type=application/json")
-    public @ResponseBody JSONObject post(@RequestBody String string) {
-        String id_string = string.replace('"',' ').replaceAll("\\s+","");
-        System.out.println("id: " + id_string  + " - " + string.getClass().getName());
-        Long id_long = parseLong(id_string, 10);
+    public @ResponseBody JSONObject post(@RequestBody JSONObject data) {
+        System.out.println(data);
+        // Get id
+        Long id_long = parseLong( (String) data.get("place_id"),10);
         if(user_status.equals("user_logged")){
-            userService.addToFavorites(user_logged.getEmail(), new PlaceId(id_long));
-            System.out.println("User logged");
+            // Logged Status
             JSONObject response = new JSONObject();
             response.put("user_status","user_logged");
-            System.out.println(" ATUALIZADO FAVORITOS DO MENINO: " + placeService.getFavoriteHouses(user_logged.getEmail()).size());
+
+            // Not Saved
+            if(data.get("status").equals("not_saved")){
+                // Add to Favorites
+                userService.addToFavorites(user_logged.getEmail(), new PlaceId(id_long));
+                response.put("action","added");
+                System.out.println(" ADICIONADO // FAVORITOS DO MENINO: " + placeService.getFavoriteHouses(user_logged.getEmail()).size());
+            }
+            // Already Saved
+            else{
+                userService.removeFavoritePlace(user_logged.getEmail(), new PlaceId(id_long));
+                response.put("action","removed");
+                System.out.println(" REMOVIDO // FAVORITOS DO MENINO: " + placeService.getFavoriteHouses(user_logged.getEmail()).size());
+
+            }
             return response;
         }
         else{
+            // Not Logged Status
             System.out.println("User not logged");
             JSONObject response = new JSONObject();
             response.put("user_status","user_not_logged");
