@@ -6,6 +6,7 @@ services:
     build: ./
     ports:
       - "8080:8080"
+    restart: always  
     depends_on:
       - dbpostgresql
   dbpostgresql:
@@ -14,6 +15,7 @@ services:
       - 5432
     ports:
       - "5432:5432"
+    restart: always  
     environment:
       - POSTGRES_PASSWORD=password
       - POSTGRES_USER=postgres
