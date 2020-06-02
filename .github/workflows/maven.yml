@@ -32,5 +32,11 @@ jobs:
         java-version: 1.8
     - name: Maven Package
       run: mvn -f projSpring/homies_marketplace/pom.xml clean package -DskipTests
+    - name: Sonarcloud Check
+      run: mvn -f projSpring/homies_marketplace/pom.xml -B -q verify sonar:sonar -Dsonar.projectKey=tomas99batista_Homies_Marketplace -Dsonar.host.url=http://sonarcloud.io -Dsonar.login=8ccea55f9b6d6437ca66ce12e62339a97a6852cd -Dsonar.organization=tomas99batista  
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     - name: Maven Verify
       run: mvn -f projSpring/homies_marketplace/pom.xml clean verify
+    
