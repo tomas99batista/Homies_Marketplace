@@ -13,6 +13,7 @@ import tqs.ua.pt.homies_marketplace.form.FilterForm;
 import tqs.ua.pt.homies_marketplace.form.LoginRegistrationForm;
 import tqs.ua.pt.homies_marketplace.form.UserRegistrationForm;
 import tqs.ua.pt.homies_marketplace.models.Place;
+import tqs.ua.pt.homies_marketplace.models.PlaceId;
 import tqs.ua.pt.homies_marketplace.models.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import tqs.ua.pt.homies_marketplace.repository.PlaceRepository;
@@ -22,6 +23,8 @@ import tqs.ua.pt.homies_marketplace.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.*;
+
+import static java.lang.Long.parseLong;
 
 @Controller
 public class WebController {
@@ -109,9 +112,14 @@ public class WebController {
 
     @RequestMapping(value = "/list")
     public String places(Model model){
-        //cities
+        List<Place> favorites = new ArrayList<>();
+
+        if(user_status.equals("user_logged")){
+            favorites = placeService.getFavoriteHouses(user_logged.getEmail());
+        }
         List<String> cities = placeController.getAllCities();
         List<Place> places = placeService.getAllPlaces();
+        model.addAttribute("favorites", favorites);
         model.addAttribute("places", places);
         model.addAttribute("cities", cities);
         model.addAttribute("user_status",user_status);
@@ -126,7 +134,7 @@ public class WebController {
         model.addAttribute("cities", cities);
         model.addAttribute("user_status",user_status);
         try{
-            String city = myFormObject.getCity();
+            String city = ((myFormObject.getType()).equals("none"))? null : myFormObject.getCity();
             List<String> features = (myFormObject.getFeatures());
             String bedrooms = (myFormObject.getBedrooms() == 0)? null : String.valueOf(myFormObject.getBedrooms());
             String bathrooms = (myFormObject.getBathrooms() == 0)? null : String.valueOf(myFormObject.getBathrooms());
@@ -169,6 +177,27 @@ public class WebController {
         }
     }
 
+    @RequestMapping(value = "/addtofavorite", method = RequestMethod.POST, headers="Content-Type=application/json")
+    public @ResponseBody JSONObject post(@RequestBody String string) {
+        String id_string = string.replace('"',' ').replaceAll("\\s+","");
+        System.out.println("id: " + id_string  + " - " + string.getClass().getName());
+        Long id_long = parseLong(id_string, 10);
+        if(user_status.equals("user_logged")){
+            userService.addToFavorites(user_logged.getEmail(), new PlaceId(id_long));
+            System.out.println("User logged");
+            JSONObject response = new JSONObject();
+            response.put("user_status","user_logged");
+            System.out.println(" ATUALIZADO FAVORITOS DO MENINO: " + placeService.getFavoriteHouses(user_logged.getEmail()).size());
+            return response;
+        }
+        else{
+            System.out.println("User not logged");
+            JSONObject response = new JSONObject();
+            response.put("user_status","user_not_logged");
+            return response;
+        }
+    }
+
     @GetMapping("/list/{id}")
     public String details(@PathVariable("id") long id, Model model){
         Place place = placeService.getPlaceById(id);
@@ -182,23 +211,29 @@ public class WebController {
         return "details";
     }
 
+    /*
     @PostMapping("/list/{id}")
-    public String fav(Model model, @ModelAttribute("filtered_places") FilterForm myFormObject, @RequestParam Map<String,String> data) {
+    @ResponseBody
+    public void fav(Model model, @RequestParam Map<String,String> data) {
 
-    }
+    }*/
 
 
 
     @RequestMapping(method = RequestMethod.GET, value="/list/city/{city}")
     public String places_by_city(Model model, @PathVariable("city") String city) {
-        System.out.println("City>> " + city);
-        List<Place> placesbycity = placeService.searchByCity(city);
+        List<Place> favorites = new ArrayList<>();
+
+        if(user_status.equals("user_logged")){
+            favorites = placeService.getFavoriteHouses(user_logged.getEmail());
+        }
         List<String> cities = placeController.getAllCities();
-        model.addAttribute("cities", cities);
+        List<Place> placesbycity = placeService.searchByCity(city);
+        model.addAttribute("favorites", favorites);
         model.addAttribute("places", placesbycity);
+        model.addAttribute("cities", cities);
         model.addAttribute("user_status",user_status);
         model.addAttribute("filtered_places", new FilterForm());
-        System.out.println(placesbycity);
         return "houseList";
     }
 

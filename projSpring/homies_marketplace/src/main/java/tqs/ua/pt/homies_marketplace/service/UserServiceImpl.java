@@ -22,6 +22,9 @@ public class UserServiceImpl implements UserService{
     private PlaceService placeService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private BookServiceImpl bookService;
 
     @Override
