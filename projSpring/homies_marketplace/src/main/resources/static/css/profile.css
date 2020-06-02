@@ -4,6 +4,7 @@
 html{
     font-family: 'Poppins',sans-serif;
     background: white;
+    overflow-x:hidden;
 }
 a{
     text-decoration: none;
@@ -198,4 +199,38 @@ strong,span{
         margin: 0 5%;
         margin-bottom: 30px;
     }
+}
+
+
+.houseCard {
+    max-width: 300px;
+    margin: 1rem;
+    border-radius: 4px;
+    box-shadow: 0 -1px 1px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+    background: #fff;
+    position: relative;
+}
+
+.cardRow{
+    flex-wrap: nowrap;
+    display: flex;
+    overflow: auto;
+}
+
+.card-img{
+    height:250px;
+    overflow: hidden;
+}
+
+.title{
+    font-weight: bolder;
+    margin: 10px;
+}
+
+.price{
+    padding-right: 20px;
+    font-size: 1.0rem;
+    margin: 10px;
+    transform: translate(70%,0%);
 }

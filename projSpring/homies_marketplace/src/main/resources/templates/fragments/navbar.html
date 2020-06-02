@@ -15,21 +15,47 @@
         <div class="navbar-nav">
         </div>
         <th:block th:switch="${user_status}">
-            <div th:case="'user_not_logged'" class="navbar-nav ml-auto btn-active" >
+            <!-- If not logged -->
+            <div th:case="'user_not_logged'" class="navbar-nav ml-auto btn-active span" id="not_logged">
                 <a href="login" class="nav-item">Login</a>
                 <a href="/register" class="nav-item">Register</a>
             </div>
-            <div th:case="'user_logged'" class="navbar-nav ml-auto btn-active" >
-                <span th:text="${user_status}"></span>
+            <!-- If logged -->
+            <div th:case="'user_logged'" href="/profile" class="navbar-nav ml-auto btn-active span" style="align-content:center"  id="logged">
+
+                <a href="/profile">
+                    <img th:src="@{/media/user.svg}" href="/profile"  style="margin-right:3px">
+                    <p style="display: contents" id="username"></p>
+                </a>
             </div>
         </th:block>
     </div>
-
-<div th:case="'logged'">
-    <div class="navbar-nav">
-    </div>
-</div>
 </nav>
 
 </body>
+<script>
+    // Get User
+        var status = document.getElementsByClassName("span").id;
+        var data = { 'status' : status };
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type:"post",
+            data: JSON.stringify(data),
+            url:"/getUser",
+            async: false,
+            error: function (xhr, status) {
+                console.log(status);
+                console.log(xhr.responseText);
+            },
+            success: function (result) {
+                console.log(result);
+                var status = document.getElementById("username").innerHTML = "Hello " + result.user +" !";
+            }
+        });
+
+
+</script>
 </html>

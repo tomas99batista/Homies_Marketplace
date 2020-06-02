@@ -27,7 +27,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 public class WebController {
 
     public static String user_status = "user_not_logged";
-    public static User user_logged;
+    public static User user_logged = new User();
 
     @Autowired
     PlaceService placeService;
@@ -45,6 +45,8 @@ public class WebController {
     @RequestMapping(method = RequestMethod.GET, value = "/register")
     String register(Model model){
         model.addAttribute("user", new UserRegistrationForm());
+
+        // navbar
         model.addAttribute("user_status",user_status);
         return "register";
     }
@@ -63,6 +65,8 @@ public class WebController {
             userService.save(user);
             user_logged = user;
             user_status = "user_logged";
+
+            // navbar
             model.addAttribute("user_status",user_status);
             return "index";
         } else {
@@ -74,6 +78,8 @@ public class WebController {
     @RequestMapping(method = RequestMethod.GET, value = "/login")
     String login(Model model){
         model.addAttribute("user", new LoginRegistrationForm());
+
+        //navbar
         model.addAttribute("user_status",user_status);
         return "login";
     }
@@ -103,6 +109,7 @@ public class WebController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/")
     public String index(Model model){
+        // navbar
         model.addAttribute("user_status",user_status);
         return "index";
     }
@@ -119,9 +126,10 @@ public class WebController {
         model.addAttribute("favorites", favorites);
         model.addAttribute("places", places);
         model.addAttribute("cities", cities);
-        model.addAttribute("user_status",user_status);
         model.addAttribute("filtered_places", new FilterForm());
-        System.out.println(places);
+
+        // navbar
+        model.addAttribute("user_status",user_status);
         return "houseList";
     }
 
@@ -129,6 +137,8 @@ public class WebController {
     public String filters(Model model, @ModelAttribute("filtered_places") FilterForm myFormObject, @RequestParam Map<String,String> data){
         List<String> cities = placeController.getAllCities();
         model.addAttribute("cities", cities);
+
+        // navbar
         model.addAttribute("user_status",user_status);
         try{
             String city = ((myFormObject.getType()).equals("none"))? null : myFormObject.getCity();
@@ -217,6 +227,8 @@ public class WebController {
         model.addAttribute("placeTitle", place.getTitle());
         model.addAttribute("place", place);
         model.addAttribute("placeFeatures", place.getFeatures());
+
+        // navbar
         model.addAttribute("user_status",user_status);
         System.out.println(place.getFeatures());
         return "details";
@@ -229,7 +241,24 @@ public class WebController {
 
     }*/
 
+    @RequestMapping(value = "/getUser", method = RequestMethod.POST, headers="Content-Type=application/json")
+    public @ResponseBody JSONObject sendUser(@RequestBody JSONObject data) {
+        System.out.println(data);
+        // Get id
+        String status = (String) data.get("status");
+        System.out.println(status);
+        JSONObject response = new JSONObject();
+        response.put("user", user_logged.getFirstName());
+    /*
+        if(status.equals("logged")){
+            response.put("user", user_logged.getFirstName());
+        }
+        else{
+            response.put("user","not_logged");
+        }*/
+        return response;
 
+    }
 
     @RequestMapping(method = RequestMethod.GET, value="/list/city/{city}")
     public String places_by_city(Model model, @PathVariable("city") String city) {
@@ -249,10 +278,16 @@ public class WebController {
     }
 
 
+
     @GetMapping("/profile")
     public String profile(Model model){
         List<User> users = userService.getAllUsers();
+        List<Place> favoriteHouses = placeService.getFavoriteHouses(user_logged.getEmail());
+        List<Place> publishedHouses = placeService.getPublishedHouses(user_logged.getEmail());
         model.addAttribute("users",users);
+        model.addAttribute("user_logged",user_logged);
+        model.addAttribute("favorites",favoriteHouses);
+        model.addAttribute( "published", publishedHouses);
         model.addAttribute("user_status",user_status);
         return "profile";
     }
