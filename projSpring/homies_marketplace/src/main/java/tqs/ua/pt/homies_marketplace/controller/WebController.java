@@ -27,6 +27,7 @@ import java.util.*;
 public class WebController {
 
     public static String user_status = "user_not_logged";
+    public static User user_logged;
 
     @Autowired
     PlaceService placeService;
@@ -60,6 +61,7 @@ public class WebController {
             user.setCity(userRegistrationForm.getCity());
             System.out.println("new user: " + user);
             userService.save(user);
+            user_logged = user;
             user_status = "user_logged";
             model.addAttribute("user_status",user_status);
             return "index";
@@ -84,6 +86,7 @@ public class WebController {
                 User user = userService.getUserByEmail(loginRegistrationForm.getEmail());
                 System.out.println("logged user: " + user);
                 user_status = "user_logged";
+                user_logged = user;
                 model.addAttribute("user_status",user_status);
                 return "index";
             } else {
@@ -104,7 +107,7 @@ public class WebController {
         return "index";
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/list")
     public String places(Model model){
         //cities
         List<String> cities = placeController.getAllCities();
@@ -113,16 +116,15 @@ public class WebController {
         model.addAttribute("cities", cities);
         model.addAttribute("user_status",user_status);
         model.addAttribute("filtered_places", new FilterForm());
+        System.out.println(places);
         return "houseList";
     }
-
 
     @PostMapping("/list")
     public String filters(Model model, @ModelAttribute("filtered_places") FilterForm myFormObject, @RequestParam Map<String,String> data){
         List<String> cities = placeController.getAllCities();
         model.addAttribute("cities", cities);
         model.addAttribute("user_status",user_status);
-
         try{
             String city = myFormObject.getCity();
             List<String> features = (myFormObject.getFeatures());
@@ -132,12 +134,13 @@ public class WebController {
             String minPrice = data.get("min-price");
             String maxPrice = data.get("max-price");
 
+
             // search(city, price, rating, bedrooms, bathrooms, type, minPrice, maxPrice)
             PlaceDTO placeDTO = new PlaceDTO(city, null, null, bedrooms, bathrooms, type);
             List<Place> places = placeService.search(placeDTO, minPrice, maxPrice);
 
-
             if(features == null){
+                System.out.println(places);
                 model.addAttribute("places", places);
             }
             else{
@@ -152,6 +155,7 @@ public class WebController {
                         result.add(place);
                     }
                 }
+                System.out.println(result);
                 model.addAttribute("places", result);
             }
 
@@ -178,6 +182,13 @@ public class WebController {
         return "details";
     }
 
+    @PostMapping("/list/{id}")
+    public String fav(Model model, @ModelAttribute("filtered_places") FilterForm myFormObject, @RequestParam Map<String,String> data) {
+
+    }
+
+
+
     @RequestMapping(method = RequestMethod.GET, value="/list/city/{city}")
     public String places_by_city(Model model, @PathVariable("city") String city) {
         System.out.println("City>> " + city);
@@ -187,6 +198,7 @@ public class WebController {
         model.addAttribute("places", placesbycity);
         model.addAttribute("user_status",user_status);
         model.addAttribute("filtered_places", new FilterForm());
+        System.out.println(placesbycity);
         return "houseList";
     }
 

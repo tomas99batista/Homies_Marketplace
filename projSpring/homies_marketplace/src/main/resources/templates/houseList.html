@@ -145,62 +145,66 @@
 				</div>
 			</div>
 			<div class="col-9 houseTab">
-				<div class="" modelAttribute="places" th:each="place: ${place}">
+				<div class="" th:each="place: ${places}">
 					<section class="section mt-5">
-						<div th:id="${place['id']}" onClick="reply_click(this.id)" class="container houseCard">
+						<div class="container houseCard">
 							<div class="row">
-								<div class="col-md-6">
-									<div>
-										<img alt="room" class="img-fluid houseCard_image"
-											onclick="redirect()" th:src="@{/media/room-1.jpg}" />
-									</div>
+								<div class="col-md-6" style="overflow: hidden;">
+								<div>
+									<img alt="room" th:name="${place['id']}" onClick="reply_click(this.name)"  class="img-fluid houseCard_image" th:src="${place['photos']}" />
 								</div>
+							</div>
 								<div class="col-md-6 col-lg-5 d-flex align-items-center mt-4 mt-md-0">
-									<div>
-										<div class="col-4" id="house_title">
-											<h5 th:text="${place['title']}"></h5>
-											<p th:text="${place['type']}"></p>
+								<div>
+									<div class="col-4" id="house_title">
+										<h5 th:text="${place['title']}"></h5>
+										<p th:text="${place['type']}"></p>
+									</div>
+									<div class="col-6">
+										<div class="element">
+											<img th:src="@{/media/pin.svg}">
+											<p class="text" style="font-weight: bold" th:text="${place['city']}"></p>
 										</div>
-
-										<div class="col-6">
-											<div class="element">
-												<img th:src="@{/media/pin.svg}">
-												<p class="text" style="font-weight: bold" th:text="${place['city']}"></p>
-											</div>
-											<div class="element">
-												<img th:src="@{/media/bed.svg}">
-												<div class="text" th:text="${place['numberBedrooms']} + ' bedrooms'">
-												</div>
-											</div>
-											<div class="element">
-												<img th:src="@{/media/wash.svg}">
-												<div class="text" th:text="${place['numberBathrooms']} + ' bathrooms'">
-												</div>
+										<div class="element">
+											<img th:src="@{/media/bed.svg}">
+											<div class="text" th:text="${place['numberBedrooms']} + ' bedrooms'">
 											</div>
 										</div>
-										<div  style="min-width: fit-content"  class="col-4">
-											<div th:text="'Rating: ' + ${place['rating']}"></div>
+										<div class="element">
+											<img th:src="@{/media/wash.svg}">
+											<div class="text" th:text="${place['numberBathrooms']} + ' bathrooms'">
+											</div>
 										</div>
 									</div>
-									<div class="row">
-										<img id="fav" th:src="@{/media/blank_heart.svg}">
+									<div class="row" >
+										<img id="fav" th:name="${place['id']}" th:src="@{/media/blank_heart.svg}" onClick="save_fav(this.name)" th:value="${place}">
 										<div class="price" th:text="${place['price'] + '€/mês'}"></div>
 									</div>
 								</div>
 							</div>
+							</div>
 						</div>
 					</section>
 				</div>
-
-
-			</div>
-			<div class="col-1"></div>
-			<div>
 			</div>
 		</div>
 	</div>
 </body>
 <script type="text/javascript">
+	function save_fav(place_id){
+		document.getElementById("fav").src = "@{/media/filled_heart.svg}";
+		console.log("ENTROU: ", place_id);
+		var data = { 'place_id' : place_id };
+		$.ajax({
+			type:"post",
+			data: JSON.stringify(place_id),
+			url:"/list",
+			dataType: "json",
+			success: function(result){
+				console.log("")
+			}
+		});
+	}
 
 	function reply_click(clicked_id)
 	{

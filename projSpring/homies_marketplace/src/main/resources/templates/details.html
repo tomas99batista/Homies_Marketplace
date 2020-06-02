@@ -72,7 +72,7 @@
 				</div>
 			</div>
 			<div class="row">
-
+				<img id="fav" th:name="${place['id']}" th:src="@{/media/blank_heart.svg}" onClick="save_fav(this.name)" th:value="${place}">
 			</div>
 		</div>
 	</div>
