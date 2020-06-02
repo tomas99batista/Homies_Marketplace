@@ -20,6 +20,5 @@ jobs:
         java-version: 1.8
     - name: CD Pipeline 
       run: |
-        docker run --name postgres  -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password -d postgres
-        docker build --tag "homies" ~/Homies_Marketplace/projSpring/homies_marketplace;
-        docker run -p 8080:8080 -d homies;
+        mvn -f projSpring/homies_marketplace/pom.xml clean package -DskipTests
+        docker-compose up --build
