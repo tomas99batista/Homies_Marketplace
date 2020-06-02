@@ -20,4 +20,11 @@ jobs:
         java-version: 1.8
     - name: Maven package
       run: mvn -f projSpring/homies_marketplace/pom.xml clean package -DskipTests
+    - name: Maven verify 
+      run: mvn -f projSpring/homies_marketplace/pom.xml clean verify
+    
+    - uses: actions/checkout@v2
+    - name: CD Pipeline
+      run: docker-compose -f /projSpring/homies_marketplace/docker-compose.yml up --build
+     
         
