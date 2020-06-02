@@ -21,4 +21,4 @@ jobs:
     - name: CD Pipeline 
       run: |
         mvn -f projSpring/homies_marketplace/pom.xml clean package -DskipTests
-        docker-compose -f projSpring/homies_marketplace/docker-compose.yml up --build
+        docker-compose -f projSpring/homies_marketplace/docker-compose.yml --build
