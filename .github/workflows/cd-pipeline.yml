@@ -10,7 +10,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  CD:
 
     runs-on: self-hosted
     
