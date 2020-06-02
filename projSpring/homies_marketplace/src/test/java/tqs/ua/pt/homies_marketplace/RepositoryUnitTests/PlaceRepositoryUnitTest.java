@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@AutoConfigureTestDatabase
  class PlaceRepositoryUnitTest {
 
     @Autowired
