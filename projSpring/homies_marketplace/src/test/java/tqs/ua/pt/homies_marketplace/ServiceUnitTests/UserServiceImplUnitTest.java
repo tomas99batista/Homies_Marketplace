@@ -36,17 +36,6 @@ class UserServiceImplUnitTest {
 
     @BeforeEach
      void setUp(){
-        List<Long> favorites= new ArrayList<>();
-        favorites.add(1L);
-        favorites.add(2L);
-
-        List<Long> publishedHouses= new ArrayList<>();
-        publishedHouses.add(3L);
-        publishedHouses.add(4L);
-
-        List<Long> rentedHouses= new ArrayList<>();
-        rentedHouses.add(5L);
-        rentedHouses.add(6L);
 
         String email="jose@email.com";
         String password="password";
@@ -54,13 +43,13 @@ class UserServiceImplUnitTest {
         String lastName="Frias";
         String city="Aveiro";
 
-        User user= new User(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
+        User user= new User(email,  password, firstName, lastName, city);
 
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
-
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
+        place.setId(1L);
         List<User> users= new ArrayList<>();
         users.add(user);
         Mockito.when(userRepository.findAll()).thenReturn(users);
@@ -78,17 +67,7 @@ class UserServiceImplUnitTest {
     //test save of users
     @Test
      void whenPostUser_thenUserShouldBeSaved() {
-        List<Long> favorites= new ArrayList<>();
-        favorites.add(1L);
-        favorites.add(2L);
 
-        List<Long> publishedHouses= new ArrayList<>();
-        publishedHouses.add(3L);
-        publishedHouses.add(4L);
-
-        List<Long> rentedHouses= new ArrayList<>();
-        rentedHouses.add(5L);
-        rentedHouses.add(6L);
 
         String email="jose@email.com";
         String password="password";
@@ -96,7 +75,7 @@ class UserServiceImplUnitTest {
         String lastName="Frias";
         String city="Aveiro";
 
-        User user= new User(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
+        User user= new User(email, password, firstName, lastName, city);
         Mockito.when(userRepository.save(user)).thenReturn(user);
         User saved = userService.save(user);
         assertThat(saved.getEmail()).isEqualTo(user.getEmail());
@@ -130,7 +109,8 @@ class UserServiceImplUnitTest {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
+        place.setId(1L);
         Mockito.when(userRepository.insertPublishedHouse(email, place.getId())).thenReturn(1);
         Mockito.when(placeService.save(place)).thenReturn(place);
         boolean saved=userService.addPublishedHouse(email, place);
@@ -145,7 +125,8 @@ class UserServiceImplUnitTest {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
+        place.setId(1L);
         Mockito.when(userRepository.insertPublishedHouse(email, place.getId())).thenReturn(0);
         Mockito.when(placeService.save(place)).thenReturn(place);
         boolean saved=userService.addPublishedHouse(email, place);
@@ -159,7 +140,8 @@ class UserServiceImplUnitTest {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
+        place.setId(1L);
         Mockito.when(userRepository.insertPublishedHouse(email, place.getId())).thenReturn(1);
         Mockito.when(placeService.save(place)).thenReturn(null);
         boolean saved=userService.addPublishedHouse(email, place);
@@ -173,8 +155,8 @@ class UserServiceImplUnitTest {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
-
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
+        place.setId(1L);
         boolean bool=userService.addPublishedHouse(email, place);
         assertThat(bool).isEqualTo(false);
         verifyInsertNewPublishedHouseIsNotCalled(email, place.getId());
@@ -186,7 +168,8 @@ class UserServiceImplUnitTest {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
+        place.setId(1L);
         Mockito.when(userRepository.insertFavoriteHouse(email, 1L)).thenReturn(1);
         Mockito.when(placeService.getPlaceById(1L)).thenReturn(place);
         boolean saved=userService.addToFavorites(email, new PlaceId(place.getId()));
@@ -201,7 +184,8 @@ class UserServiceImplUnitTest {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
+        place.setId(1L);
         Mockito.when(userRepository.findByEmail(email)).thenReturn(null);
         Mockito.when(placeService.getPlaceById(1L)).thenReturn(place);
         boolean saved=userService.addToFavorites(email, new PlaceId(place.getId()));
@@ -216,7 +200,8 @@ class UserServiceImplUnitTest {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
+        place.setId(1L);
         Mockito.when(placeService.getPlaceById(1L)).thenReturn(null);
         boolean saved=userService.addToFavorites(email, new PlaceId(place.getId()));
         assertThat(saved).isEqualTo(false);
@@ -230,17 +215,15 @@ class UserServiceImplUnitTest {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
-        List<Long> favorites= new ArrayList<>();
-        List<Long> publishedHouses= new ArrayList<>();
-        List<Long> rentedHouses= new ArrayList<>();
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
+        place.setId(1L);
         String userEmail="jose@email.com";
         String password="password";
         String firstName="Jose";
         String lastName="Frias";
         String city="Aveiro";
 
-        User user= new User(email, favorites, password, firstName, lastName, city, publishedHouses, rentedHouses);
+        User user= new User(email, password, firstName, lastName, city);
         Mockito.when(userRepository.insertRentedHouse(email, 1L)).thenReturn(1);
         Mockito.when(userRepository.findOwner(1L)).thenReturn(user);
         Mockito.when(bookService.createBooking(new Booking(userEmail, userEmail, 1L))).thenReturn(new Booking(userEmail, userEmail, 1L));
@@ -256,7 +239,8 @@ class UserServiceImplUnitTest {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
+        place.setId(1L);
         Mockito.when(userRepository.findByEmail(email)).thenReturn(null);
         Mockito.when(placeService.getPlaceById(1L)).thenReturn(place);
         boolean saved=userService.addToRentedHouses(email, new PlaceId(place.getId()));
@@ -271,7 +255,8 @@ class UserServiceImplUnitTest {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
+        place.setId(1L);
         Mockito.when(placeService.getPlaceById(1L)).thenReturn(null);
         boolean saved=userService.addToRentedHouses(email, new PlaceId(place.getId()));
         assertThat(saved).isEqualTo(false);
@@ -285,7 +270,8 @@ class UserServiceImplUnitTest {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
+        place.setId(1L);
         Mockito.when(userRepository.insertRentedHouse(email, place.getId())).thenReturn(0);
         boolean saved=userService.addToRentedHouses(email, new PlaceId(place.getId()));
         assertThat(saved).isEqualTo(false);
@@ -297,10 +283,25 @@ class UserServiceImplUnitTest {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
+        place.setId(1L);
         Mockito.when(userRepository.insertFavoriteHouse(email, place.getId())).thenReturn(0);
         boolean saved=userService.addToFavorites(email, new PlaceId(place.getId()));
         assertThat(saved).isEqualTo(false);
+    }
+
+    @Test
+    void whenDeleteFromFavorites_thenResponseShouldBeTrue(){
+        Mockito.when(userRepository.removeFavoriteHouse(Mockito.anyString(), Mockito.anyLong())).thenReturn(1);
+        boolean deleted=userService.removeFavoritePlace("jose@email.com", new PlaceId(1L));
+        assertThat(deleted).isEqualTo(true);
+    }
+
+    @Test
+    void whenDeleteDontDeleteFavorites_thenResponseShouldBeFalse(){
+        Mockito.when(userRepository.removeFavoriteHouse(Mockito.anyString(), Mockito.anyLong())).thenReturn(0);
+        boolean deleted=userService.removeFavoritePlace("jose@email.com", new PlaceId(1L));
+        assertThat(deleted).isEqualTo(false);
     }
 
     //Verify if methods are called

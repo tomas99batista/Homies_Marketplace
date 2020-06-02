@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface UserService {
 
+
+    boolean removeFavoritePlace(String email, PlaceId placeId);
     boolean addToRentedHouses(String email, PlaceId placeId);
 
     boolean addToFavorites(String email, PlaceId placeId);

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
+<<<<<<< HEAD
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -53,4 +54,97 @@
         android:layout_gravity="top|end"
         android:layout_height="wrap_content"
          />
+=======
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_margin="10dp"
+app:cardCornerRadius="8dp"
+app:cardElevation="10dp">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+
+    <ImageView
+        android:id="@+id/placeImage"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerVertical="true"
+        android:scaleType="centerCrop"
+        >
+    </ImageView>
+
+    <TextView
+        android:id="@+id/placeType"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@+id/placeImage"
+        android:fontFamily="@font/montserrat_bold"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/placeLocation"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/placeType"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="6dp"
+        android:layout_toEndOf="@+id/placeImage"
+        android:fontFamily="@font/montserrat"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/placeBedrooms"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/placeLocation"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="6dp"
+        android:layout_toEndOf="@+id/placeImage"
+        android:fontFamily="@font/montserrat"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/placeBathrooms"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/placeBedrooms"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="6dp"
+        android:layout_toEndOf="@+id/placeImage"
+        android:fontFamily="@font/montserrat"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/placePrice"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/placeBathrooms"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="6dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:layout_toEndOf="@+id/placeImage"
+        android:textSize="17sp" />
+
+
+</RelativeLayout>
+
+<ImageButton
+    android:id="@+id/add_to_favorites"
+    android:layout_width="wrap_content"
+    android:background="@drawable/ic_favorite_border"
+    android:layout_gravity="top|end"
+    android:layout_margin="8dp"
+    android:layout_height="wrap_content"
+    />
+
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
 </androidx.cardview.widget.CardView>

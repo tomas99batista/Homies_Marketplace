@@ -52,6 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void register(){
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
 
+<<<<<<< HEAD
         Call<User> registerUser = service.registerUser(new User(new_email.getText().toString(), new ArrayList<Long>(), new_password.getText().toString(),
                 new_firstName.getText().toString(), new_lastName.getText().toString(), "city", new ArrayList<Long>(), new ArrayList<Long>()));
         registerUser.enqueue(new Callback<User>() {
@@ -59,6 +60,16 @@ public class RegisterActivity extends AppCompatActivity {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.body()!=null){
                     Log.d("user created", "user created");
+=======
+        Call<User> registerUser = service.registerUser(new User(new_email.getText().toString(), new_password.getText().toString(),
+                new_firstName.getText().toString(), new_lastName.getText().toString(), "city"));
+        registerUser.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                Log.d("user created", response.body().toString());
+                if (response.body()!=null){
+
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
                     Intent intent= new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
@@ -66,6 +77,10 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+<<<<<<< HEAD
+=======
+                Log.d("user not created", t.getLocalizedMessage());
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
 
             }
         });

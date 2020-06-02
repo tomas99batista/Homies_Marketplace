@@ -17,8 +17,10 @@ import tqs.ua.pt.homies_marketplace.HomiesMarketplaceApplication;
 import tqs.ua.pt.homies_marketplace.JsonUtil;
 import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.Review;
+import tqs.ua.pt.homies_marketplace.models.User;
 import tqs.ua.pt.homies_marketplace.repository.PlaceRepository;
 import tqs.ua.pt.homies_marketplace.repository.ReviewRepository;
+import tqs.ua.pt.homies_marketplace.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,9 +51,13 @@ class PlaceControllerITest {
     @Autowired
     private ReviewRepository reviewRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @AfterEach
     public void resetDb() {
         placeRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test
@@ -60,12 +66,20 @@ class PlaceControllerITest {
         List<Long> reviews=new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "city", reviews, "photo1");
+        Place place= new Place("title1", 5.0,features, 1,1,"type1", "city", "photo1");
+        place.setReviews(reviews);
         placeRepository.saveAndFlush(place);
+        String email="josefriasplacetest@email.com";
+        String password="password";
+        String firstName="Jose";
+        String lastName="Frias";
+        String city="Aveiro";
+        User user= new User(email, password, firstName, lastName, city);
+        userRepository.saveAndFlush(user);
         long placeId=place.getId();
-        Review review= new Review("jose@email.com", 4.0, "comment1");
-        mvc.perform(post("/api/places/"+placeId+"/reviews").contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.toJson(review))).andReturn().getResponse().getContentAsString().equals(true);
+        Review review= new Review("josefriasplacetest@email.com", 4.0, "comment1");
+        assertThat(mvc.perform(post("/api/places/"+placeId+"/reviews").contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.toJson(review))).andReturn().getResponse().getContentAsString()).isEqualTo("true");
     }
 
     @Test
@@ -78,7 +92,8 @@ class PlaceControllerITest {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "city", reviews, "photo1");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
+        place.setReviews(reviews);
         placeRepository.saveAndFlush(place);
         long placeId=place.getId();
         mvc.perform(get("/api/places/"+placeId+"/reviews").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
@@ -92,7 +107,7 @@ class PlaceControllerITest {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "city", new ArrayList<>(), "photo1");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
         placeRepository.saveAndFlush(place);
 
         mvc.perform(post("/api/places").contentType(MediaType.APPLICATION_JSON).content(JsonUtil.toJson(place))).andExpect(status().isCreated())
@@ -104,7 +119,7 @@ class PlaceControllerITest {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "city", new ArrayList<>(), "photo1");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
 
         placeRepository.saveAndFlush(place);
 
@@ -118,7 +133,7 @@ class PlaceControllerITest {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "city", new ArrayList<>(), "photo1");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
 
         Place saved=placeRepository.saveAndFlush(place);
         mvc.perform(get("/api/places/"+saved.getId()).contentType(MediaType.APPLICATION_JSON))
@@ -131,7 +146,7 @@ class PlaceControllerITest {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "city", new ArrayList<>(), "photo1");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
 
         placeRepository.saveAndFlush(place);
 
@@ -146,8 +161,8 @@ class PlaceControllerITest {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "city", new ArrayList<>(), "photo1");
-
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
+        place.setRating(5.0);
         placeRepository.saveAndFlush(place);
 
         mvc.perform(get("/api/search?city=city&price=5&rating=5&bathrooms=1&bedrooms=1&type=type1").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
@@ -161,7 +176,7 @@ class PlaceControllerITest {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "city", new ArrayList<>(), "photo1");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
 
         placeRepository.saveAndFlush(place);
 
@@ -176,7 +191,7 @@ class PlaceControllerITest {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "city", new ArrayList<>(), "photo1");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
 
         placeRepository.saveAndFlush(place);
 
@@ -191,7 +206,7 @@ class PlaceControllerITest {
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "city", new ArrayList<>(), "photo1");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
 
         placeRepository.saveAndFlush(place);
 

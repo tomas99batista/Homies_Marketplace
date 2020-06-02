@@ -25,7 +25,7 @@ public class PlaceController {
         return placeService.getReviews(id);
     }
 
-    @PostMapping("/places/{id:[0-9]+}/reviews")
+    @PostMapping("/places/{id}/reviews")
     public boolean createReview(@PathVariable("id") long id,@RequestBody ReviewDTO reviewDTO){
         Review review= new Review(reviewDTO);
         return placeService.addReview(id, review);
@@ -45,10 +45,6 @@ public class PlaceController {
         return placeService.getAllPlaces();
     }
 
-    @RequestMapping(value="/places/{identifier:[A-Za-z]+}", method=RequestMethod.GET)
-    public List<Place> getPlacesByCity(@PathVariable("identifier") String identifier) {
-        return placeService.searchByCity(identifier);
-    }
 
     @RequestMapping(value="/places/{identifier:[0-9]+}", method=RequestMethod.GET)
     public Place getPlaceById(@PathVariable("identifier") Long identifier) {

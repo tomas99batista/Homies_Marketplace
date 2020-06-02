@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <androidx.core.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,20 +14,53 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+=======
+
+<LinearLayout android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    xmlns:android="http://schemas.android.com/apk/res/android">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:background="@drawable/roomaddhousebackground"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
 
             <EditText
                 android:id="@+id/NewplaceImage"
                 android:hint="Image url"
+<<<<<<< HEAD
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
+=======
+                android:textSize="20sp"
+                android:paddingRight="30dp"
+                android:drawablePadding="5dp"
+                android:background="@drawable/search_edit_text"
+                android:drawableStart="@drawable/ic_image"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_width="170dp"
+                android:layout_height="40dp"
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
                 android:scaleType="centerCrop"
                 />
 
             <EditText
                 android:id="@+id/New_place_title"
                 android:hint="Name"
+<<<<<<< HEAD
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_width="match_parent"
@@ -34,10 +68,33 @@
                 android:gravity="center"
 
                 />
+=======
+                android:paddingRight="30dp"
+                android:drawablePadding="5dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/search_edit_text"
+                android:drawableStart="@drawable/ic_name"
+                android:textSize="20sp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_width="170dp"
+                android:layout_height="40dp"
+
+                />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
 
             <EditText
                 android:id="@+id/New_place_city"
                 android:hint="City"
+<<<<<<< HEAD
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
                 android:textSize="25sp"
@@ -87,14 +144,119 @@
                 android:layout_marginStart="16dp"
                 android:textSize="15sp"
                 android:layout_height="wrap_content"/>
+=======
+                android:paddingRight="30dp"
+                android:drawablePadding="5dp"
+                android:background="@drawable/search_edit_text"
+                android:drawableStart="@drawable/ic_location"
+                android:layout_width="170dp"
+                android:layout_margin="16dp"
+                android:textSize="20sp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_height="40dp"/>
+
+            <EditText
+                android:id="@+id/New_place_price"
+                android:hint="Price"
+                android:paddingRight="30dp"
+                android:drawablePadding="5dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/search_edit_text"
+                android:drawableStart="@drawable/ic_price"
+                android:inputType="number"
+                android:layout_width="170dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:textSize="20sp"
+                android:layout_height="40dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+            <EditText
+                android:id="@+id/New_place_features"
+                android:hint="Wifi, TV"
+                android:paddingRight="30dp"
+                android:drawablePadding="5dp"
+                android:background="@drawable/search_edit_text"
+                android:layout_width="170dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_margin="16dp"
+                android:drawableStart="@drawable/ic_features"
+                android:textSize="20sp"
+                android:layout_height="40dp"/>
+
+            <EditText
+                android:id="@+id/New_place_type"
+                android:hint="Type"
+                android:paddingRight="30dp"
+                android:drawablePadding="5dp"
+                android:background="@drawable/search_edit_text"
+                android:layout_width="170dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:drawableStart="@drawable/ic_house"
+                android:textSize="20sp"
+                android:layout_margin="16dp"
+                android:layout_marginBottom="10dp"
+                android:layout_height="40dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+            <EditText
+                android:id="@+id/New_place_no_bedrooms"
+                android:hint="Bedrooms"
+                android:paddingRight="30dp"
+                android:drawablePadding="5dp"
+                android:background="@drawable/search_edit_text"
+                android:drawableStart="@drawable/ic_bedrooms"
+                android:layout_width="170dp"
+                android:layout_marginStart="16dp"
+                android:layout_margin="16dp"
+                android:layout_marginEnd="16dp"
+                android:textSize="20sp"
+                android:layout_height="40dp"/>
+            <EditText
+                android:id="@+id/New_place_no_bathrooms"
+                android:hint="Bathrooms"
+                android:paddingRight="30dp"
+                android:layout_margin="16dp"
+                android:drawablePadding="5dp"
+                android:background="@drawable/search_edit_text"
+                android:drawableStart="@drawable/ic_bathrooms"
+                android:layout_marginEnd="16dp"
+                android:layout_width="170dp"
+                android:layout_marginStart="16dp"
+                android:textSize="20sp"
+                android:layout_height="40dp"/>
+            </LinearLayout>
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
 
             <Button
                 android:id="@+id/submitHouse"
                 android:text="Submit"
+<<<<<<< HEAD
+=======
+                android:textColor="#fff"
+                android:background="@drawable/button_search_shape"
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
                 android:layout_gravity="end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
+<<<<<<< HEAD
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
+=======
+</LinearLayout>
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76

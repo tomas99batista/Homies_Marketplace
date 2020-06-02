@@ -29,4 +29,8 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query(value = "select * from users where email in (select users_email from users_published_houses where published_houses=?1)", nativeQuery = true)
     User findOwner(long placeId);
 
+    @Modifying
+    @Query(value = "delete from users_favorites where users_email like ?1 and favorites=?2", nativeQuery = true)
+    int removeFavoriteHouse(String email, long id);
+
 }

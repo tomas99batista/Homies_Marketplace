@@ -28,7 +28,7 @@ import java.util.List;
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "city",new ArrayList<>(), "photo1");
+        Place place= new Place("title1", 5.0,features, 1,1,"type1", "city", "photo1");
         entityManager.persistAndFlush(place);
 
         Place fromDb = placeRepository.findById(place.getId()).orElse(null);
@@ -48,7 +48,7 @@ import java.util.List;
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(null,"title1", 5.0, 5.0,features, 1,1,"type1", "cityTesting", new ArrayList<>(), "photo1");
+        Place place= new Place("title1", 5.0,features, 1,1,"type1", "cityTesting", "photo1");
         entityManager.persistAndFlush(place);
 
         List<Place> found = placeRepository.findByCity("cityTesting");

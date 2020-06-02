@@ -25,6 +25,10 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
     public interface OnItemClickListener{
         void onItemClick(int position);
+<<<<<<< HEAD
+=======
+        void onRemovingFromFavoritesClick(int position);
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
     }
 
     public void setOnItemClickListener(FavoritesAdapter.OnItemClickListener listener){
@@ -44,15 +48,29 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         public final View mView;
         ImageView favorite_place_image;
         TextView favorite_place_title;
+<<<<<<< HEAD
         TextView favorite_place_details;
+=======
+        TextView favorite_place_location;
+        TextView favorite_place_price;
+        ImageButton remove;
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
         FavoritesViewHolder(View itemView,final FavoritesAdapter.OnItemClickListener listener) {
             super(itemView);
             mView = itemView;
 
+<<<<<<< HEAD
             favorite_place_image=mView.findViewById(R.id.favorite_event_image);
             favorite_place_title=mView.findViewById(R.id.favorite_event_name);
             favorite_place_details=mView.findViewById(R.id.favorite_event_details);
 
+=======
+            favorite_place_image=mView.findViewById(R.id.favorite_place_image);
+            favorite_place_title=mView.findViewById(R.id.favorite_place_name);
+            favorite_place_location=mView.findViewById(R.id.favorite_place_location);
+            favorite_place_price=mView.findViewById(R.id.favorite_place_price);
+            remove=mView.findViewById(R.id.remove_from_favorites);
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -66,6 +84,21 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
                 }
             });
 
+<<<<<<< HEAD
+=======
+            remove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener !=null){
+                        int position=getAdapterPosition();
+                        if (position !=RecyclerView.NO_POSITION){
+                            listener.onRemovingFromFavoritesClick(position);
+                        }
+                    }
+                }
+            });
+
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
         }
     }
 
@@ -80,7 +113,12 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
     @Override
     public void onBindViewHolder(@NonNull FavoritesAdapter.FavoritesViewHolder holder, int position) {
         holder.favorite_place_title.setText(dataList.get(position).getTitle());
+<<<<<<< HEAD
         holder.favorite_place_details.setText(dataList.get(position).getCity());
+=======
+        holder.favorite_place_location.setText(dataList.get(position).getCity());
+        holder.favorite_place_price.setText(((int)dataList.get(position).getPrice()) + " €/month");
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
         Glide.with(context).load(dataList.get(position).getPhotos()).into(holder.favorite_place_image);
     }
 

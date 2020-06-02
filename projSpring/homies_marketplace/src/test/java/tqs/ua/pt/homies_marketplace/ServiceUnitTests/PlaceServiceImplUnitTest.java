@@ -46,7 +46,7 @@ import java.util.List;
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
         List<Place> places=new ArrayList<>();
         places.add(place);
 
@@ -110,7 +110,7 @@ import java.util.List;
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
         Mockito.when(placeRepository.save(place)).thenReturn(place);
         Place saved = placeService.save(place);
 
@@ -122,7 +122,7 @@ import java.util.List;
      void WhenSearchByExistingCity_thenPlaceShouldBeFound(){
         List<Place> fromDb=placeService.searchByCity("city");
         verifyfindByCityIsCalledOnce("city");
-        assertThat(fromDb).hasSize(1).extracting(Place::getId).contains(1L);
+        assertThat(fromDb).hasSize(1).extracting(Place::getTitle).contains("title1");
 
     }
 
@@ -188,7 +188,7 @@ import java.util.List;
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
         List<Place> placeList=new ArrayList<>();
         placeList.add(place);
         Place spec=new Place();
@@ -197,7 +197,7 @@ import java.util.List;
         spec.setType("type1");
         Mockito.when(placeRepository.findAll((PlaceSpecification)Mockito.any())).thenReturn(placeList);
         List<Place> results=placeService.search(new PlaceDTO("city", "5", null, null, null, "type1"), null, null);
-        assertThat(results).hasSize(1).extracting(Place::getRating).contains(5.0);
+        assertThat(results).hasSize(1).extracting(Place::getCity).contains("city");
 
     }
 
@@ -206,7 +206,7 @@ import java.util.List;
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
         List<Place> placeList=new ArrayList<>();
         placeList.add(place);
         Place spec=new Place();
@@ -215,7 +215,7 @@ import java.util.List;
         spec.setType("type1");
         Mockito.when(placeRepository.findAll((PlaceSpecification)Mockito.any())).thenReturn(placeList);
         List<Place> results=placeService.search(new PlaceDTO("city", "5", "5.0", "1", "1", "type1"), "0", "5");
-        assertThat(results).hasSize(1).extracting(Place::getRating).contains(5.0);
+        assertThat(results).hasSize(1).extracting(Place::getCity).contains("city");
 
     }
 
@@ -224,7 +224,7 @@ import java.util.List;
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
         List<Place> placeList=new ArrayList<>();
         placeList.add(place);
         Place spec=new Place();
@@ -233,7 +233,7 @@ import java.util.List;
         spec.setType("type1");
         Mockito.when(placeRepository.findAll((PlaceSpecification)Mockito.any())).thenReturn(placeList);
         List<Place> results=placeService.search(new PlaceDTO("city", "5", null, null, null, "type1"), "0", null);
-        assertThat(results).hasSize(1).extracting(Place::getRating).contains(5.0);
+        assertThat(results).hasSize(1).extracting(Place::getCity).contains("city");
 
     }
 
@@ -242,7 +242,7 @@ import java.util.List;
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
         List<Place> placeList=new ArrayList<>();
         placeList.add(place);
         Place spec=new Place();
@@ -251,7 +251,7 @@ import java.util.List;
         spec.setType("type1");
         Mockito.when(placeRepository.findAll((PlaceSpecification)Mockito.any())).thenReturn(placeList);
         List<Place> results=placeService.search(new PlaceDTO("city", "5", null, null, null, "type1"), null, "5");
-        assertThat(results).hasSize(1).extracting(Place::getRating).contains(5.0);
+        assertThat(results).hasSize(1).extracting(Place::getCity).contains("city");
 
     }
 
@@ -260,7 +260,7 @@ import java.util.List;
         List<String> features= new ArrayList<>();
         features.add("feature1");
         features.add("feature2");
-        Place place= new Place(1L,"title1", 5.0, 5.0,features, 1,1,"type1", "city");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
         List<Place> placeList=new ArrayList<>();
         Place spec=new Place();
         spec.setCity("city");

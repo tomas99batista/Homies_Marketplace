@@ -27,7 +27,12 @@
                 android:layout_marginEnd="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+<<<<<<< HEAD
                 android:textSize="35sp"
+=======
+                android:textSize="30sp"
+                android:fontFamily="@font/montserrat_bold"
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
                 android:gravity="center"
 
                 />
@@ -36,12 +41,20 @@
                 android:id="@+id/details_place_city"
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
+<<<<<<< HEAD
 
                 android:textSize="25sp"
+=======
+                android:fontFamily="@font/montserrat"
+                android:textSize="25sp"
+                android:drawableStart="@drawable/ic_location"
+                android:drawablePadding="5dp"
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
                 android:layout_marginStart="16dp"
                 android:gravity="start"
                 android:layout_height="wrap_content"/>
 
+<<<<<<< HEAD
             <TextView
                 android:id="@+id/details_place_rating"
                 android:layout_width="match_parent"
@@ -50,16 +63,39 @@
                 android:layout_marginStart="16dp"
                 android:gravity="start"
                 android:layout_height="wrap_content"/>
+=======
+
+            <RatingBar
+                android:id="@+id/details_place_rating"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:numStars="5"
+                android:saveEnabled="true" />
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
 
             <TextView
                 android:id="@+id/details_place_price"
                 android:layout_width="match_parent"
+<<<<<<< HEAD
                 android:layout_marginStart="16dp"
                 android:textSize="18sp"
+=======
+                android:drawableStart="@drawable/ic_price"
+                android:drawablePadding="5dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:textSize="20sp"
+                android:fontFamily="@font/montserrat"
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
                 android:gravity="start"
                 android:layout_height="wrap_content"/>
 
             <TextView
+<<<<<<< HEAD
                 android:id="@+id/details_place_features"
                 android:layout_width="match_parent"
                 android:layout_marginStart="16dp"
@@ -89,6 +125,68 @@
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>
+=======
+                android:id="@+id/details_place_type"
+                android:layout_width="match_parent"
+                android:layout_marginStart="16dp"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/montserrat"
+                android:drawableStart="@drawable/ic_house"
+                android:drawablePadding="5dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/details_place_no_bedrooms"
+                android:layout_width="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:drawableStart="@drawable/ic_bedrooms"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/montserrat"
+                android:textSize="20sp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/details_place_no_bathrooms"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="16dp"
+                android:drawableStart="@drawable/ic_bathrooms"
+                android:fontFamily="@font/montserrat"
+                android:drawablePadding="5dp"
+                android:textSize="20sp"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:layout_margin="16dp"
+                android:textColor="#000000"
+                android:textSize="22sp"
+                android:text="Features"/>
+
+            <TextView
+                android:id="@+id/details_place_features"
+                android:layout_width="match_parent"
+                android:layout_marginStart="16dp"
+                android:textSize="20sp"
+                android:fontFamily="@font/montserrat"
+                android:gravity="start"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_margin="16dp"
+            android:id="@+id/addBooking"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:text="Book"
+            android:background="@drawable/button_search_shape"/>
+
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -102,9 +200,16 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+<<<<<<< HEAD
                 android:text="Reviews"
                 android:textColor="#000000"
                 android:textSize="20sp" />
+=======
+                android:fontFamily="@font/open_sans"
+                android:text="Reviews"
+                android:textColor="#000000"
+                android:textSize="22sp" />
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
 
             <Button
                 android:id="@+id/addReviewBtn"
@@ -115,6 +220,10 @@
                 android:layout_marginEnd="16dp"
                 android:padding="5dp"
                 android:text="Add a review"
+<<<<<<< HEAD
+=======
+                android:background="@drawable/button_search_shape"
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
                 android:textColor="#ffffff" />
 
         </LinearLayout>

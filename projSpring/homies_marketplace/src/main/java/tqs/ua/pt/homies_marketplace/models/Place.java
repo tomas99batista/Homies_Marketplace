@@ -47,22 +47,11 @@ public class Place {
     public Place(){
 
     }
-    public Place(Long id, String title, Double price, Double rating, List<String> features, int numberBathrooms, int numberBedrooms, String type, String city) {
-        this.id = id;
-        this.title = title;
-        this.price = price;
-        this.rating = rating;
-        this.features = features;
-        this.numberBathrooms = numberBathrooms;
-        this.numberBedrooms = numberBedrooms;
-        this.type = type;
-        this.city=city;
-    }
 
-    public Place(String title, double price, double rating, List<String> features, int numberBathrooms, int numberBedrooms, String type, String city, String photos) {
+    public Place(String title, double price, List<String> features, int numberBathrooms, int numberBedrooms, String type, String city, String photos) {
         this.title = title;
         this.price = price;
-        this.rating = rating;
+        this.rating = 0.0;
         this.features = features;
         this.numberBathrooms = numberBathrooms;
         this.numberBedrooms = numberBedrooms;
@@ -72,19 +61,6 @@ public class Place {
         this.photos = photos;
     }
 
-    public Place(Long id, String title, double price, double rating, List<String> features, int numberBathrooms, int numberBedrooms, String type, String city, List<Long> reviews, String photos) {
-        this.id = id;
-        this.title = title;
-        this.price = price;
-        this.rating = rating;
-        this.features = features;
-        this.numberBathrooms = numberBathrooms;
-        this.numberBedrooms = numberBedrooms;
-        this.type = type;
-        this.city = city;
-        this.reviews = reviews;
-        this.photos = photos;
-    }
 
     public Place(PlaceDTO placeDTO){
         this.title = placeDTO.getTitle();
@@ -157,4 +133,15 @@ public class Place {
         this.city = city;
     }
 
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public void setReviews(List<Long> reviews) {
+        this.reviews = reviews;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

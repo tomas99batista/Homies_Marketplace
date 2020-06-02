@@ -2,9 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< HEAD
     android:orientation="vertical">
 
     <ImageView
+=======
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
         android:id="@+id/profile_image"
         android:layout_width="150dp"
         android:layout_marginStart="16dp"
@@ -12,7 +19,13 @@
         android:layout_marginTop="16dp"
         android:layout_gravity="center"
         android:layout_height="150dp"
+<<<<<<< HEAD
         android:background="@drawable/ic_profile"
+=======
+        app:civ_border_width="2dp"
+        app:civ_border_color="#FF000000"
+        android:src="@drawable/ic_profile"
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
         />
 
     <Button
@@ -21,7 +34,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+<<<<<<< HEAD
         android:background="#FFFFFF"
+=======
+        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/open_sans"
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
         android:text="Published Houses"
         android:textAlignment="viewStart" />
 
@@ -29,16 +48,28 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:background="#FFFFFF"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+=======
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/open_sans"
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
         android:text="Settings"
         android:textAlignment="viewStart" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:background="#FFFFFF"
+=======
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/open_sans"
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:text="Help"
@@ -47,9 +78,19 @@
         android:id="@+id/logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:background="#FFFFFF"
+=======
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/open_sans"
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:text="Logout"
         android:textAlignment="viewStart" />
+<<<<<<< HEAD
 </LinearLayout>
+=======
+</LinearLayout>
+
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76

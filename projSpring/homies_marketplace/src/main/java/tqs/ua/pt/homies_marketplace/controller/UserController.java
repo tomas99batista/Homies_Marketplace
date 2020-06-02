@@ -13,7 +13,6 @@ import tqs.ua.pt.homies_marketplace.service.PlaceService;
 import tqs.ua.pt.homies_marketplace.service.UserService;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -72,4 +71,20 @@ public class UserController {
         return userService.getUserByEmail(email);
     }
 
+    @PostMapping("/login")
+    public User login(@RequestBody UserDTO userDTO){
+        if (userService.exists(userDTO.getEmail())){
+            User user= userService.getUserByEmail(userDTO.getEmail());
+            if (user.getPassword().equals(userDTO.getPassword())){
+                return user;
+            }
+            return null;
+        }
+        return null;
+    }
+
+    @DeleteMapping("/users/{email}/favorites")
+    public boolean deleteFavoritePlace(@PathVariable("email") String email, @RequestBody PlaceId placeId){
+        return userService.removeFavoritePlace(email, placeId);
+    }
 }
