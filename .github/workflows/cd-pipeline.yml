@@ -18,7 +18,6 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: CD Pipeline 
-      run: |
-        mvn -f /home/oneadmin/actions-runner/_work/Homies_Marketplace/Homies_Marketplace/Homies_Marketplace/projSpring/homies_marketplace/pom.xml clean package -DskipTests
+    - name: Maven package
+      run: mvn -f projSpring/homies_marketplace/pom.xml clean package -DskipTests
         
