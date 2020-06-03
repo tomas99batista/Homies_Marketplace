@@ -223,23 +223,21 @@ public class WebController {
     public String details(@PathVariable("id") long id, Model model){
         Place place = placeService.getPlaceById(id);
         List<String> cities = placeController.getAllCities();
+        List<Place> favoriteHouses = new ArrayList<>();
+
+        if(user_status.equals("user_logged")){
+            favoriteHouses = placeService.getFavoriteHouses(user_logged.getEmail());
+        }
         model.addAttribute("cities", cities);
-        model.addAttribute("placeTitle", place.getTitle());
         model.addAttribute("place", place);
         model.addAttribute("placeFeatures", place.getFeatures());
+        model.addAttribute("favorites",favoriteHouses);
 
         // navbar
         model.addAttribute("user_status",user_status);
         System.out.println(place.getFeatures());
         return "details";
     }
-
-    /*
-    @PostMapping("/list/{id}")
-    @ResponseBody
-    public void fav(Model model, @RequestParam Map<String,String> data) {
-
-    }*/
 
     @RequestMapping(value = "/getUser", method = RequestMethod.POST, headers="Content-Type=application/json")
     public @ResponseBody JSONObject sendUser(@RequestBody JSONObject data) {

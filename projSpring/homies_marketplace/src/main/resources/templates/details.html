@@ -32,47 +32,58 @@
 
 <div class="row">
 	<div class="col-3 card-info">
-		<div class="card-title" th:text="${placeTitle}"></div>
+		<div class="card-title" th:text="${place['title']}"></div>
 		<hr/>
 		<div class="card-body">
 			<!-- Bedrooms -->
 			<div class="row">
-				<p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-					Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa.
-					Pellentesque habitant morbi tristique senectus."</p>
-			</div>
-			<div class="row specifications">
-				<div class="col-6">
-					<div class="element">
-						<img th:src="@{/media/wash.svg}">
-						<div class="text" th:text="${place['numberBathrooms']} + ' bathrooms'"></div>
-					</div>
-					<div class="element">
-						<img th:src="@{/media/bed.svg}">
-						<div class="text" th:text="${place['numberBedrooms']} + ' bedrooms'"></div>
-					</div>
-					<div class="element">
-						<img th:src="@{/media/wash.svg}">
-						<div class="text" th:text="${place['numberBathrooms']} + ' bathrooms'"></div>
-					</div>
+				<div class="row">
+					<p class="title">Type:</p>
 				</div>
-				<div class="col-6">
-					<div class="element">
-						<img th:src="@{/media/bed.svg}">
-						<div class="text" th:text="${place['numberBedrooms']} + ' bedrooms'"></div>
-					</div>
-					<div class="element">
-						<img th:src="@{/media/wash.svg}">
-						<div class="text" th:text="${place['numberBathrooms']} + ' bathrooms'"></div>
-					</div>
-					<div class="element">
-						<img th:src="@{/media/bed.svg}">
-						<div class="text" th:text="${place['numberBedrooms']} + ' bedrooms'"></div>
-					</div>
+				<div class="row specifications">
+					<p th:text="${place['type']}"></p>
 				</div>
 			</div>
+			<hr>
 			<div class="row">
-				<img id="fav" th:name="${place['id']}" th:src="@{/media/blank_heart.svg}" onClick="save_fav(this.name)" th:value="${place}">
+				<div class="row">
+					<p class="title">Specifications:</p>
+				</div>
+				<div class="row specifications">
+					<div class="col-6">
+						<div class="element">
+							<img th:src="@{/media/wash.svg}">
+							<div class="text" th:text="${place['numberBathrooms']} + ' bathrooms'"></div>
+						</div>
+
+					</div>
+					<div class="col-6">
+						<div class="element">
+							<img th:src="@{/media/bed.svg}">
+							<div class="text" th:text="${place['numberBedrooms']} + ' bedrooms'"></div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<hr>
+			<div class="row">
+				<!-- Saved -->
+				<img class="fav saved"
+					 th:id="${place['id']} + _fav"
+					 th:if="${#lists.contains(favorites, place)}"
+					 th:name="${place['id']}"
+					 th:src="@{/media/filled_heart.svg}"
+					 onClick="save_fav(this.name)"
+					 th:value="${place}">
+				<!-- Not Saved -->
+				<img class="fav not_saved"
+					 th:id="${place['id']} + _fav"
+					 th:if="!${#lists.contains(favorites, place)}"
+					 th:name="${place['id']}"
+					 th:src="@{/media/blank_heart.svg}"
+					 onClick="save_fav(this.name)"
+					 th:value="${place}">
 			</div>
 		</div>
 	</div>
@@ -80,22 +91,116 @@
 	</div>
 </div>
 
-<div class="container contents">
+<div class="container contents" style="pointer-events: none">
 	<div class="card-rent row">
 		<div class="col-8">
-			*more specifications*
+			<p class="title" style="margin-top: 15px">Features</p>
+			<div class="row">
+				<ul>
+					<li th:each="feature : ${place['features']}" th:text="${feature}"></li>
+				</ul>
+			</div>
 		</div>
 		<div class="divide"></div>
-		<div class="col-3" style="position:relative;display: flex; margin-left: 15px;">
-			<div>
-
-				<hr>
+		<div class="col-3" style="	position: relative;
+    								display: block;
+    								width: 100%;
+    								align-self: center;
+    								margin-left: auto;">
+			<div style="display: inline-block;">
 				<h3 th:text="${place['price'] + '€/mês'}"></h3>
 				<p>Contas incluídas</p>
+				<hr>
+				<button id="booking">Book Now!</button>
+			</div>
+		</div>
+	</div>
+	<div class="card-rent row" style="
+    margin-top: 16px;
+">
+		<div class="col-8">
+			<p class="title" style="margin-top: 15px">Reviews</p>
+
+		</div>
+		<div class="col-3" style="	position: relative;
+    								display: block;
+    								width: 100%;
+    								align-self: center;
+    								margin-left: auto;">
+			<p class="title" style="margin-top: 15px">Add Review</p>
+			<div style="display: inline-block;">
+git
+				<hr>
+				<button id="booking">Submit</button>
 			</div>
 		</div>
 	</div>
 </div>
 
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+	<!-- Modal content -->
+	<div class="modal-content">
+		<span class="close">&times;</span>
+		<p> NOT LOGGED IN</p>
+	</div>
+</div>
 </body>
+<script>
+	// Modal
+	// Get the modal
+	var modal = document.getElementById("myModal");
+
+	// Get the <span> element that closes the modal
+	var span = document.getElementsByClassName("close")[0];
+
+	// When the user clicks on <span> (x), close the modal
+	span.onclick = function() {
+		modal.style.display = "none";
+	}
+
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+		if (event.target === modal) {
+			modal.style.display = "none";
+		}
+	}
+
+	// Favorites
+	function save_fav(place_id){
+		var status = document.getElementById(place_id + "_fav").className.split(" ").pop();
+		var data = { 'place_id' : place_id , 'status' : status };
+		$.ajax({
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			type:"post",
+			data: JSON.stringify(data),
+			url:"/addtofavorite",
+			async: false,
+			error: function (xhr, status) {
+				console.log(status);
+				console.log(xhr.responseText);
+			},
+			success: function (result) {
+				if(result.user_status === "user_not_logged"){
+					modal.style.display = "block";
+				}
+				else{
+					if(result.action === "added"){
+						document.getElementById(place_id + "_fav").src = "/media/filled_heart.svg";
+						document.getElementById(place_id + "_fav").className = "fav saved"
+
+					}
+					else{
+						document.getElementById(place_id + "_fav").src = "/media/blank_heart.svg";
+						document.getElementById(place_id + "_fav").className = "fav not_saved"
+					}
+				}
+			}
+		});
+	}
+</script>
 </html>
