@@ -1,8 +1,6 @@
 # Homies - Marketplace
 
-![Java CI with Maven](https://github.com/tomas99batista/Homies_Marketplace/workflows/Java%20CI%20with%20Maven/badge.svg)
-
-![Java CD Pipeline](https://github.com/tomas99batista/Homies_Marketplace/workflows/CD%20Pipeline/badge.svg)
+![Java CI with Maven](https://github.com/tomas99batista/Homies_Marketplace/workflows/Java%20CI%20with%20Maven/badge.svg) ![Java CD Pipeline](https://github.com/tomas99batista/Homies_Marketplace/workflows/CD%20Pipeline/badge.svg)
 
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=tomas99batista_Homies_Marketplace&metric=coverage)](https://sonarcloud.io/dashboard?id=tomas99batista_Homies_Marketplace)
 
