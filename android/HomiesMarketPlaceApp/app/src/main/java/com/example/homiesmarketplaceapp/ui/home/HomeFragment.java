@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 >>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
 import android.os.Bundle;
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,8 +33,10 @@ import com.example.homiesmarketplaceapp.R;
 import com.example.homiesmarketplaceapp.adapter.FeedAdapter;
 import com.example.homiesmarketplaceapp.model.Place;
 import com.example.homiesmarketplaceapp.model.PlaceId;
+import com.example.homiesmarketplaceapp.model.Success;
 import com.example.homiesmarketplaceapp.network.GetDataService;
 import com.example.homiesmarketplaceapp.network.RetrofitClientInstance;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 
@@ -134,18 +137,18 @@ public class HomeFragment extends Fragment {
     private void addPlaceToFavorites(String email, long placeId){
 
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-        Call<String> callAddToFavorites=service.addPlaceToFavorites(email, new PlaceId(placeId));
-        callAddToFavorites.enqueue(new Callback<String>() {
+        Call<Success> callAddToFavorites=service.addPlaceToFavorites(email, new PlaceId(placeId));
+        callAddToFavorites.enqueue(new Callback<Success>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<Success> call, Response<Success> response) {
                 Log.d("response", response.body().toString());
-                if (response.body().toString().equals("true")) {
+                if (response.body().isSuccess()) {
                     Toast.makeText(getContext(), "Place added to favorites", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<Success> call, Throwable t) {
                 Log.e("response", t.getLocalizedMessage().toString());
             }
         });

@@ -130,9 +130,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     @Test
     void whenPostFavorites_thenReturnTrue() throws Exception{
        PlaceId placeId= new PlaceId(1L);
-       given(service.addToFavorites("jose@email.com", placeId)).willReturn(true);
+       given(service.addToFavorites(Mockito.anyString(), Mockito.any())).willReturn(true);
        mvc.perform(post("/api/users/jose@email.com/favorites").contentType(MediaType.APPLICATION_JSON)
-               .content(JsonUtil.toJson(placeId))).andReturn().getResponse().getContentAsString().equals("true");
+               .content(JsonUtil.toJson(placeId))).andExpect(status().isOk())
+                .andExpect(jsonPath("$.success", is(true)));
        verify(service, VerificationModeFactory.times(1)).addToFavorites(Mockito.any(), Mockito.any());
        reset(service);
     }
@@ -245,8 +246,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
         PlaceId placeId= new PlaceId(1L);
         Mockito.when(service.removeFavoritePlace(Mockito.anyString(),Mockito.any())).thenReturn(true);
-        String result=mvc.perform(delete("/api/users/josefrias@email.com/favorites").contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.toJson(placeId))).andReturn().getResponse().getContentAsString();
-        assertThat(result).isEqualTo("true");
+        mvc.perform(delete("/api/users/josefrias@email.com/favorites").contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.toJson(placeId))).andExpect(jsonPath("$.success", is(true)));
+
     }
 }

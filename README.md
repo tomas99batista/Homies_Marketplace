@@ -8,7 +8,7 @@
 
 ## Project Abstract
 
-Homies is a web browser application that allows students to search and book houses.
+Homies is a web browser application that allows students to search and book houses!
 
 ## Project Team
 

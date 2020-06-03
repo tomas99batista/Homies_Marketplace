@@ -1,4 +1,3 @@
- 
 package com.example.homiesmarketplaceapp.ui.search_results;
 
 import android.content.SharedPreferences;

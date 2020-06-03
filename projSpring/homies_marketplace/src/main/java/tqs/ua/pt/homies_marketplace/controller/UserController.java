@@ -25,12 +25,20 @@ public class UserController {
     private PlaceService placeService;
 
     @PostMapping("/users/{email}/booking")
-    public boolean addToRentedHouses(@PathVariable("email") String email, @RequestBody PlaceId placeId){
-        return userService.addToRentedHouses(email, placeId);
+    public String addToRentedHouses(@PathVariable("email") String email, @RequestBody PlaceId placeId){
+        boolean saved= userService.addToRentedHouses(email, placeId);
+        if (saved){
+            return "{" + "\"success\""+":"+ true + "}";
+        }
+        return "{" + "\"success\""+":"+ false + "}";
     }
     @PostMapping("/users/{email}/favorites")
-    public boolean addToFavorites(@PathVariable("email") String email, @RequestBody PlaceId placeId){
-        return userService.addToFavorites(email, placeId);
+    public String addToFavorites(@PathVariable("email") String email, @RequestBody PlaceId placeId){
+        boolean saved= userService.addToFavorites(email, placeId);
+        if (saved){
+            return "{" + "\"success\""+":"+ true + "}";
+        }
+        return "{" + "\"success\""+":"+ false + "}";
     }
 
     @GetMapping("/users/{email}/favorites")
@@ -40,9 +48,13 @@ public class UserController {
 
     //publish new house
     @PostMapping("/users/{email}/publishedHouses")
-    public boolean addPublishedHouse(@PathVariable("email") String email, @RequestBody PlaceDTO placeDTO){
+    public String addPublishedHouse(@PathVariable("email") String email, @RequestBody PlaceDTO placeDTO){
         Place place= new Place(placeDTO);
-        return userService.addPublishedHouse(email, place);
+        boolean saved= userService.addPublishedHouse(email, place);
+        if (saved){
+            return "{" + "\"success\""+":"+ true + "}";
+        }
+        return "{" + "\"success\""+":"+ false + "}";
     }
 
     //get publishedHouses
@@ -84,7 +96,11 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{email}/favorites")
-    public boolean deleteFavoritePlace(@PathVariable("email") String email, @RequestBody PlaceId placeId){
-        return userService.removeFavoritePlace(email, placeId);
+    public String deleteFavoritePlace(@PathVariable("email") String email, @RequestBody PlaceId placeId){
+        boolean saved= userService.removeFavoritePlace(email, placeId);
+        if (saved){
+            return "{" + "\"success\""+":"+ true + "}";
+        }
+        return "{" + "\"success\""+":"+ false + "}";
     }
 }

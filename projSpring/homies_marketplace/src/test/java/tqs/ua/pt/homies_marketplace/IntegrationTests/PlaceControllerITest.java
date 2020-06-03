@@ -78,8 +78,8 @@ class PlaceControllerITest {
         userRepository.saveAndFlush(user);
         long placeId=place.getId();
         Review review= new Review("josefriasplacetest@email.com", 4.0, "comment1");
-        assertThat(mvc.perform(post("/api/places/"+placeId+"/reviews").contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.toJson(review))).andReturn().getResponse().getContentAsString()).isEqualTo("true");
+        mvc.perform(post("/api/places/"+placeId+"/reviews").contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.toJson(review))).andExpect(jsonPath("$.success", is(true)));
     }
 
     @Test

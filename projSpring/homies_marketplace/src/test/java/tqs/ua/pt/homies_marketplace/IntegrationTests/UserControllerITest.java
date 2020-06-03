@@ -62,9 +62,9 @@ class UserControllerITest {
         User user= new User(email, password, firstName, lastName, city);
         PlaceId placeId= new PlaceId(saved.getId());
         userRepository.saveAndFlush(user);
-        String result=mvc.perform(post("/api/users/jose@email.com/favorites").contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.toJson(placeId))).andReturn().getResponse().getContentAsString();
-        assertThat(result).isEqualTo("true");
+        mvc.perform(post("/api/users/jose@email.com/favorites").contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.toJson(placeId))).andExpect(jsonPath("$.success", is(true)));
+
     }
 
     @Test
@@ -149,9 +149,8 @@ class UserControllerITest {
         User user= new User(email, password, firstName, lastName, city);
         user.setFavorites(favorites);
         userRepository.saveAndFlush(user);
-        String result=mvc.perform(delete("/api/users/josefrias@email.com/favorites").contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.toJson(placeId))).andReturn().getResponse().getContentAsString();
-        assertThat(result).isEqualTo("true");
+        mvc.perform(delete("/api/users/josefrias@email.com/favorites").contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.toJson(placeId))).andExpect(jsonPath("$.success", is(true)));
     }
 
 
