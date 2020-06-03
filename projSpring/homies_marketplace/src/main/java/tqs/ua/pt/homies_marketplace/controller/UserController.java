@@ -63,6 +63,7 @@ public class UserController {
         return placeService.getPublishedHouses(email);
     }
 
+
     @PostMapping("/users")
     public ResponseEntity<User> createUser(@RequestBody UserDTO userDTO){
         HttpStatus status=HttpStatus.CREATED;
