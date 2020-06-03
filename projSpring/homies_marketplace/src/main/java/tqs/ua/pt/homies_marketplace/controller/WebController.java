@@ -9,10 +9,13 @@ import tqs.ua.pt.homies_marketplace.dtos.PlaceDTO;
 import tqs.ua.pt.homies_marketplace.form.FilterForm;
 import tqs.ua.pt.homies_marketplace.form.LoginRegistrationForm;
 import tqs.ua.pt.homies_marketplace.form.UserRegistrationForm;
+import tqs.ua.pt.homies_marketplace.models.Booking;
 import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.PlaceId;
 import tqs.ua.pt.homies_marketplace.models.User;
 import org.springframework.web.bind.annotation.GetMapping;
+import tqs.ua.pt.homies_marketplace.repository.BookingRepository;
+import tqs.ua.pt.homies_marketplace.service.BookService;
 import tqs.ua.pt.homies_marketplace.service.PlaceService;
 import tqs.ua.pt.homies_marketplace.service.UserService;
 import java.util.*;
@@ -41,6 +44,24 @@ public class WebController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    BookService bookService;
+
+    @PostMapping("/cancel_rent/{house}")
+    public String cancelRentedHouse(@PathVariable("house") Place place){
+        Booking booking = bookService.getBooking(place);
+
+        // Delete from the owner rented_houses
+        String requester_email = booking.getRequester();
+        User requester = userService.getUserByEmail(requester_email);
+        List<Long> rented_houses = requester.getRentedHouses();
+        rented_houses.remove(place.getId());
+        requester.setRentedHouses(rented_houses);
+        // Delete from booking
+        bookService.deleteBooking(booking);
+
+        return "profile";
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/register")
     String register(Model model){
@@ -274,8 +295,6 @@ public class WebController {
         model.addAttribute("filtered_places", new FilterForm());
         return "houseList";
     }
-
-
 
     @GetMapping("/profile")
     public String profile(Model model){

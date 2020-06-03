@@ -9,6 +9,6 @@ import tqs.ua.pt.homies_marketplace.models.Booking;
 @Repository
 @Transactional
 public interface BookingRepository extends JpaRepository<Booking, Long> {
-
+    Booking getByPlaceId(long placeId);
 
 }
