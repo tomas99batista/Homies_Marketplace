@@ -4,6 +4,8 @@
 
 ![Java CD Pipeline](https://github.com/tomas99batista/Homies_Marketplace/workflows/CD%20Pipeline/badge.svg)
 
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=tomas99batista_Homies_Marketplace&metric=coverage)](https://sonarcloud.io/dashboard?id=tomas99batista_Homies_Marketplace)
+
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/2a9bd2d58c1f4b8ebf3d3f8790873a64)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=tomas99batista/Homies_Marketplace&amp;utm_campaign=Badge_Grade)
 
 ## Project Abstract
