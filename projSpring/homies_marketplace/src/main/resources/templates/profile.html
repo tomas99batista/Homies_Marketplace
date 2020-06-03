@@ -36,7 +36,7 @@
         </p>
         <br>
         <p th:text="${user_logged.email}" id="email"></p>
-        <a id="edit-intro" href="#"><i class="fas fa-pen-alt blue"></i>&nbsp;&nbsp;Edit Info</a>
+        <a id="edit-intro" th:href="@{/update_profile}"><i class="fas fa-pen-alt blue"></i>&nbsp;&nbsp;Edit Info</a>
         <hr width="100%">
         <div id="about">
             <p style="display:inline;">About</p>
