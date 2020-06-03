@@ -32,6 +32,6 @@ public class BookServiceImpl implements BookService{
     }
 
     public ArrayList<Booking> getAllBookingsByUser(User user){
-       bookingRepository.getAllByOwner(user.getEmail());
+       return bookingRepository.getAllByOwner(user.getEmail());
     }
 }
