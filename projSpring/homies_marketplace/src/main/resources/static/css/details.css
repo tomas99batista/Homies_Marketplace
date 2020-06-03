@@ -153,3 +153,13 @@ body {
     color: whitesmoke;
     border-radius: 28px;
 }
+
+
+  #submit_review{
+      width: 80%;
+      height: 40px;
+      border-style: none;
+      background-color: #58a2e8;
+      color: whitesmoke;
+      border-radius: 28px;
+  }

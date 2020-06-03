@@ -140,6 +140,15 @@ public class WebController {
 
         // navbar
         model.addAttribute("user_status",user_status);
+
+        List<Place> favorites = new ArrayList<>();
+
+        if(user_status.equals("user_logged")){
+            favorites = placeService.getFavoriteHouses(user_logged.getEmail());
+        }
+        model.addAttribute("favorites", favorites);
+        model.addAttribute("filtered_places", new FilterForm());
+
         try{
             String city = ((myFormObject.getType()).equals("none"))? null : myFormObject.getCity();
             List<String> features = (myFormObject.getFeatures());
