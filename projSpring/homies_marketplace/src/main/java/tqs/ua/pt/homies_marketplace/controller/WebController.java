@@ -1,5 +1,6 @@
 package tqs.ua.pt.homies_marketplace.controller;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,10 +10,13 @@ import tqs.ua.pt.homies_marketplace.dtos.PlaceDTO;
 import tqs.ua.pt.homies_marketplace.form.FilterForm;
 import tqs.ua.pt.homies_marketplace.form.LoginRegistrationForm;
 import tqs.ua.pt.homies_marketplace.form.UserRegistrationForm;
+import tqs.ua.pt.homies_marketplace.models.Booking;
 import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.PlaceId;
 import tqs.ua.pt.homies_marketplace.models.User;
 import org.springframework.web.bind.annotation.GetMapping;
+import tqs.ua.pt.homies_marketplace.repository.BookingRepository;
+import tqs.ua.pt.homies_marketplace.service.BookService;
 import tqs.ua.pt.homies_marketplace.service.PlaceService;
 import tqs.ua.pt.homies_marketplace.service.UserService;
 import java.util.*;
@@ -41,6 +45,35 @@ public class WebController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    BookService bookService;
+
+    @PostMapping("/cancel_rent/{placeId}")
+    public String cancelRentedHouse(@PathVariable("placeId") long placeId){
+        Booking booking = bookService.getBooking(placeId);
+
+        // Delete from the owner rented_houses
+        String requester_email = booking.getRequester();
+        User requester = userService.getUserByEmail(requester_email);
+        List<Long> rented_houses = requester.getRentedHouses();
+        rented_houses.remove(placeId);
+        requester.setRentedHouses(rented_houses);
+        // Delete from booking
+        bookService.deleteBooking(booking);
+
+        return "profile";
+    }
+
+    @GetMapping("/rented_houses")
+    public String getRentedHousesByUser(Model model){
+        ArrayList<Booking> allByOwner = bookService.getAllBookingsByEmail(user_logged.getEmail());
+        ArrayList<Place> places = new ArrayList<>();
+        for (Booking book : allByOwner) {
+            places.add(placeService.getPlaceById(book.getPlaceId()));
+        }
+        model.addAttribute("rented_houses", places);
+        return "rented_houses";
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/register")
     String register(Model model){
@@ -244,25 +277,16 @@ public class WebController {
 
         // navbar
         model.addAttribute("user_status",user_status);
-        System.out.println(place.getFeatures());
         return "details";
     }
 
     @RequestMapping(value = "/getUser", method = RequestMethod.POST, headers="Content-Type=application/json")
     public @ResponseBody JSONObject sendUser(@RequestBody JSONObject data) {
-        System.out.println(data);
-        // Get id
+        // Get id - USELESS
         String status = (String) data.get("status");
         System.out.println(status);
         JSONObject response = new JSONObject();
         response.put("user", user_logged.getFirstName());
-    /*
-        if(status.equals("logged")){
-            response.put("user", user_logged.getFirstName());
-        }
-        else{
-            response.put("user","not_logged");
-        }*/
         return response;
 
     }
@@ -283,8 +307,6 @@ public class WebController {
         model.addAttribute("filtered_places", new FilterForm());
         return "houseList";
     }
-
-
 
     @GetMapping("/profile")
     public String profile(Model model){
