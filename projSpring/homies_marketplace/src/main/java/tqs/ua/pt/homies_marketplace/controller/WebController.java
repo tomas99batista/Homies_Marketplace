@@ -139,6 +139,35 @@ public class WebController {
         }
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/update_profile")
+    public String updateProfileGet(Model model){
+        // Ja vai c dados
+        UserRegistrationForm userRegistrationForm = new UserRegistrationForm(); // O EMAIL N PODE SER ALTERADO
+        userRegistrationForm.setEmail(user_logged.getEmail());
+        userRegistrationForm.setFirstName(user_logged.getFirstName());
+        userRegistrationForm.setLastName(user_logged.getLastName());
+        userRegistrationForm.setCity(user_logged.getCity());
+
+        model.addAttribute("user", userRegistrationForm);
+
+        //navbar
+        model.addAttribute("user_status",user_status);
+        return "update_profile";
+    }
+
+    @PostMapping("/update_profile")
+    public String updatePofilePost(@ModelAttribute UserRegistrationForm userRegistrationForm, Model model){
+        System.out.println("URF " + userRegistrationForm.toString());
+        User user = userService.getUserByEmail(userRegistrationForm.getEmail());
+        user.setFirstName(userRegistrationForm.getFirstName());
+        user.setLastName(userRegistrationForm.getLastName());
+        user.setCity(userRegistrationForm.getCity());
+        user.setPassword(userRegistrationForm.getPassword());
+        userService.save(user);
+        System.out.println("USER UPDATED " + user.toString());
+        return "redirect:/";
+    }
+
 
     @RequestMapping(method = RequestMethod.GET, value = "/")
     public String index(Model model){
