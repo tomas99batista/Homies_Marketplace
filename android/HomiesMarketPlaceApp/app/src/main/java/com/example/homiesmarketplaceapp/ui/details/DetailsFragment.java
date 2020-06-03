@@ -26,8 +26,10 @@ import com.example.homiesmarketplaceapp.adapter.ReviewAdapter;
 import com.example.homiesmarketplaceapp.model.Place;
 import com.example.homiesmarketplaceapp.model.PlaceId;
 import com.example.homiesmarketplaceapp.model.Review;
+import com.example.homiesmarketplaceapp.model.Success;
 import com.example.homiesmarketplaceapp.network.GetDataService;
 import com.example.homiesmarketplaceapp.network.RetrofitClientInstance;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 
@@ -93,17 +95,17 @@ public class DetailsFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-                        Call<String> callAddBooking=service.addHouseBooking(email,new PlaceId(placeId));
-                        callAddBooking.enqueue(new Callback<String>() {
+                        Call<Success> callAddBooking=service.addHouseBooking(email,new PlaceId(placeId));
+                        callAddBooking.enqueue(new Callback<Success>() {
                             @Override
-                            public void onResponse(Call<String> call, Response<String> response) {
-                                if (response.body().equals("true")){
+                            public void onResponse(Call<Success> call, Response<Success> response) {
+                                if (response.body().isSuccess()){
                                     Log.d("book added", "book added");
                                 }
                             }
 
                             @Override
-                            public void onFailure(Call<String> call, Throwable t) {
+                            public void onFailure(Call<Success> call, Throwable t) {
 
                             }
                         });
@@ -194,11 +196,11 @@ public class DetailsFragment extends Fragment {
 
     private void postReview(final long placeId, final String comment, final float rating){
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-        Call<String> callAddReview=service.addReview(placeId, new Review(email,comment, rating));
-        callAddReview.enqueue(new Callback<String>() {
+        Call<Success> callAddReview=service.addReview(placeId, new Review(email,comment, rating));
+        callAddReview.enqueue(new Callback<Success>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.body().equals("true")){
+            public void onResponse(Call<Success> call, Response<Success> response) {
+                if (response.body().isSuccess()){
                     Log.d("revieew added", "review added");
                     reviewList.add(0,new Review(email,comment, rating));
                     adapter.notifyItemInserted(0);
@@ -207,7 +209,7 @@ public class DetailsFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<Success> call, Throwable t) {
 
             }
         });

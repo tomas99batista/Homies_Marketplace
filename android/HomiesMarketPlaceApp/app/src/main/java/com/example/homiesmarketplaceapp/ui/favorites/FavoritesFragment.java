@@ -21,8 +21,10 @@ import com.example.homiesmarketplaceapp.adapter.FavoritesAdapter;
 import com.example.homiesmarketplaceapp.adapter.FeedAdapter;
 import com.example.homiesmarketplaceapp.model.Place;
 import com.example.homiesmarketplaceapp.model.PlaceId;
+import com.example.homiesmarketplaceapp.model.Success;
 import com.example.homiesmarketplaceapp.network.GetDataService;
 import com.example.homiesmarketplaceapp.network.RetrofitClientInstance;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 
@@ -91,12 +93,12 @@ public class FavoritesFragment extends Fragment {
             @Override
             public void onRemovingFromFavoritesClick(final int position) {
                 GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-                Call<String> callRemoveFromFavorites=service.removeFavoriteHouse(email, new PlaceId(placeList.get(position).getId()));
+                Call<Success> callRemoveFromFavorites=service.removeFavoriteHouse(email, new PlaceId(placeList.get(position).getId()));
 
-                callRemoveFromFavorites.enqueue(new Callback<String>() {
+                callRemoveFromFavorites.enqueue(new Callback<Success>() {
                     @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        if (response.body().equals("true")){
+                    public void onResponse(Call<Success> call, Response<Success> response) {
+                        if (response.body().isSuccess()){
                             Toast.makeText(getContext(), "Place removed from favorites", Toast.LENGTH_SHORT).show();
                             placeList.remove(position);
                             adapter.notifyDataSetChanged();
@@ -105,7 +107,7 @@ public class FavoritesFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(Call<String> call, Throwable t) {
+                    public void onFailure(Call<Success> call, Throwable t) {
 
                     }
                 });

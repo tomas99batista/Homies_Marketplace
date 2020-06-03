@@ -3,7 +3,9 @@ package com.example.homiesmarketplaceapp.network;
 import com.example.homiesmarketplaceapp.model.Place;
 import com.example.homiesmarketplaceapp.model.PlaceId;
 import com.example.homiesmarketplaceapp.model.Review;
+import com.example.homiesmarketplaceapp.model.Success;
 import com.example.homiesmarketplaceapp.model.User;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 
@@ -34,13 +36,13 @@ public interface GetDataService {
 
 
     @POST("api/users/{email}/favorites/")
-    Call<String> addPlaceToFavorites(@Path("email") String email, @Body PlaceId body);
+    Call<Success> addPlaceToFavorites(@Path("email") String email, @Body PlaceId body);
 
     @GET("api/users/{email}/favorites/")
     Call<List<Place>> getFavoritePlaces(@Path("email") String email);
 
     @POST("api/places/{id}/reviews/")
-    Call<String> addReview(@Path("id") long placeId, @Body Review review);
+    Call<Success> addReview(@Path("id") long placeId, @Body Review review);
 
     @POST("api/users/")
     Call<User> registerUser(@Body User body);
@@ -49,16 +51,16 @@ public interface GetDataService {
     Call<List<Place>> getPublishedHouses(@Path("email") String email);
 
     @POST("api/users/{email}/publishedHouses/")
-    Call<String> addPublishedHouse(@Path("email") String email, @Body Place body);
+    Call<Success> addPublishedHouse(@Path("email") String email, @Body Place body);
 
     @POST("api/login/")
     Call<User> login(@Body User user);
 
     @POST("/api/users/{email}/booking/")
-    Call<String> addHouseBooking(@Path("email") String email, @Body PlaceId body);
+    Call<Success> addHouseBooking(@Path("email") String email, @Body PlaceId body);
 
 
     @HTTP(method = "DELETE", path = "api/users/{email}/favorites/", hasBody = true)
-    Call<String> removeFavoriteHouse(@Path("email") String email, @Body PlaceId body);
+    Call<Success> removeFavoriteHouse(@Path("email") String email, @Body PlaceId body);
 
 }

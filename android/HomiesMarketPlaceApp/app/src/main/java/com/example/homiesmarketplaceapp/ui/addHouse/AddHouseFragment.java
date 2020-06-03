@@ -17,8 +17,10 @@ import androidx.preference.PreferenceManager;
 import com.example.homiesmarketplaceapp.R;
 import com.example.homiesmarketplaceapp.model.Place;
 import com.example.homiesmarketplaceapp.model.Review;
+import com.example.homiesmarketplaceapp.model.Success;
 import com.example.homiesmarketplaceapp.network.GetDataService;
 import com.example.homiesmarketplaceapp.network.RetrofitClientInstance;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -82,19 +84,19 @@ public class AddHouseFragment extends Fragment {
         ArrayList<String> placeFeatures= new ArrayList<>();
         placeFeatures.addAll(Arrays.asList(features));
         Place place= new Place( placeTitle, price, placeFeatures, No_bathrooms, No_bedrooms, placeType, placeCity, imageUrl);
-        Call<String> addPublishedHouse=service.addPublishedHouse(email, place);
-        addPublishedHouse.enqueue(new Callback<String>() {
+        Call<Success> addPublishedHouse=service.addPublishedHouse(email, place);
+        addPublishedHouse.enqueue(new Callback<Success>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<Success> call, Response<Success> response) {
                 Log.d("response", response.body().toString());
-                if (response.body().equals("true")){
+                if (response.body().isSuccess()){
                     Log.d("house created", "house created");
                     NavHostFragment.findNavController(AddHouseFragment.this).navigate(R.id.new_house_to_houses);
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<Success> call, Throwable t) {
 
             }
         });
