@@ -6,12 +6,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tqs.ua.pt.homies_marketplace.dtos.PlaceDTO;
 import tqs.ua.pt.homies_marketplace.dtos.UserDTO;
+import tqs.ua.pt.homies_marketplace.models.Booking;
 import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.PlaceId;
 import tqs.ua.pt.homies_marketplace.models.User;
+import tqs.ua.pt.homies_marketplace.service.BookService;
 import tqs.ua.pt.homies_marketplace.service.PlaceService;
 import tqs.ua.pt.homies_marketplace.service.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -23,6 +26,10 @@ public class UserController {
 
     @Autowired
     private PlaceService placeService;
+
+    @Autowired
+    private BookService bookService;
+
 
     @PostMapping("/users/{email}/booking")
     public String addToRentedHouses(@PathVariable("email") String email, @RequestBody PlaceId placeId){
@@ -103,5 +110,32 @@ public class UserController {
             return "{" + "\"success\""+":"+ true + "}";
         }
         return "{" + "\"success\""+":"+ false + "}";
+    }
+
+    @DeleteMapping("/users/{email}/booking")
+    public String cancelRentedHouse(@PathVariable("email") String email, @RequestBody PlaceId placeId){
+        Booking booking = bookService.getBooking(placeId.getId());
+
+        // Delete from the owner rented_houses
+        String requesterEmail = booking.getRequester();
+        User requester = userService.getUserByEmail(requesterEmail);
+        List<Long> rentedHouses = requester.getRentedHouses();
+        rentedHouses.remove(placeId.getId());
+        requester.setRentedHouses(rentedHouses);
+
+        // Delete from booking
+        bookService.deleteBooking(booking);
+        return "{" + "\"success\""+":"+ true + "}";
+
+    }
+
+    @GetMapping("/users/{email}/occupiedHouses")
+    public List<Place> getRentedHousesByUser(@PathVariable("email") String email){
+        List<Booking> allByOwner = bookService.getAllBookingsByEmail(email);
+        ArrayList<Place> places = new ArrayList<>();
+        for (Booking book : allByOwner) {
+            places.add(placeService.getPlaceById(book.getPlaceId()));
+        }
+        return places;
     }
 }

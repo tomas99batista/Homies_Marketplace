@@ -48,15 +48,15 @@ public class WebController {
     @Autowired
     BookService bookService;
 
-    @PostMapping("/cancel_rent/{house}")
-    public String cancelRentedHouse(@PathVariable("house") Place place){
-        Booking booking = bookService.getBooking(place);
+    @PostMapping("/cancel_rent/{placeId}")
+    public String cancelRentedHouse(@PathVariable("placeId") long placeId){
+        Booking booking = bookService.getBooking(placeId);
 
         // Delete from the owner rented_houses
         String requester_email = booking.getRequester();
         User requester = userService.getUserByEmail(requester_email);
         List<Long> rented_houses = requester.getRentedHouses();
-        rented_houses.remove(place.getId());
+        rented_houses.remove(placeId);
         requester.setRentedHouses(rented_houses);
         // Delete from booking
         bookService.deleteBooking(booking);
@@ -66,7 +66,7 @@ public class WebController {
 
     @GetMapping("/rented_houses")
     public String getRentedHousesByUser(Model model){
-        ArrayList<Booking> allByOwner = bookService.getAllBookingsByUser(user_logged);
+        List<Booking> allByOwner = bookService.getAllBookingsByEmail(user_logged.getEmail());
         ArrayList<Place> places = new ArrayList<>();
         for (Booking book : allByOwner) {
             places.add(placeService.getPlaceById(book.getPlaceId()));

@@ -1,12 +1,8 @@
 package tqs.ua.pt.homies_marketplace.service;
 
 import tqs.ua.pt.homies_marketplace.models.Booking;
-import tqs.ua.pt.homies_marketplace.models.Place;
-import tqs.ua.pt.homies_marketplace.models.User;
 
-import java.awt.*;
-import java.awt.print.Book;
-import java.util.ArrayList;
+import java.util.List;
 
 public interface BookService {
 
@@ -14,7 +10,7 @@ public interface BookService {
 
     void deleteBooking(Booking booking);
 
-    Booking getBooking(Place place);
+    Booking getBooking(long placeId);
 
-    ArrayList<Booking> getAllBookingsByUser(User user);
+    List<Booking> getAllBookingsByEmail(String email);
 }

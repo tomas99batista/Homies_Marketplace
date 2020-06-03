@@ -4,12 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tqs.ua.pt.homies_marketplace.models.Booking;
-import tqs.ua.pt.homies_marketplace.models.Place;
-import tqs.ua.pt.homies_marketplace.models.User;
 import tqs.ua.pt.homies_marketplace.repository.BookingRepository;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -27,11 +22,11 @@ public class BookServiceImpl implements BookService{
         bookingRepository.delete(booking);
     }
 
-    public Booking getBooking(Place place){
-        return bookingRepository.getByPlaceId(place.getId());
+    public Booking getBooking(long placeId){
+        return bookingRepository.getByPlaceId(placeId);
     }
 
-    public ArrayList<Booking> getAllBookingsByUser(User user){
-       return bookingRepository.getAllByOwner(user.getEmail());
+    public List<Booking> getAllBookingsByEmail(String email){
+       return bookingRepository.getAllByOwner(email);
     }
 }

@@ -9,12 +9,17 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import tqs.ua.pt.homies_marketplace.JsonUtil;
 import tqs.ua.pt.homies_marketplace.controller.UserController;
 import tqs.ua.pt.homies_marketplace.dtos.UserDTO;
+import tqs.ua.pt.homies_marketplace.models.Booking;
 import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.PlaceId;
 import tqs.ua.pt.homies_marketplace.models.User;
+import tqs.ua.pt.homies_marketplace.service.BookService;
 import tqs.ua.pt.homies_marketplace.service.PlaceService;
 import tqs.ua.pt.homies_marketplace.service.UserService;
 
@@ -43,6 +48,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
     @MockBean
     private PlaceService placeService;
+
+    @MockBean
+    private BookService bookService;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -138,28 +146,62 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
        reset(service);
     }
 
+    @Test
+    void whenPostFavorites_thenReturnFalse() throws Exception{
+        PlaceId placeId= new PlaceId(1L);
+        given(service.addToFavorites(Mockito.anyString(), Mockito.any())).willReturn(false);
+        mvc.perform(post("/api/users/jose@email.com/favorites").contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.toJson(placeId))).andExpect(status().isOk())
+                .andExpect(jsonPath("$.success", is(false)));
+        verify(service, VerificationModeFactory.times(1)).addToFavorites(Mockito.any(), Mockito.any());
+        reset(service);
+    }
+
    @Test
    void whenPostPublishedHouse_thenReturnTrue() throws Exception{
       List<String> features= new ArrayList<>();
       features.add("feature1");
       features.add("feature2");
       Place place= new Place("title1", 5.0, features, 1,1,"type1", "cityTesting","photo1");
-      given(service.addPublishedHouse("jose@email.com", place)).willReturn(true);
+      given(service.addPublishedHouse(Mockito.anyString(), Mockito.any())).willReturn(true);
       mvc.perform(post("/api/users/jose@email.com/publishedHouses").contentType(MediaType.APPLICATION_JSON)
-              .content(JsonUtil.toJson(place))).andReturn().getResponse().getContentAsString().equals("true");
+              .content(JsonUtil.toJson(place))).andExpect(jsonPath("$.success", is(true)));
       verify(service, VerificationModeFactory.times(1)).addPublishedHouse(Mockito.any(), Mockito.any());
       reset(service);
    }
 
+    @Test
+    void whenPostPublishedHouse_thenReturnFalse() throws Exception{
+        List<String> features= new ArrayList<>();
+        features.add("feature1");
+        features.add("feature2");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "cityTesting","photo1");
+        given(service.addPublishedHouse(Mockito.anyString(), Mockito.any())).willReturn(false);
+        mvc.perform(post("/api/users/jose@email.com/publishedHouses").contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.toJson(place))).andExpect(jsonPath("$.success", is(false)));
+        verify(service, VerificationModeFactory.times(1)).addPublishedHouse(Mockito.any(), Mockito.any());
+        reset(service);
+    }
+
    @Test
    void whenPostRentedHouse_thenReturnTrue() throws Exception{
       PlaceId placeId= new PlaceId(1L);
-      given(service.addToRentedHouses("jose@email.com", placeId)).willReturn(true);
+      given(service.addToRentedHouses(Mockito.anyString(), Mockito.any())).willReturn(true);
       mvc.perform(post("/api/users/jose@email.com/booking").contentType(MediaType.APPLICATION_JSON)
-              .content(JsonUtil.toJson(placeId))).andReturn().getResponse().getContentAsString().equals("true");
+              .content(JsonUtil.toJson(placeId))).andExpect(jsonPath("$.success", is(true)));
       verify(service, VerificationModeFactory.times(1)).addToRentedHouses(Mockito.any(), Mockito.any());
       reset(service);
    }
+
+    @Test
+    void whenPostRentedHouse_thenReturnFalse() throws Exception{
+        PlaceId placeId= new PlaceId(1L);
+        given(service.addToRentedHouses(Mockito.anyString(), Mockito.any())).willReturn(false);
+        mvc.perform(post("/api/users/jose@email.com/booking").contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.toJson(placeId))).andExpect(jsonPath("$.success", is(false)));
+        verify(service, VerificationModeFactory.times(1)).addToRentedHouses(Mockito.any(), Mockito.any());
+        reset(service);
+    }
 
     @Test
      void whenPostUser_thenCreatePUser() throws Exception {
@@ -248,6 +290,56 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         Mockito.when(service.removeFavoritePlace(Mockito.anyString(),Mockito.any())).thenReturn(true);
         mvc.perform(delete("/api/users/josefrias@email.com/favorites").contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.toJson(placeId))).andExpect(jsonPath("$.success", is(true)));
+        reset(service);
+    }
+
+
+    @Test
+    void givenUsersWithOccupiedHouses_WhenGetOccupiedHouses_thenReturnHouses() throws Exception{
+        List<String> features= new ArrayList<>();
+        features.add("feature1");
+        features.add("feature2");
+        Place place= new Place("title1", 5.0,features, 1,1,"type1", "city", "photo1");
+        Booking booking= new Booking("josefrias@email", "jose@email.com", 1L);
+        ArrayList<Booking> bookings= new ArrayList<>();
+        bookings.add(booking);
+        Mockito.when(bookService.getAllBookingsByEmail(Mockito.anyString())).thenReturn(bookings);
+        Mockito.when(placeService.getPlaceById(Mockito.anyLong())).thenReturn(place);
+        mvc.perform(get("/api/users/josefrias@email.com/occupiedHouses").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].title", is(place.getTitle())));
+        reset(bookService);
+        reset(placeService);
+    }
+
+    @Test
+    void givenUsersWithBookings_WhenDeleteBooking_thenReturnTrue() throws Exception{
+        List<String> features= new ArrayList<>();
+        features.add("feature1");
+        features.add("feature2");
+        Place place= new Place("title1", 5.0,features, 1,1,"type1", "city", "photo1");
+        Booking booking= new Booking("josefrias@email", "jose@email.com", 1L);
+        ArrayList<Booking> bookings= new ArrayList<>();
+        bookings.add(booking);
+        String email="josefrias@email.com";
+        String password="password";
+        String firstName="Jose";
+        String lastName="Frias";
+        String city="Aveiro";
+
+        User user= new User(email, password, firstName, lastName, city);
+        Mockito.when(bookService.getBooking(Mockito.anyLong())).thenReturn(booking);
+        List<Long> rentedHouses= new ArrayList<>();
+        rentedHouses.add(1L);
+        user.setRentedHouses(rentedHouses);
+        Mockito.when(service.getUserByEmail(Mockito.anyString())).thenReturn(user);
+        Mockito.when(placeService.getPlaceById(Mockito.anyLong())).thenReturn(place);
+        PlaceId placeId= new PlaceId(1L);
+        mvc.perform(delete("/api/users/josefrias@email.com/booking").contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.toJson(placeId)))
+                .andExpect(jsonPath("$.success", is(true)));
+        reset(service);
+        reset(placeService);
 
     }
 }
