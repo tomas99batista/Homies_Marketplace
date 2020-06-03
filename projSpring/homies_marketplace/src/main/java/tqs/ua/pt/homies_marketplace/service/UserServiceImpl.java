@@ -39,8 +39,11 @@ public class UserServiceImpl implements UserService{
                 int rowsUpdated = userRepository.insertRentedHouse(email, placeId.getId());
                 //see owner of the place
                 User owner=userRepository.findOwner(placeId.getId());
-                bookService.createBooking(new Booking(owner.getEmail(), email, placeId.getId()));
-                return rowsUpdated == 1;
+                if (owner != null) {
+                    bookService.createBooking(new Booking(owner.getEmail(), email, placeId.getId()));
+                    return rowsUpdated == 1;
+                }
+                return false;
             }
             return false;
 
