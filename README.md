@@ -35,4 +35,3 @@ Homies is a web browser application that allows students to search and book hous
 - [Swagger](https://app.swaggerhub.com/apis/HomiesMarketplace/homies-marketplace_api/1.0.0)
 - [Sonarcloud](https://sonarcloud.io/dashboard?id=tomas99batista_Homies_Marketplace)
  
-a
