@@ -26,9 +26,13 @@ public class PlaceController {
     }
 
     @PostMapping("/places/{id}/reviews")
-    public boolean createReview(@PathVariable("id") long id,@RequestBody ReviewDTO reviewDTO){
+    public String createReview(@PathVariable("id") long id,@RequestBody ReviewDTO reviewDTO){
         Review review= new Review(reviewDTO);
-        return placeService.addReview(id, review);
+        boolean saved=placeService.addReview(id, review);
+        if (saved){
+            return "{" + "\"success\""+":"+ true + "}";
+        }
+        return "{" + "\"success\""+":"+ false + "}";
     }
 
     @PostMapping("/places")

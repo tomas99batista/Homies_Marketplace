@@ -15,6 +15,7 @@ import tqs.ua.pt.homies_marketplace.dtos.PlaceDTO;
 import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.Review;
 import tqs.ua.pt.homies_marketplace.service.PlaceService;
+import tqs.ua.pt.homies_marketplace.service.PlaceServiceImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +37,7 @@ import static org.mockito.Mockito.reset;
     private MockMvc mvc;
 
     @MockBean
-    private PlaceService service;
+    private PlaceServiceImpl service;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -45,9 +46,10 @@ import static org.mockito.Mockito.reset;
     @Test
     void whenPostReview_thenReturnTrue() throws Exception{
        Review review= new Review("jose@email.com", 4.0, "comment1");
-       given(service.addReview(1L, review)).willReturn(true);
+       given(service.addReview(Mockito.anyLong(), Mockito.any())).willReturn(true);
        mvc.perform(post("/api/places/1/reviews").contentType(MediaType.APPLICATION_JSON)
-               .content(JsonUtil.toJson(review))).andReturn().getResponse().getContentAsString().equals("true");
+               .content(JsonUtil.toJson(review)))
+               .andExpect(jsonPath("$.success", is(true)));
        verify(service, VerificationModeFactory.times(1)).addReview(Mockito.anyLong(), Mockito.any());
        reset(service);
     }
