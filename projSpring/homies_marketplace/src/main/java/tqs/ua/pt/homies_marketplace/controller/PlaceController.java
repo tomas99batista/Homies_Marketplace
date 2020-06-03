@@ -52,7 +52,7 @@ public class PlaceController {
     }
 
 
-    @RequestMapping(value="/places/{identifier:[0-9]+}", method=RequestMethod.GET)
+    @GetMapping(value="/places/{identifier:[0-9]+}")
     public Place getPlaceById(@PathVariable("identifier") Long identifier) {
         return placeService.getPlaceById(identifier);
     }

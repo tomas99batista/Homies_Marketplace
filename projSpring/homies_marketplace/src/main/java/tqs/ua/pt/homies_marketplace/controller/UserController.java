@@ -117,11 +117,11 @@ public class UserController {
         Booking booking = bookService.getBooking(placeId.getId());
 
         // Delete from the owner rented_houses
-        String requester_email = booking.getRequester();
-        User requester = userService.getUserByEmail(requester_email);
-        List<Long> rented_houses = requester.getRentedHouses();
-        rented_houses.remove(placeId.getId());
-        requester.setRentedHouses(rented_houses);
+        String requesterEmail = booking.getRequester();
+        User requester = userService.getUserByEmail(requesterEmail);
+        List<Long> rentedHouses = requester.getRentedHouses();
+        rentedHouses.remove(placeId.getId());
+        requester.setRentedHouses(rentedHouses);
 
         // Delete from booking
         bookService.deleteBooking(booking);
