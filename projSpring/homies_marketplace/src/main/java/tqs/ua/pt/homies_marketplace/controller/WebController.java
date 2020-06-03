@@ -76,7 +76,7 @@ public class WebController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/register")
-    String register(Model model){
+    public String register(Model model){
         model.addAttribute("user", new UserRegistrationForm());
 
         // navbar
@@ -85,7 +85,7 @@ public class WebController {
     }
 
     @PostMapping("/register")
-    String registerSubmit(@ModelAttribute UserRegistrationForm userRegistrationForm, Model model){
+    public String registerSubmit(@ModelAttribute UserRegistrationForm userRegistrationForm, Model model){
         System.out.println("all users: " + userService.getAllUsers());
         if (userService.getUserByEmail(userRegistrationForm.getEmail()) == null){
             User user = new User();
@@ -109,7 +109,7 @@ public class WebController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/login")
-    String login(Model model){
+    public String login(Model model){
         model.addAttribute("user", new LoginRegistrationForm());
 
         //navbar
@@ -118,7 +118,7 @@ public class WebController {
     }
 
     @PostMapping("/login")
-    String loginSubmit(@ModelAttribute LoginRegistrationForm loginRegistrationForm, Model model){
+    public String loginSubmit(@ModelAttribute LoginRegistrationForm loginRegistrationForm, Model model){
         System.out.println("login - all users: " + userService.getAllUsers());
         if (userService.getUserByEmail(loginRegistrationForm.getEmail()) != null){
             if (userService.getUserByEmail(loginRegistrationForm.getEmail()).getPassword().equals(loginRegistrationForm.getPassword())){
@@ -147,7 +147,7 @@ public class WebController {
         return "index";
     }
 
-    @RequestMapping(value = "/list")
+    @RequestMapping(method = RequestMethod.GET, value = "/list")
     public String places(Model model){
         List<Place> favorites = new ArrayList<>();
 
@@ -322,7 +322,7 @@ public class WebController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/load_db")
-    String load_db(Model model){
+    public String load_db(Model model){
 
         User user= new User("josefrias@email.com", "password", "Jose","Frias", "Aveiro");
         List<String> listFeatures = Arrays.asList("Wifi", "TV", "Área Exterior", "Ar Condicionado", "Aquecimento Central", "Animais de Estimação", "Fumar", "Aquecimento Central");
