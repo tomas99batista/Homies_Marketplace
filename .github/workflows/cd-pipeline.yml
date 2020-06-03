@@ -23,6 +23,6 @@ jobs:
     - name: Maven verify 
       run: mvn -f projSpring/homies_marketplace/pom.xml clean verify
     - name: CD Pipeline
-      run: docker-compose -d -f projSpring/homies_marketplace/docker-compose.yml up --build
+      run: docker-compose -f projSpring/homies_marketplace/docker-compose.yml up -d --build
      
         
