@@ -7,6 +7,7 @@ body{
 	max-height:100%;
 	max-width: 100%;
 	overflow-x: hidden;
+	color:#435675;
 }
 
 path{
@@ -28,12 +29,13 @@ path{
 	font-weight: bold;
 	color: #3d5170;
 	margin:5px;
+	font-size:0.9rem;
 }
 
 .has-search .form-control {
-	width: 40rem;
+	width: 14rem;
 	border-radius: 20px;
-	padding-left: 2.375rem;
+	padding-left: 1.375rem;
 }
 
 .has-search .form-control:hover {
@@ -76,12 +78,9 @@ path{
 	box-shadow: 0 0.150em 0.375em rgba(50,50,93,.19);
 }
 
-.houseCard img{
+.houseCard_image{
 	margin:-20px;
-}
-
-.details{
-
+	max-width:36vw;
 }
 
 .cellStyle{
@@ -92,17 +91,13 @@ path{
 .filterTab{
 	background-color: white;
 	border-radius: 25px;
-	height: 100em;
+	height: 50em;
 	margin:20px;
 	display: inline-table;
 	padding:30px;
 	min-width:max-content;
 	position:static;
 	box-shadow: 0 0.150em 0.375em rgba(50,50,93,.19);
-}
-
-
-.mainBod{
 }
 
 .detailsStyle{
@@ -120,16 +115,8 @@ path{
 	grid-column-end: 4;
 }
 
-.favButton{
-	background-color: blue;
-	width: 5em;
-	display: block;
-	color:#fff;
-	border-radius: 20px;
-	padding: .5em;
-	text-decoration: none;
-	font-size: .75em;
-	text-align: center;
+.filter_title{
+	font-size:0.9rem;
 }
 
 .searchBar{
@@ -139,8 +126,6 @@ path{
 	border-radius: 5px;
 	border: none;
 	background: #87cefa;
-	pl:white;
-
 }
 
 .searchBar::placeholder{
@@ -148,10 +133,227 @@ path{
 	padding: 5px;
 }
 
-.information{
-	display: grid;
-	grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-	grid-template-rows: 1fr 1fr 1fr;
+/* Slider */
+.price-slider {
+	position: relative;
+	width: 180px;
+	margin: -40px auto 20px;
+	height: 35px;
+	text-align: center;
+}
+.price-slider .price-slider-range {
+	pointer-events: none;
+	position: absolute;
+	appearance: none;
+	background: transparent;
+	left: 0;
+	top: 40px;
+	width: 100%;
+	z-index: 10;
+	-webkit-appearance: none;
+}
+.price-slider .price-slider-range:focus {
+	outline: 0;
+}
+.price-slider .price-slider-range:hover {
+	cursor: pointer;
+}
+.price-slider .price-slider-range::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	pointer-events: all;
+	position: relative;
+	height: 24px;
+	width: 24px;
+	border-radius: 12px;
+	background: #C25CAA;
+}
+.price-slider .price-slider-range::-moz-range-thumb {
+	-moz-appearance: none;
+	pointer-events: all;
+	position: relative;
+	height: 24px;
+	width: 24px;
+	border-radius: 12px;
+	border: none;
+	background: #C25CAA;
+}
+
+.price-progress {
+	position: absolute;
+	display: flex;
+	top: 50px;
+	width: 100%;
+	height: 5px;
+	border-radius: 20px;
+	border: 1px solid #C25CAA;
+	--max: 0;
+	--min: 0;
+	--full: 1500;
+	background-color: #fff;
+}
+.price-progress::before {
+	content: "";
+	width: calc((var(--min) / var(--full)) * 100%);
+	background-color: #fff;
+}
+.price-progress::after {
+	content: "";
+	width: calc((var(--max) - var(--min)) / var(--full) * 100%);
+	background-color: rgba(194, 92, 170, 0.68);
+}
+
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+	position: absolute;
+	left: -9999px;
+}
+[type="checkbox"]:not(:checked) + label,
+[type="checkbox"]:checked + label {
+	position: relative;
+	padding-left: 1.95em;
+	cursor: pointer;
+}
+
+/* checkbox aspect */
+[type="checkbox"]:not(:checked) + label:before,
+[type="checkbox"]:checked + label:before {
+	content: '';
+	position: absolute;
+	left: 0; top: 0;
+	width: 1.25em; height: 1.25em;
+	border: 2px solid #ccc;
+	background: #fff;
+	border-radius: 4px;
+	box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
+}
+/* checked mark aspect */
+[type="checkbox"]:not(:checked) + label:after,
+[type="checkbox"]:checked + label:after {
+	content: '\2713\0020';
+	position: absolute;
+	top: .15em; left: .10em;
+	font-size: 1.3em;
+	line-height: 0.8;
+	color: #C25CAA;
+	transition: all .2s;
+}
+/* checked mark aspect changes */
+[type="checkbox"]:not(:checked) + label:after {
+	opacity: 0;
+	transform: scale(0);
+}
+[type="checkbox"]:checked + label:after {
+	opacity: 1;
+	transform: scale(1);
+}
+/* disabled checkbox */
+[type="checkbox"]:disabled:not(:checked) + label:before,
+[type="checkbox"]:disabled:checked + label:before {
+	box-shadow: none;
+	border-color: #bbb;
+	background-color: #ddd;
+}
+[type="checkbox"]:disabled:checked + label:after {
+	color: #999;
+}
+[type="checkbox"]:disabled + label {
+	color: #aaa;
+}
+
+/* hover style just for information */
+label:hover:before {
+	border: 2px solid #4778d9!important;
+}
+
+.price{
+	right: 0;
+	position: absolute;
+	bottom: 0;
+	font-size: 1.6rem;
+	margin:10px -50px 10px 10px;
+}
+
+.element{
+	margin-left:10px;
+	position:relative;
+	display: flex;
+	font-size:0.75rem;
+	white-space: nowrap;
+	margin-bottom: 20px;
+}
+
+.text{
+	margin: 0 0 0 20px;
+}
+
+#cities_filter #type{
+	width:14rem;
+	padding-left:25px;
+	font-size:0.9rem;
+	border-radius: 20px;
+	z-index:999
+}
+
+#bedrooms #bathrooms{
+	width:5rem;
+	padding-left:25px;
+	font-size:0.9rem;
+	border-radius: 20px;
+	z-index:999
+}
+.fav{
+	top: 0;
+	right: 0;
+	position: absolute;
+	margin: 10px -30px 10px 0;
+}
+#house_title{
+	min-width: fit-content;
+	margin: 10px;
+}
+
+#house_title p{
+	margin-top:-10px;
+}
+
+/* Modal */
+
+.modal{
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 50; /* Sit on top */
+	padding-top: 100px; /* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0,0,0); /* Fallback color */
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	transition: opacity 500ms ease-in;
+}
+/* Modal Content */
+.modal-content {
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%;
+	transition: opacity 500ms ease-in;
 }
 
 
+/* The Close Button */
+.close {
+	color: #aaaaaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}

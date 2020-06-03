@@ -1,17 +1,22 @@
 package tqs.ua.pt.homies_marketplace.controller;
 
+import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import tqs.ua.pt.homies_marketplace.dtos.PlaceDTO;
+import tqs.ua.pt.homies_marketplace.form.FilterForm;
 import tqs.ua.pt.homies_marketplace.form.LoginRegistrationForm;
 import tqs.ua.pt.homies_marketplace.form.UserRegistrationForm;
 import tqs.ua.pt.homies_marketplace.models.Place;
+import tqs.ua.pt.homies_marketplace.models.PlaceId;
 import tqs.ua.pt.homies_marketplace.models.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import tqs.ua.pt.homies_marketplace.service.PlaceService;
 import tqs.ua.pt.homies_marketplace.service.UserService;
-
+import java.util.*;
+import static java.lang.Long.parseLong;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,8 +25,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @Controller
 public class WebController {
-    @Autowired
-    UserService userService;
+
+    public static String user_status = "user_not_logged";
+    public static User user_logged = new User();
 
     @Autowired
     PlaceService placeService;
@@ -29,21 +35,24 @@ public class WebController {
     @Autowired
     PlaceController placeController;
 
-    /*
-    @RequestMapping(method = GET, value = "/")
-    String index(Model model){
-        return "index";
-    }
-     */
-    @RequestMapping(method = GET, value = "/register")
+    @Autowired
+    UserController userController;
+
+    @Autowired
+    UserService userService;
+
+
+    @RequestMapping(method = RequestMethod.GET, value = "/register")
     String register(Model model){
         model.addAttribute("user", new UserRegistrationForm());
+
+        // navbar
+        model.addAttribute("user_status",user_status);
         return "register";
     }
 
-
     @PostMapping("/register")
-    String registerSubmit(@ModelAttribute UserRegistrationForm userRegistrationForm){
+    String registerSubmit(@ModelAttribute UserRegistrationForm userRegistrationForm, Model model){
         System.out.println("all users: " + userService.getAllUsers());
         if (userService.getUserByEmail(userRegistrationForm.getEmail()) == null){
             User user = new User();
@@ -54,6 +63,11 @@ public class WebController {
             user.setCity(userRegistrationForm.getCity());
             System.out.println("new user: " + user);
             userService.save(user);
+            user_logged = user;
+            user_status = "user_logged";
+
+            // navbar
+            model.addAttribute("user_status",user_status);
             return "index";
         } else {
             System.out.println("User already picked");
@@ -64,6 +78,9 @@ public class WebController {
     @RequestMapping(method = RequestMethod.GET, value = "/login")
     String login(Model model){
         model.addAttribute("user", new LoginRegistrationForm());
+
+        //navbar
+        model.addAttribute("user_status",user_status);
         return "login";
     }
 
@@ -74,7 +91,9 @@ public class WebController {
             if (userService.getUserByEmail(loginRegistrationForm.getEmail()).getPassword().equals(loginRegistrationForm.getPassword())){
                 User user = userService.getUserByEmail(loginRegistrationForm.getEmail());
                 System.out.println("logged user: " + user);
-                model.addAttribute("user_logged", user);
+                user_status = "user_logged";
+                user_logged = user;
+                model.addAttribute("user_status",user_status);
                 return "index";
             } else {
                 System.out.println("wrong password");
@@ -88,56 +107,186 @@ public class WebController {
     }
 
 
-    @RequestMapping(method = RequestMethod.GET, value = "/test")
+    @RequestMapping(method = RequestMethod.GET, value = "/")
     public String index(Model model){
-        model.addAttribute("user", "user");
-        model.addAttribute("place", "place");
-        return "test";
+        // navbar
+        model.addAttribute("user_status",user_status);
+        return "index";
     }
 
-    @RequestMapping(value = "/places", method = RequestMethod.GET)
+    @RequestMapping(value = "/list")
     public String places(Model model){
+        List<Place> favorites = new ArrayList<>();
+
+        if(user_status.equals("user_logged")){
+            favorites = placeService.getFavoriteHouses(user_logged.getEmail());
+        }
         List<String> cities = placeController.getAllCities();
         List<Place> places = placeService.getAllPlaces();
+        model.addAttribute("favorites", favorites);
         model.addAttribute("places", places);
         model.addAttribute("cities", cities);
+        model.addAttribute("filtered_places", new FilterForm());
+
+        // navbar
+        model.addAttribute("user_status",user_status);
         return "houseList";
     }
 
-    @GetMapping("/places/{id}")
+    @PostMapping("/list")
+    public String filters(Model model, @ModelAttribute("filtered_places") FilterForm myFormObject, @RequestParam Map<String,String> data){
+        List<String> cities = placeController.getAllCities();
+        model.addAttribute("cities", cities);
+
+        // navbar
+        model.addAttribute("user_status",user_status);
+        try{
+            String city = ((myFormObject.getType()).equals("none"))? null : myFormObject.getCity();
+            List<String> features = (myFormObject.getFeatures());
+            String bedrooms = (myFormObject.getBedrooms() == 0)? null : String.valueOf(myFormObject.getBedrooms());
+            String bathrooms = (myFormObject.getBathrooms() == 0)? null : String.valueOf(myFormObject.getBathrooms());
+            String type = ((myFormObject.getType()).equals("none"))? null : myFormObject.getType().replace('_',' ');
+            String minPrice = data.get("min-price");
+            String maxPrice = data.get("max-price");
+
+
+            // search(city, price, rating, bedrooms, bathrooms, type, minPrice, maxPrice)
+            PlaceDTO placeDTO = new PlaceDTO(city, null, null, bedrooms, bathrooms, type);
+            List<Place> places = placeService.search(placeDTO, minPrice, maxPrice);
+
+            if(features == null){
+                System.out.println(places);
+                model.addAttribute("places", places);
+            }
+            else{
+                List<Place> result = new ArrayList<>();
+                for(Place place : places){
+                    List<String> features_place = place.getFeatures();
+                    System.out.println("1: " + features_place);
+                    System.out.println("2: " + features);
+                    features_place.retainAll(features);
+                    System.out.println("3: " + features_place);
+                    if( features_place.size() != 0){
+                        result.add(place);
+                    }
+                }
+                System.out.println(result);
+                model.addAttribute("places", result);
+            }
+
+            return "houseList";
+        }
+
+        catch(Exception e){
+            List<Place> places = placeService.getAllPlaces();
+            model.addAttribute("places", places);
+            return "houseList";
+        }
+    }
+
+    @RequestMapping(value = "/addtofavorite", method = RequestMethod.POST, headers="Content-Type=application/json")
+    public @ResponseBody JSONObject post(@RequestBody JSONObject data) {
+        System.out.println(data);
+        // Get id
+        Long id_long = parseLong( (String) data.get("place_id"),10);
+        if(user_status.equals("user_logged")){
+            // Logged Status
+            JSONObject response = new JSONObject();
+            response.put("user_status","user_logged");
+
+            // Not Saved
+            if(data.get("status").equals("not_saved")){
+                // Add to Favorites
+                userService.addToFavorites(user_logged.getEmail(), new PlaceId(id_long));
+                response.put("action","added");
+                System.out.println(" ADICIONADO // FAVORITOS DO MENINO: " + placeService.getFavoriteHouses(user_logged.getEmail()).size());
+            }
+            // Already Saved
+            else{
+                userService.removeFavoritePlace(user_logged.getEmail(), new PlaceId(id_long));
+                response.put("action","removed");
+                System.out.println(" REMOVIDO // FAVORITOS DO MENINO: " + placeService.getFavoriteHouses(user_logged.getEmail()).size());
+
+            }
+            return response;
+        }
+        else{
+            // Not Logged Status
+            System.out.println("User not logged");
+            JSONObject response = new JSONObject();
+            response.put("user_status","user_not_logged");
+            return response;
+        }
+    }
+
+    @GetMapping("/list/{id}")
     public String details(@PathVariable("id") long id, Model model){
-        Place place = placeService.getPlaceById(0L);
-        model.addAttribute("placeTitle", place.getTitle());
+        Place place = placeService.getPlaceById(id);
+        List<String> cities = placeController.getAllCities();
+        List<Place> favoriteHouses = new ArrayList<>();
+
+        if(user_status.equals("user_logged")){
+            favoriteHouses = placeService.getFavoriteHouses(user_logged.getEmail());
+        }
+        model.addAttribute("cities", cities);
         model.addAttribute("place", place);
         model.addAttribute("placeFeatures", place.getFeatures());
+        model.addAttribute("favorites",favoriteHouses);
+
+        // navbar
+        model.addAttribute("user_status",user_status);
         System.out.println(place.getFeatures());
         return "details";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value="/places/city/{city}")
-    public String places_by_city(Model model, @PathVariable("city") String city) {
-        //Quando tiver alguma coisa na bd
-        //usa o search em vez de search_by_city
-        //List<Place> placesbycity = placeController.search_by_city(city);
-        System.out.println("City>> " + city);
-        List<String> cities = placeController.getAllCities();
-        List<Place> places = placeService.getAllPlaces();
-        List<Place> returnPlaces = new ArrayList<>();
-        for(Place p: places){
-            if(p.getCity().equals(city))
-                returnPlaces.add(p);
+    @RequestMapping(value = "/getUser", method = RequestMethod.POST, headers="Content-Type=application/json")
+    public @ResponseBody JSONObject sendUser(@RequestBody JSONObject data) {
+        System.out.println(data);
+        // Get id
+        String status = (String) data.get("status");
+        System.out.println(status);
+        JSONObject response = new JSONObject();
+        response.put("user", user_logged.getFirstName());
+    /*
+        if(status.equals("logged")){
+            response.put("user", user_logged.getFirstName());
         }
-        System.out.println(returnPlaces);
-        model.addAttribute("places", returnPlaces);
-        model.addAttribute("cities",cities);
+        else{
+            response.put("user","not_logged");
+        }*/
+        return response;
+
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value="/list/city/{city}")
+    public String places_by_city(Model model, @PathVariable("city") String city) {
+        List<Place> favorites = new ArrayList<>();
+
+        if(user_status.equals("user_logged")){
+            favorites = placeService.getFavoriteHouses(user_logged.getEmail());
+        }
+        List<String> cities = placeController.getAllCities();
+        List<Place> placesbycity = placeService.searchByCity(city);
+        model.addAttribute("favorites", favorites);
+        model.addAttribute("places", placesbycity);
+        model.addAttribute("cities", cities);
+        model.addAttribute("user_status",user_status);
+        model.addAttribute("filtered_places", new FilterForm());
         return "houseList";
     }
+
 
 
     @GetMapping("/profile")
     public String profile(Model model){
         List<User> users = userService.getAllUsers();
+        List<Place> favoriteHouses = placeService.getFavoriteHouses(user_logged.getEmail());
+        List<Place> publishedHouses = placeService.getPublishedHouses(user_logged.getEmail());
         model.addAttribute("users",users);
+        model.addAttribute("user_logged",user_logged);
+        model.addAttribute("favorites",favoriteHouses);
+        model.addAttribute( "published", publishedHouses);
+        model.addAttribute("user_status",user_status);
         return "profile";
     }
 

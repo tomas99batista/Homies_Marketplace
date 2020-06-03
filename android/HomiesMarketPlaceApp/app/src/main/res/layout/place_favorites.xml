@@ -4,12 +4,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+<<<<<<< HEAD
+    android:layout_height="200dp"
+=======
     android:layout_height="180dp"
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
     android:layout_margin="2dp"
     app:cardElevation="10dp">
 
     <ImageView
+<<<<<<< HEAD
+        android:id="@+id/favorite_event_image"
+=======
         android:id="@+id/favorite_place_image"
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
@@ -20,6 +28,34 @@
         android:layout_height="match_parent">
 
         <TextView
+<<<<<<< HEAD
+            android:id="@+id/favorite_event_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="120dp"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:textSize="17sp"
+            android:maxLength="30"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/favorite_event_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:textColor="#fff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+=======
             android:id="@+id/favorite_place_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,4 +110,5 @@
         android:background="#fff"
         />
 
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
 </androidx.cardview.widget.CardView>

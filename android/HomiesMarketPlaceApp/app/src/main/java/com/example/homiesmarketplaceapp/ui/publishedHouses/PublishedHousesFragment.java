@@ -1,6 +1,9 @@
 package com.example.homiesmarketplaceapp.ui.publishedHouses;
 
+<<<<<<< HEAD
+=======
 import android.content.SharedPreferences;
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +14,10 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+<<<<<<< HEAD
+=======
 import androidx.preference.PreferenceManager;
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,13 +37,19 @@ import retrofit2.Response;
 public class PublishedHousesFragment extends Fragment {
     View root;
     FloatingActionButton addHouse;
+<<<<<<< HEAD
+=======
     String email;
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_published_houses, container, false);
         addHouse=root.findViewById(R.id.addHouse);
+<<<<<<< HEAD
+=======
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         email=prefs.getString("email", "");
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
 
         addHouse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +64,10 @@ public class PublishedHousesFragment extends Fragment {
 
     private void getUserPublishedHouses(){
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+<<<<<<< HEAD
+        String email="jose@email.com";
+=======
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
         Call<List<Place>> callPublishedHouses=service.getPublishedHouses(email);
         callPublishedHouses.enqueue(new Callback<List<Place>>() {
             @Override
@@ -73,7 +89,11 @@ public class PublishedHousesFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
+<<<<<<< HEAD
+        adapter.setOnItemClickListener(new FavoritesAdapter.OnItemClickListener() {
+=======
         adapter.setOnItemClickListener(new FavoritesAdapter.OnItemClickListener(){
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
             @Override
             public void onItemClick(int position) {
                 Log.d("clicked", "clicked favorites");
@@ -82,11 +102,14 @@ public class PublishedHousesFragment extends Fragment {
                 bundle.putLong("placeId", placeList.get(position).getId());
                 NavHostFragment.findNavController(PublishedHousesFragment.this).navigate(R.id.publishedHouses_to_details,bundle);
             }
+<<<<<<< HEAD
+=======
 
             @Override
             public void onRemovingFromFavoritesClick(int position) {
 
             }
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
         });
     }
 }

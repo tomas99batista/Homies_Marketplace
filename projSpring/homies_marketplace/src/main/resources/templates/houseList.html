@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
+
 <head>
 	<title>Homies</title>
 
@@ -7,7 +8,7 @@
 	<link th:href="@{/css/bootstrap.min.css}" href="/css/bootstrap.min.css" rel="stylesheet" media="all">
 
 	<!-- Main CSS-->
-	<link  th:href="@{/css/houseList.css}" href="/css/houselist.css" rel="stylesheet" media="all">
+	<link th:href="@{/css/houseList.css}" href="/css/houselist.css" rel="stylesheet" media="all">
 
 	<!-- Bootstrap JS-->
 	<script th:src="@{/js/bootstrap.min.js}"></script>
@@ -16,93 +17,272 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 </head>
+
 <body>
-<div th:replace="fragments/navbar"></div>
+	<div th:replace="fragments/navbar"></div>
 
 	<div class="mainBod">
 		<div style="margin-bottom: 20px;"></div>
 		<div class="wrapper">
 			<div class="col-2 filterTab">
-				<h2 style="text-align: center; color: #0099ff">Find your place</h2>
+				<h2 style="text-align: center; color: #0099ff; margin-bottom: 40px">Find your place</h2>
 				<div class="form-group has-search">
 					<span class="fa fa-search form-control-feedback"></span>
-					<input id="searchBar" type="text" class="form-control" placeholder="Search" style="max-width: 250px">
+					<input id="searchBar" type="text" class="form-control" placeholder="Search">
 				</div>
 
 				<div class="row">
 					<div class="col-12">
-						<form method="post" th:object="${cities}">
+						<form id="filter_form" method="post" th:action="@{/list}" th:object="${filtered_places}">
+							<!-- ! FILTER: City Selector -->
 							<div class="form-group">
-								<label>City</label>
-								<select id="cities_filter" onchange="val()" class="form-control select2-single" style="border-radius: 20px; z-index:999">
-									<option th:each="city : ${cities}" th:value="${city}" th:text='${city}'></option>
+
+								<label class="filter_title">City</label>
+								<select form="filter_form" name="city" id="cities_filter" th:field="*{city}"
+									class="form-control select2-single">
+
+									<option selected th:value="none"> -- select an option -- </option>
+									<option th:each="city : ${cities}"  th:value="${city}" th:text='${city}'></option>
 								</select>
 							</div>
 
-							<button class="btn btn-primary" type="submit">Submit form</button>
+							<!-- ! FILTER: Price Range Slider -->
+							<div class="form-group">
+								<label class="filter_title">Price Range</label>
+
+								<div class="price-slider">
+									<input type="range" th:name="min-price" th:id="min-price" onchange="slider()"
+										class="price-slider-range" th:value="0" min="0" max="1500"
+										step="1">
+									<input type="range" th:name="max-price" th:id="max-price" onchange="slider()"
+										class="price-slider-range" th:value="1500" min="0"
+										max="1500" step="1">
+									<div class="price-progress" id="price-progress"></div>
+								</div>
+								<div style="text-align: center;">
+									<p style="margin-top:30px; font-size:1rem;" id="price-slider-paragraph">
+										00,00 € - 1.500,00 €
+									</p>
+								</div>
+							</div>
+							<!-- ! FILTER: Bedroom -->
+							<div class="form-group">
+
+								<label class="filter_title">Number of Bedrooms</label>
+								<select form="filter_form" name="bedrooms" id="bedrooms" th:field="*{bedrooms}"
+										class="form-control select2-single">
+									<option selected  th:value="0"> -- </option>
+									<option th:value="1">1</option>
+									<option th:value="2">2</option>
+									<option th:value="3">3</option>
+									<option th:value="4">4</option>
+									<option th:value="5">5</option>
+									<option th:value="6">6</option>
+									<option th:value="7">7</option>
+								</select>
+							</div>
+
+							<!-- ! FILTER: Bathrooms -->
+							<div class="form-group">
+
+								<label class="filter_title">Number of Bathrooms</label>
+								<select form="filter_form" name="bathrooms" id="bathrooms" th:field="*{bathrooms}"
+										class="form-control select2-single">
+									<option selected th:value="0"> -- </option>
+									<option th:value="1">1</option>
+									<option th:value="2">2</option>
+									<option th:value="3">3</option>
+									<option th:value="4">4</option>
+									<option th:value="5">5</option>
+									<option th:value="6">6</option>
+									<option th:value="7">7</option>
+								</select>
+							</div>
+
+							<!-- ! FILTER: Type -->
+							<div class="form-group">
+								<label class="filter_title">Type</label><br>
+
+								<select form="filter_form" name="type" id="type" th:field="*{type}"
+										class="form-control select2-single">
+									<option selected th:value="none"> -- select an option -- </option>
+									<option th:value="Quarto_partilhado">Quarto partilhado</option>
+									<option th:value="Quarto_privado">Quarto privado</option>
+									<option th:value="Casa_Inteira">Casa Inteira</option>
+
+								</select>
+							</div>
+
+							<!-- ! FILTER: Features -->
+							<div class="form-group">
+								<label class="filter_title">Features</label><br>
+
+								<input class="feature_filter" type="checkbox" id="wifi" name="features" value="Wifi" th:field="*{features}">
+								<label for="wifi">Wifi</label><br>
+								<input class="feature_filter" type="checkbox" id="tv" name="features" value="TV" th:field="*{features}">
+								<label for="tv">TV</label><br>
+								<input class="feature_filter" type="checkbox" id="exterior" name="features" value="Área Exterior" th:field="*{features}">
+								<label for="exterior">Área Exterior</label><br>
+								<input class="feature_filter" type="checkbox" id="elevador" name="features" value="Elevador" th:field="*{features}">
+								<label for="elevador">Elevador</label><br>
+								<input class="feature_filter" type="checkbox" id="ac" name="features" $ value="Ar Condicionado" th:field="*{features}">
+								<label for="ac">Ar Condicionado</label><br>
+								<input class="feature_filter" type="checkbox" id="aquecimento" name="features" value="Aquecimento Central" th:field="*{features}">
+								<label for="aquecimento">Aquecimento Central</label><br>
+								<input class="feature_filter" type="checkbox" id="fumar" name="features" value="Fumar" th:field="*{features}">
+								<label for="fumar">Aceita Fumadores</label><br>
+								<input class="feature_filter" type="checkbox" id="animal" name="features" value="Animais de Estimação" th:field="*{features}">
+								<label for="animal">Aceita Animais</label><br>
+							</div>
+							<button class="btn btn-primary" type="submit">Search</button>
 						</form>
 					</div>
 
 				</div>
 			</div>
+			Results: <span th:text="${#lists.size(places)}"/>
 			<div class="col-9 houseTab">
 				<div class="" th:each="place: ${places}">
 					<section class="section mt-5">
 						<div class="container houseCard">
 							<div class="row">
-								<div class="col-md-6">
-									<div>
-										<img alt="room" class="img-fluid"  onclick="window.open('/places/1')" th:src="@{/media/room-1.jpg}" />
+								<div class="col-md-6" style="overflow: hidden;">
+								<div>
+									<img alt="room" th:name="${place['id']}" onClick="reply_click(this.name)"  class="img-fluid houseCard_image" th:src="${place['photos']}" />
+								</div>
+							</div>
+								<div class="col-md-6 col-lg-5 d-flex align-items-center mt-4 mt-md-0">
+								<div>
+									<div class="col-4" id="house_title">
+										<h5 th:text="${place['title']}"></h5>
+										<p th:text="${place['type']}"></p>
+									</div>
+									<div class="col-6">
+										<div class="element">
+											<img th:src="@{/media/pin.svg}">
+											<p class="text" style="font-weight: bold" th:text="${place['city']}"></p>
+										</div>
+										<div class="element">
+											<img th:src="@{/media/bed.svg}">
+											<div class="text" th:text="${place['numberBedrooms']} + ' bedrooms'">
+											</div>
+										</div>
+										<div class="element">
+											<img th:src="@{/media/wash.svg}">
+											<div class="text" th:text="${place['numberBathrooms']} + ' bathrooms'">
+											</div>
+										</div>
+									</div>
+									<div class="row" >
+										<img class="fav saved" th:id="${place['id']} + _fav"  th:if="${#lists.contains(favorites, place)}"  th:name="${place['id']}" th:src="@{/media/filled_heart.svg}" onClick="save_fav(this.name)" th:value="${place}">
+										<img class="fav not_saved" th:id="${place['id']} + _fav"  th:if="!${#lists.contains(favorites, place)}"  th:name="${place['id']}" th:src="@{/media/blank_heart.svg}" onClick="save_fav(this.name)" th:value="${place}">
+										<div class="price" th:text="${place['price'] + '€/mês'}"></div>
 									</div>
 								</div>
-								<div class="col-md-6 col-lg-5 ml-auto d-flex align-items-center mt-4 mt-md-0">
-									<div>
-										<h2 th:text="${place['title']}"></h2>
-										<div th:text="${place['numberBedrooms']} + ' bedrooms'"></div>
-										<div th:text="${place['numberBathrooms']} + ' bathrooms'"></div>
-										<div th:text="'Rating: ' + ${place['rating']}"></div>
-										<div th:text="${place['price'] + '€/mês'}"></div>
-										<div th:text="${place['city']}"></div>
-
-									</div>
-								</div>
+							</div>
 							</div>
 						</div>
 					</section>
 				</div>
-
-
 			</div>
-			<div class="col-1"></div>
-			<div>
-		</div>
 		</div>
 	</div>
-	<script type="text/javascript">
-		function searchPlace(){
-			document.getElementById("searchBar");
-			var arrayLocals = document.getElementsByClassName("searchResult");
-			for(var i = 0; i < arrayLocals.len; i++){
-				if(arrayLocals[i].innerText != "Lisboa"){
-					arrayLocals[i].style.display = "none";
+	<!-- The Modal -->
+	<div id="myModal" class="modal">
+
+		<!-- Modal content -->
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<p> NOT LOGGED IN</p>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	// Modal
+	// Get the modal
+	var modal = document.getElementById("myModal");
+
+	// Get the <span> element that closes the modal
+	var span = document.getElementsByClassName("close")[0];
+
+	// When the user clicks on <span> (x), close the modal
+	span.onclick = function() {
+		modal.style.display = "none";
+	}
+
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+		if (event.target === modal) {
+			modal.style.display = "none";
+		}
+	}
+
+	// Favorites
+	function save_fav(place_id){
+		var status = document.getElementById(place_id + "_fav").className.split(" ").pop();
+		var data = { 'place_id' : place_id , 'status' : status };
+		$.ajax({
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			type:"post",
+			data: JSON.stringify(data),
+			url:"/addtofavorite",
+			async: false,
+			error: function (xhr, status) {
+				console.log(status);
+				console.log(xhr.responseText);
+			},
+			success: function (result) {
+				if(result.user_status === "user_not_logged"){
+					modal.style.display = "block";
+				}
+				else{
+					if(result.action === "added"){
+						document.getElementById(place_id + "_fav").src = "/media/filled_heart.svg";
+						document.getElementById(place_id + "_fav").className = "fav saved"
+
+					}
+					else{
+						document.getElementById(place_id + "_fav").src = "/media/blank_heart.svg";
+						document.getElementById(place_id + "_fav").className = "fav not_saved"
+					}
 				}
 			}
-		}
+		});
+	}
 
-	$('#cities_filter').change(function(){
-    	console.log($(this).val());
-		//$.ajax({
-    	//	type:"post",
-    	//	data:{ "city", $(this).val() },
-    	//	url:"/places",
-    	//	dataType: "json",
-    	//	success: function(result){
-       	//		$(element).append(result);
-    	//	}
-		//});
+
+	// Thymeleaf Correction
+	function reply_click(clicked_id)
+	{
+		window.location.href ="/list/"+ clicked_id;
+	}
+	var x = Object.values(document.getElementsByName("_features"));
+	x.forEach(function(e){
+		e.remove();
 	})
-	</script>
-</body>
+
+	// Slider
+	slider();
+
+	function slider() {
+		const range = document.getElementsByClassName('price-slider-range');
+		const min = Math.min(range[0].value, range[1].value);
+		const max = Math.max(range[0].value, range[1].value);
+		document.getElementById('price-slider-paragraph').innerHTML = `${min}€ - ${max}€`;
+
+		const progress = document.getElementById('price-progress');
+		progress.style.setProperty('--max', max);
+		progress.style.setProperty('--min', min);
+	}
+
+
+</script>
+
 </html>

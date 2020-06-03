@@ -20,7 +20,7 @@ public class PlaceController {
     private PlaceService placeService;
 
 
-    @GetMapping("/places/{id}/reviews")
+    @GetMapping("/places/{id:[0-9]+}/reviews")
     public List<Review> getReviews(@PathVariable("id") long id){
         return placeService.getReviews(id);
     }
@@ -46,10 +46,9 @@ public class PlaceController {
     }
 
 
-
-    @GetMapping("/places/{id}")
-    public Place getPlaceById(@PathVariable("id") long id) {
-        return placeService.getPlaceById(id);
+    @RequestMapping(value="/places/{identifier:[0-9]+}", method=RequestMethod.GET)
+    public Place getPlaceById(@PathVariable("identifier") Long identifier) {
+        return placeService.getPlaceById(identifier);
     }
 
     public List<String> getAllCities() {

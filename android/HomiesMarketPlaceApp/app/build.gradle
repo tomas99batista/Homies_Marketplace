@@ -43,7 +43,10 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     // Glide v4 uses this new annotation processor -- see https://bumptech.github.io/glide/doc/generatedapi.html
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+<<<<<<< HEAD
+=======
 
     implementation "androidx.preference:preference:1.1.1"
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
 }

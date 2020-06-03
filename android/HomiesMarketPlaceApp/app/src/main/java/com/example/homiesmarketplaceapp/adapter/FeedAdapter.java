@@ -41,11 +41,16 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         public final View mView;
 
         ImageView placeImage;
+<<<<<<< HEAD
+        TextView placeName;
+        TextView placeDetails;
+=======
         TextView placeType;
         TextView placeLocation;
         TextView placePrice;
         TextView placeBedrooms;
         TextView placeBathrooms;
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
         ImageButton addToFavorites;
 
 
@@ -54,6 +59,11 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
             mView = itemView;
 
             placeImage=mView.findViewById(R.id.placeImage);
+<<<<<<< HEAD
+            placeName = mView.findViewById(R.id.place_name);
+            placeDetails=mView.findViewById(R.id.place_details);
+            addToFavorites=mView.findViewById(R.id.add_to_favorites);
+=======
             placeType = mView.findViewById(R.id.placeType);
             placeLocation=mView.findViewById(R.id.placeLocation);
             placePrice=mView.findViewById(R.id.placePrice);
@@ -61,6 +71,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
             placeBathrooms=mView.findViewById(R.id.placeBathrooms);
             addToFavorites=mView.findViewById(R.id.add_to_favorites);
 
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -97,11 +108,19 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
     @Override
     public void onBindViewHolder(FeedViewHolder holder, int position) {
 
+<<<<<<< HEAD
+        //holder.txtId.setText(dataList.get(position).getEvent_id().toString());
+        holder.placeName.setText(dataList.get(position).getTitle());
+
+        holder.placeDetails.setText(dataList.get(position).getCity());
+
+=======
         holder.placeType.setText(dataList.get(position).getType());
         holder.placeLocation.setText(dataList.get(position).getCity());
         holder.placePrice.setText(((int)dataList.get(position).getPrice()) + " €/month");
         holder.placeBedrooms.setText(dataList.get(position).getNumberBedrooms() + " bedrooms");
         holder.placeBathrooms.setText(dataList.get(position).getNumberBathrooms() + " bathrooms");
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
         Glide.with(context).load(dataList.get(position).getPhotos()).into(holder.placeImage);
     }
 

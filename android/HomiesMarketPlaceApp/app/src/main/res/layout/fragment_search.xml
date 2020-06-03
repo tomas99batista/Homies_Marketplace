@@ -6,9 +6,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+<<<<<<< HEAD
+=======
 
         android:background="@drawable/searchimg"
         android:gravity="center"
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
         >
         <TextView
             android:layout_width="wrap_content"
@@ -18,7 +21,11 @@
             android:layout_gravity="center"
             android:text="Search places"
             android:textColor="@android:color/black"
+<<<<<<< HEAD
+            android:textSize="20sp"
+=======
             android:textSize="30sp"
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
             android:textStyle="bold" />
 
     <LinearLayout
@@ -30,12 +37,19 @@
     <EditText
             android:id="@+id/cityFilter"
             android:layout_margin="16dp"
+<<<<<<< HEAD
+            android:layout_width="wrap_content"
+=======
             android:layout_width="150dp"
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
             android:drawablePadding="5dp"
             android:layout_gravity="center"
             android:layout_height="40dp"
             android:paddingRight="30dp"
+<<<<<<< HEAD
+=======
             android:background="@drawable/search_edit_text"
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
             android:drawableStart="@drawable/ic_location"
             android:hint="City"
             />
@@ -43,8 +57,12 @@
         <EditText
             android:id="@+id/typeFilter"
             android:layout_margin="16dp"
+<<<<<<< HEAD
+            android:layout_width="wrap_content"
+=======
             android:background="@drawable/search_edit_text"
             android:layout_width="150dp"
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
             android:drawablePadding="5dp"
             android:layout_gravity="center"
             android:layout_height="40dp"
@@ -62,8 +80,12 @@
             <EditText
                 android:id="@+id/minPriceFilter"
                 android:layout_margin="16dp"
+<<<<<<< HEAD
+                android:layout_width="wrap_content"
+=======
                 android:layout_width="150dp"
                 android:background="@drawable/search_edit_text"
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
                 android:drawablePadding="5dp"
                 android:layout_gravity="center"
                 android:layout_height="40dp"
@@ -75,10 +97,16 @@
             <EditText
                 android:id="@+id/maxPriceFilter"
                 android:layout_margin="16dp"
+<<<<<<< HEAD
+                android:layout_width="wrap_content"
+                android:drawablePadding="5dp"
+                android:layout_gravity="center"
+=======
                 android:layout_width="150dp"
                 android:drawablePadding="5dp"
                 android:layout_gravity="center"
                 android:background="@drawable/search_edit_text"
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
                 android:layout_height="40dp"
                 android:paddingRight="30dp"
                 android:drawableStart="@drawable/ic_price"
@@ -98,10 +126,16 @@
             <EditText
                 android:id="@+id/bedroomsFilter"
                 android:layout_margin="16dp"
+<<<<<<< HEAD
+                android:layout_width="wrap_content"
+                android:drawablePadding="5dp"
+                android:layout_gravity="center"
+=======
                 android:layout_width="150dp"
                 android:drawablePadding="5dp"
                 android:layout_gravity="center"
                 android:background="@drawable/search_edit_text"
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
                 android:layout_height="40dp"
                 android:paddingRight="30dp"
                 android:drawableStart="@drawable/ic_bedrooms"
@@ -111,11 +145,18 @@
             <EditText
                 android:id="@+id/bathroomsFilter"
                 android:layout_margin="16dp"
+<<<<<<< HEAD
+                android:layout_width="wrap_content"
+                android:drawablePadding="5dp"
+                android:layout_gravity="center"
+                android:layout_height="40dp"
+=======
                 android:layout_width="150dp"
                 android:drawablePadding="5dp"
                 android:layout_gravity="center"
                 android:layout_height="40dp"
                 android:background="@drawable/search_edit_text"
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
                 android:paddingRight="30dp"
                 android:drawableStart="@drawable/ic_bathrooms"
                 android:hint="Bathrooms"
@@ -136,19 +177,28 @@
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+<<<<<<< HEAD
+            android:saveEnabled="true"
+=======
             android:background="@drawable/search_edit_text"
         android:saveEnabled="true"
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
             android:numStars="5"
             />
 
         <Button
             android:layout_gravity="center"
             android:id="@+id/searchBtn"
+<<<<<<< HEAD
+            android:layout_width="wrap_content"
+            android:text="Search"
+=======
             android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:text="Search"
             android:textColor="#fff"
             android:background="@drawable/button_search_shape"
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
             android:layout_height="wrap_content"/>
     </LinearLayout>
 

@@ -1,6 +1,9 @@
 package com.example.homiesmarketplaceapp.ui.favorites;
 
+<<<<<<< HEAD
+=======
 import android.content.SharedPreferences;
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +14,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+<<<<<<< HEAD
+=======
 import androidx.preference.PreferenceManager;
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +26,10 @@ import com.example.homiesmarketplaceapp.R;
 import com.example.homiesmarketplaceapp.adapter.FavoritesAdapter;
 import com.example.homiesmarketplaceapp.adapter.FeedAdapter;
 import com.example.homiesmarketplaceapp.model.Place;
+<<<<<<< HEAD
+=======
 import com.example.homiesmarketplaceapp.model.PlaceId;
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
 import com.example.homiesmarketplaceapp.network.GetDataService;
 import com.example.homiesmarketplaceapp.network.RetrofitClientInstance;
 
@@ -32,13 +41,20 @@ import retrofit2.Response;
 
 public class FavoritesFragment extends Fragment {
     View root;
+<<<<<<< HEAD
+=======
     String email;
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_favorites, container, false);
+<<<<<<< HEAD
+        String email="jose@email.com";
+=======
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         email=prefs.getString("email", "");
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
 
         getFavorites(email);
 
@@ -72,8 +88,13 @@ public class FavoritesFragment extends Fragment {
     }
 
     private void generateFavorites(final List<Place> placeList){
+<<<<<<< HEAD
+        RecyclerView recyclerView = root.findViewById(R.id.recycler_view_favorites);
+        FavoritesAdapter adapter = new FavoritesAdapter(getContext(), placeList);
+=======
         final RecyclerView recyclerView = root.findViewById(R.id.recycler_view_favorites);
         final FavoritesAdapter adapter = new FavoritesAdapter(getContext(), placeList);
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -87,6 +108,8 @@ public class FavoritesFragment extends Fragment {
                 bundle.putLong("placeId", placeList.get(position).getId());
                 NavHostFragment.findNavController(FavoritesFragment.this).navigate(R.id.favorites_to_details,bundle);
             }
+<<<<<<< HEAD
+=======
 
             @Override
             public void onRemovingFromFavoritesClick(final int position) {
@@ -110,6 +133,7 @@ public class FavoritesFragment extends Fragment {
                     }
                 });
             }
+>>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
         });
 
 
