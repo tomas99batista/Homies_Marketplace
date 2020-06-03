@@ -66,7 +66,7 @@ public class WebController {
 
     @GetMapping("/rented_houses")
     public String getRentedHousesByUser(Model model){
-        ArrayList<Booking> allByOwner = bookService.getAllBookingsByEmail(user_logged.getEmail());
+        List<Booking> allByOwner = bookService.getAllBookingsByEmail(user_logged.getEmail());
         ArrayList<Place> places = new ArrayList<>();
         for (Booking book : allByOwner) {
             places.add(placeService.getPlaceById(book.getPlaceId()));

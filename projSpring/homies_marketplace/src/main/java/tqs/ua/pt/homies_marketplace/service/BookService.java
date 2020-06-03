@@ -2,7 +2,7 @@ package tqs.ua.pt.homies_marketplace.service;
 
 import tqs.ua.pt.homies_marketplace.models.Booking;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface BookService {
 
@@ -12,5 +12,5 @@ public interface BookService {
 
     Booking getBooking(long placeId);
 
-    ArrayList<Booking> getAllBookingsByEmail(String email);
+    List<Booking> getAllBookingsByEmail(String email);
 }
