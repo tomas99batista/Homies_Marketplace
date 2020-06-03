@@ -15,6 +15,7 @@ import tqs.ua.pt.homies_marketplace.dtos.UserDTO;
 import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.PlaceId;
 import tqs.ua.pt.homies_marketplace.models.User;
+import tqs.ua.pt.homies_marketplace.service.BookService;
 import tqs.ua.pt.homies_marketplace.service.PlaceService;
 import tqs.ua.pt.homies_marketplace.service.UserService;
 
@@ -43,6 +44,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
     @MockBean
     private PlaceService placeService;
+
+    @MockBean
+    private BookService bookService;
 
     @BeforeEach
     public void setUp() throws Exception {

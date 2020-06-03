@@ -19,6 +19,9 @@ public class Booking {
     @Column
     private long placeId;
 
+    public Booking(){
+
+    }
     public Booking(String owner, String requester, long placeId) {
         this.owner = owner;
         this.requester = requester;

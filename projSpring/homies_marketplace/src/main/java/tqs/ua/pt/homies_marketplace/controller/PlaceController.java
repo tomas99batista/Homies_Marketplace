@@ -9,6 +9,7 @@ import tqs.ua.pt.homies_marketplace.dtos.ReviewDTO;
 import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.Review;
 import tqs.ua.pt.homies_marketplace.service.PlaceService;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class PlaceController {
 
     @Autowired
     private PlaceService placeService;
+
 
 
     @GetMapping("/places/{id:[0-9]+}/reviews")
@@ -75,4 +77,7 @@ public class PlaceController {
         PlaceDTO placeDTO= new PlaceDTO(city, price, rating, bedrooms, bathrooms, type);
         return placeService.search(placeDTO, minPrice, maxPrice);
     }
+
+
+
 }
