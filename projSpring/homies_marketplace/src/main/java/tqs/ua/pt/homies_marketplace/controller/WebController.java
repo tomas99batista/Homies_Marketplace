@@ -1,5 +1,6 @@
 package tqs.ua.pt.homies_marketplace.controller;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -61,6 +62,17 @@ public class WebController {
         bookService.deleteBooking(booking);
 
         return "profile";
+    }
+
+    @GetMapping("/rented_houses")
+    public String getRentedHousesByUser(Model model){
+        ArrayList<Booking> allByOwner = bookService.getAllBookingsByUser(user_logged);
+        ArrayList<Place> places = new ArrayList<>();
+        for (Booking book : allByOwner) {
+            places.add(placeService.getPlaceById(book.getPlaceId()));
+        }
+        model.addAttribute("rented_houses", places);
+        return "rented_houses";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/register")
