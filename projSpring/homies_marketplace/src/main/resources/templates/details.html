@@ -71,6 +71,7 @@
 			</div>
 			<hr>
 			<div class="row">
+				<p>Owned by <b th:if="${owner != null}" th:text="${owner.firstName}"></b> </p>
 				<!-- Saved -->
 				<img class="fav saved"
 					 th:id="${place['id']} + _fav"
@@ -113,7 +114,9 @@
 			<h3 th:text="${place['price'] + '€/mês'}"></h3>
 			<p>Contas incluídas</p>
 			<hr>
-			<button class="booking">Book Now!</button>
+			<button class="booking" th:if="${book_status == 'false'}" th:id="book_ + ${place['id']}" onclick="book(this.id)" disable>Already Booked!</button>
+			<button class="booking" th:if="${book_status == 'true'}" th:id="book_ + ${place['id']}" onclick="book(this.id)" >Book Now!</button>
+
 		</div>
 	</div>
 </div>
@@ -191,6 +194,41 @@
 			modal.style.display = "none";
 		}
 	}
+
+	// Book Place
+	function book(place_id){
+		var id = parseInt(place_id.split("_").pop());
+		var data = { 'place_id' : id };
+		$.ajax({
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			type:"post",
+			data:JSON.stringify(data),
+			url:"/book_place",
+			async: false,
+			success: function(result){
+				console.log(result);
+				if(result.user_status === "logged"){
+					if(result.success === "true"){
+						document.getElementById(place_id).innerHTML = "Already Booked!" ;
+						document.getElementById(place_id).disabled = true;
+					}
+					else {
+						console.log("ERROR");
+					}
+				}
+				else{
+					modal.style.display = "block";
+				}
+			}
+		})
+	}
+
+
+
+
 
 
 	// Submit Review
