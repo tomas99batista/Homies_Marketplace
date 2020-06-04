@@ -20,17 +20,13 @@
     <script src="https://d3js.org/topojson.v1.js"></script>
     <script src="https://rawgithub.com/markmarkoh/datamaps/master/dist/datamaps.none.min.js"></script>
     <script src="https://rawgithub.com/markmarkoh/datamaps/master/dist/datamaps.prt.js"></script>
-    <style>
-
-    </style>
 
 </head>
 
 <body style="background-color: whitesmoke">
 <div th:replace="fragments/navbar"></div>
 
-<div class="background-image">
-<!--	<img class="bed" th:src="@{/media/room-1.jpg}"> -->
+<div class="background-image" th:style="'background-image: linear-gradient(#ffffff 3%, #00000000 70%), url('+ ${place['photos']} +');'">
 </div>
 
 <div class="row">
