@@ -91,6 +91,9 @@ public class WebController {
             user.setLastName(userRegistrationForm.getLastName());
             user.setPassword(userRegistrationForm.getPassword());
             user.setCity(userRegistrationForm.getCity());
+            user.setRentedHouses(new ArrayList<>());
+            user.setFavorites(new ArrayList<>());
+            user.setFavorites(new ArrayList<>());
             System.out.println("new user: " + user);
             userService.save(user);
             user_logged = user;
@@ -98,7 +101,7 @@ public class WebController {
 
             // navbar
             model.addAttribute("user_status",user_status);
-            return "index";
+            return "redirect:/";
         } else {
             System.out.println("User already picked");
             return "user_picked";
@@ -390,6 +393,46 @@ public class WebController {
         return response;
     }
 
+    // Cancel Booking
+    @RequestMapping(value = "/cancel_booking", method = RequestMethod.POST, headers="Content-Type=application/json")
+    public @ResponseBody JSONObject cancelBooking(@RequestBody JSONObject data) {
+        String placeId = String.valueOf(data.get("place_id"));
+        JSONObject response = new JSONObject();
+
+        User requester = userService.getUserByEmail(user_logged.getEmail());
+        List<Long> rentedHouses = requester.getRentedHouses();
+
+        try{
+            // TESTING
+            System.out.println("1 : RENTED HOUSES id:" + rentedHouses);
+            System.out.println("SIZE BEFORE: " + rentedHouses.size());
+            int size_before = rentedHouses.size();
+
+            // Delete from the owner rented_houses
+            Booking booking = bookService.getBooking(Long.parseLong(placeId));
+            rentedHouses.remove(Long.parseLong(placeId));
+            System.out.println(rentedHouses);
+            user_logged.setRentedHouses(rentedHouses);
+
+            // Delete from booking
+            bookService.deleteBooking(booking);
+
+            // TESTING
+            System.out.println("END: " + rentedHouses);
+            System.out.println("SIZE AFTER: " + rentedHouses.size());
+            int size_after = rentedHouses.size();
+            System.out.println("USER:" + user_logged);
+
+            // VERIFY
+            response.put("success","true");
+        }
+        catch(Exception e){
+            response.put("success","false");
+        }
+
+        return response;
+    }
+
     // Profile
     @GetMapping("/profile")
     public String profile(Model model){
@@ -434,49 +477,8 @@ public class WebController {
         return "profile";
     }
 
-    // Cancel Booking
-    @RequestMapping(value = "/cancel_booking", method = RequestMethod.POST, headers="Content-Type=application/json")
-    public @ResponseBody JSONObject cancelBooking(@RequestBody JSONObject data) {
-        String placeId = String.valueOf(data.get("place_id"));
-        JSONObject response = new JSONObject();
-
-        User requester = userService.getUserByEmail(user_logged.getEmail());
-        List<Long> rentedHouses = requester.getRentedHouses();
-
-        try{
-            // TESTING
-            System.out.println("1 : RENTED HOUSES id:" + rentedHouses);
-            System.out.println("SIZE BEFORE: " + rentedHouses.size());
-            int size_before = rentedHouses.size();
-
-            // Delete from the owner rented_houses
-            Booking booking = bookService.getBooking(Long.parseLong(placeId));
-            rentedHouses.remove(Long.parseLong(placeId));
-            System.out.println(rentedHouses);
-            user_logged.setRentedHouses(rentedHouses);
-
-            // Delete from booking
-            bookService.deleteBooking(booking);
-
-            // TESTING
-            System.out.println("END: " + rentedHouses);
-            System.out.println("SIZE AFTER: " + rentedHouses.size());
-            int size_after = rentedHouses.size();
-            System.out.println("USER:" + user_logged);
-
-            // VERIFY
-            response.put("success","true");
-        }
-        catch(Exception e){
-            response.put("success","false");
-        }
-
-        return response;
-    }
-
-
     @PostMapping("/profile")
-    String addPlace(@ModelAttribute AddPlaceForm addPlaceForm, Model model){
+    public String addPlace(@ModelAttribute AddPlaceForm addPlaceForm, Model model){
         System.out.println("all users: " + userService.getAllUsers());
         if (userService.getUserByEmail(addPlaceForm.getTitle()) == null){
             Place place = new Place();
@@ -486,10 +488,12 @@ public class WebController {
             place.setTitle(addPlaceForm.getTitle());
             place.setNumberBathrooms(addPlaceForm.getNumBathrooms());
             place.setNumberBedrooms(addPlaceForm.getNumBedrooms());
-
-            System.out.println("new place: " + place);
+            place.setFeatures(addPlaceForm.getFeatures());
+            place.setReviews(new ArrayList<>());
             placeService.save(place);
-            return "profile";
+            userService.addPublishedHouse(user_logged.getEmail(), place);
+            System.out.println("new place: " + place.toString());
+            return "redirect:/profile";
         } else {
             System.out.println("ERROR");
             return "profile";

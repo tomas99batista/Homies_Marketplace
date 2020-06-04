@@ -20,7 +20,6 @@
     <script src="https://d3js.org/topojson.v1.js"></script>
     <script src="https://rawgithub.com/markmarkoh/datamaps/master/dist/datamaps.none.min.js"></script>
     <script src="https://rawgithub.com/markmarkoh/datamaps/master/dist/datamaps.prt.js"></script>
-
 </head>
 <body>
 <div th:replace="fragments/navbar"></div>
@@ -81,6 +80,8 @@
                 </div>
             </div>
             <a onclick="addPlace()" >+ Add new</a>
+            <!-- ADD NEW PLACE FORM" -->
+
         </div>
 
         <div class="card" id="bookings_card" style="width:100%; overflow-x:auto;">
@@ -112,8 +113,93 @@
     <div class="modal-content">
         <span class="close">&times;</span>
         <div class="container">
-            <div th:replace="fragments/addPlace.html"></div>
-        </div>
+            <form  th:action="@{/profile}" th:object="${addPlace}" name="myForm" action="#" onsubmit="return validateForm()" method="post">
+                <div class="form-row">
+                    <div class="col form-group">
+                        <label>Title</label>
+                        <input type="text" required class="form-control" th:field="*{title}">
+                    </div>
+                    <div class="col form-group">
+                        <label>Price</label>
+                        <input type="text" required class="form-control" th:field="*{price}">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>City</label>
+                        <select id="inputState" name="city" required th:field="*{city}"  class="form-control">
+                            <option value="" selected=""> Choose...</option>
+                            <option value="Lisboa">Lisboa</option>
+                            <option value="Porto">Porto</option>
+                            <option value="Braga">Braga</option>
+                            <option value="Setúbal">Setúbal</option>
+                            <option value="Aveiro">Aveiro</option>
+                            <option value="Faro">Faro</option>
+                            <option value="Leiria">Leiria</option>
+                            <option value="Coimbra">Coimbra</option>
+                            <option value="Santarém">Santarém</option>
+                            <option value="Viseu">Viseu</option>
+                            <option value="Viana Do Castelo">Viana Do Castelo</option>
+                            <option value="Vila Real">Vila Real</option>
+                            <option value="Castelo Branco">Castelo Branco</option>
+                            <option value="Évora">Évora</option>
+                            <option value="Guarda">Guarda</option>
+                            <option value="Beja">Beja</option>
+                            <option value="Bragança">Bragança</option>
+                            <option value="Portalegre">Portalegre</option>
+                        </select>
+                    </div>
+                    <div class="col form-group">
+                        <label>Type</label>
+                        <select id="inputType" name="type" required th:field="*{type}"  class="form-control">
+                            <option value="" selected=""> Choose...</option>
+                            <option value="Casa Inteira">Casa Inteira</option>
+                            <option value="Quarto Privado">Quarto Privado</option>
+                            <option value="Quarto Partilhado">Quarto Partilhado</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Number of bathrooms</label>
+                        <input class="form-control" name="bathrooms"  required th:field="*{numBathrooms}"  type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>Number of bedrooms</label>
+                        <input class="form-control" name="bedrooms"  required th:field="*{numBedrooms}" type="text">
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="filter_title">Features</label><br>
+
+                        <input class="feature_filter" type="checkbox" id="wifi" name="features" value="Wifi" th:field="*{features}">
+                        <label for="wifi">Wifi</label><br>
+                        <input class="feature_filter" type="checkbox" id="tv" name="features" value="TV" th:field="*{features}">
+                        <label for="tv">TV</label><br>
+                        <input class="feature_filter" type="checkbox" id="exterior" name="features" value="Área Exterior" th:field="*{features}">
+                        <label for="exterior">Área Exterior</label><br>
+                        <input class="feature_filter" type="checkbox" id="elevador" name="features" value="Elevador" th:field="*{features}">
+                        <label for="elevador">Elevador</label><br>
+                        <input class="feature_filter" type="checkbox" id="ac" name="features" value="Ar Condicionado" th:field="*{features}">
+                        <label for="ac">Ar Condicionado</label><br>
+                        <input class="feature_filter" type="checkbox" id="aquecimento" name="features" value="Aquecimento Central" th:field="*{features}">
+                        <label for="aquecimento">Aquecimento Central</label><br>
+                        <input class="feature_filter" type="checkbox" id="fumar" name="features" value="Fumar" th:field="*{features}">
+                        <label for="fumar">Aceita Fumadores</label><br>
+                        <input class="feature_filter" type="checkbox" id="animal" name="features" value="Animais de Estimação" th:field="*{features}">
+                        <label for="animal">Aceita Animais</label><br>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" value="Submit" class="btn btn-primary btn-block"> Add house</button>
+                </div>
+            </form>        </div>
     </div>
 </div>
 </body>
@@ -139,6 +225,39 @@ window.onclick = function(event) {
 function addPlace(){
     modal.style.display = "block";
 }
+
+
+var x = Object.values(document.getElementsByName("_features"));
+x.forEach(function(e){
+    e.remove();
+})
+
+
+function validateForm() {
+    var city = document.forms["myForm"]["city"].value;
+    var type = document.forms["myForm"]["inputType"].value;
+    if (city === ""){
+        alert("Please select a city");
+        return false;
+    }
+    if (type === ""){
+        alert("Please select a type");
+        return false;
+    }
+
+    if (!document.getElementById('wifi').checked &&
+        !document.getElementById('tv').checked &&
+        !document.getElementById('exterior').checked &&
+        !document.getElementById('elevador').checked &&
+        !document.getElementById('ac').checked &&
+        !document.getElementById('aquecimento').checked &&
+        !document.getElementById('fumar').checked &&
+        !document.getElementById('animal').checked){
+            alert("Por favor selecione pelo menos uma feature");
+            return false;
+    }
+}
+
 // Book Place
     function cancel(place_id){
         var id = parseInt(place_id.split("_").pop());
