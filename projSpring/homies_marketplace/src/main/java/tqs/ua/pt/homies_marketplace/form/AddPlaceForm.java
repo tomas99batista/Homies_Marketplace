@@ -7,6 +7,7 @@ public class AddPlaceForm {
     private double price;
     private String type;
     private String city;
+    private String photo;
     private int numBedrooms;
     private int numBathrooms;
     private List<String> features;
@@ -22,6 +23,14 @@ public class AddPlaceForm {
                 ", numBathrooms=" + numBathrooms +
                 ", features=" + features +
                 '}';
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public String getTitle() {

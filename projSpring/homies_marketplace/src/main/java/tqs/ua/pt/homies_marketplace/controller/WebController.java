@@ -519,6 +519,7 @@ public class WebController {
             place.setNumberBedrooms(addPlaceForm.getNumBedrooms());
             place.setFeatures(addPlaceForm.getFeatures());
             place.setReviews(new ArrayList<>());
+            place.setPhotos(addPlaceForm.getPhoto());
             placeService.save(place);
             userService.addPublishedHouse(user_logged.getEmail(), place);
             System.out.println("new place: " + place.toString());
