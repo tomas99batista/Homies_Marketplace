@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import tqs.ua.pt.homies_marketplace.dtos.PlaceDTO;
+import tqs.ua.pt.homies_marketplace.form.AddPlaceForm;
 import tqs.ua.pt.homies_marketplace.form.FilterForm;
 import tqs.ua.pt.homies_marketplace.form.LoginRegistrationForm;
 import tqs.ua.pt.homies_marketplace.form.UserRegistrationForm;
@@ -392,6 +393,8 @@ public class WebController {
     // Profile
     @GetMapping("/profile")
     public String profile(Model model){
+        model.addAttribute("addPlace", new AddPlaceForm());
+
         List<User> users = userService.getAllUsers();
 
         // Get Favorites
@@ -469,6 +472,28 @@ public class WebController {
         }
 
         return response;
+    }
+
+
+    @PostMapping("/profile")
+    String addPlace(@ModelAttribute AddPlaceForm addPlaceForm, Model model){
+        System.out.println("all users: " + userService.getAllUsers());
+        if (userService.getUserByEmail(addPlaceForm.getTitle()) == null){
+            Place place = new Place();
+            place.setType(addPlaceForm.getType());
+            place.setCity(addPlaceForm.getCity());
+            place.setPrice(addPlaceForm.getPrice());
+            place.setTitle(addPlaceForm.getTitle());
+            place.setNumberBathrooms(addPlaceForm.getNumBathrooms());
+            place.setNumberBedrooms(addPlaceForm.getNumBedrooms());
+
+            System.out.println("new place: " + place);
+            placeService.save(place);
+            return "profile";
+        } else {
+            System.out.println("ERROR");
+            return "profile";
+        }
     }
 
 

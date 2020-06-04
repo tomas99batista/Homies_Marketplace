@@ -119,11 +119,25 @@ public class Place {
         return photos;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setNumberBathrooms(int numberBathrooms) {
+        this.numberBathrooms = numberBathrooms;
+    }
+
+    public void setNumberBedrooms(int numberBedrooms) {
+        this.numberBedrooms = numberBedrooms;
+    }
+
+    public void setFeatures(List<String> features) {
+        this.features = features;
+    }
 
     public void setPrice(double price) {
         this.price = price;
     }
-
 
     public void setType(String type) {
         this.type = type;

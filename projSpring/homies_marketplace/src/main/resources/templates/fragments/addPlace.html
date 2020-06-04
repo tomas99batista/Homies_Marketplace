@@ -14,9 +14,6 @@
     <!-- Bootstrap CSS-->
     <link th:href="@{/css/bootstrap.min.css}" href="/css/bootstrap.min.css" rel="stylesheet" media="all">
 
-    <!-- Main CSS-->
-    <link  th:href="@{/css/register.css}" href="/css/register.css" rel="stylesheet" media="all">
-
     <!-- Bootstrap JS-->
     <script th:src="@{/js/bootstrap.min.js}"></script>
 
@@ -33,47 +30,45 @@
 <body>
     <div class="col-10" style="padding:10px">
        <article class="card-body">
-           <form name="myForm" action="#" onsubmit="return validateForm()" method="post">
+           <form  th:action="@{/profile}" th:object="${addPlace}" name="myForm" action="#" onsubmit="return validateForm()" method="post">
                 <div class="form-row">
                     <div class="col form-group">
                         <label>Title</label>
-                        <input type="text" required class="form-control">
+                        <input type="text" required class="form-control" th:field="*{title}">
                     </div>
                     <div class="col form-group">
                         <label>Price</label>
-                        <input type="text" required class="form-control">
+                        <input type="text" required class="form-control" th:field="*{price}">
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="col form-group">
                         <label>Type</label>
-                        <input type="text" required class="form-control">
+                        <input type="text" required class="form-control" th:field="*{type}">
                     </div>
                     <div class="form-group">
                         <label>City</label>
-                        <select id="inputState" name="city" required class="form-control">
+                        <select id="inputState" name="city" required th:field="*{city}"  class="form-control">
                             <option value="" selected=""> Choose...</option>
                             <option value="Lisboa">Lisboa</option>
-                            <option value="Lisboa">Porto</option>
-                            <option value="Lisboa">Braga</option>
-                            <option value="Lisboa">Setúbal</option>
-                            <option value="Lisboa">Aveiro</option>
-                            <option value="Lisboa">Faro</option>
-                            <option value="Lisboa">Leiria</option>
-                            <option value="Lisboa">Coimbra</option>
-                            <option value="Lisboa">Santarém</option>
-                            <option value="Lisboa">Viseu</option>
-                            <option value="Lisboa">R.A da Madeira</option>
-                            <option value="Lisboa">R.A dos Açores</option>
-                            <option value="Lisboa">Viana Do Castelo</option>
-                            <option value="Lisboa">Vila Real</option>
-                            <option value="Lisboa">Castelo Branco</option>
-                            <option value="Lisboa">Évora</option>
-                            <option value="Lisboa">Guarda</option>
-                            <option value="Lisboa">Beja</option>
-                            <option value="Lisboa">Bragança</option>
-                            <option value="Lisboa">Portalegre</option>
+                            <option value="Porto">Porto</option>
+                            <option value="Braga">Braga</option>
+                            <option value="Setúbal">Setúbal</option>
+                            <option value="Aveiro">Aveiro</option>
+                            <option value="Faro">Faro</option>
+                            <option value="Leiria">Leiria</option>
+                            <option value="Coimbra">Coimbra</option>
+                            <option value="Santarém">Santarém</option>
+                            <option value="Viseu">Viseu</option>
+                            <option value="Viana Do Castelo">Viana Do Castelo</option>
+                            <option value="Vila Real">Vila Real</option>
+                            <option value="Castelo Branco">Castelo Branco</option>
+                            <option value="Évora">Évora</option>
+                            <option value="Guarda">Guarda</option>
+                            <option value="Beja">Beja</option>
+                            <option value="Bragança">Bragança</option>
+                            <option value="Portalegre">Portalegre</option>
                         </select>
                     </div>
                 </div>
@@ -81,11 +76,11 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>Number of bathrooms</label>
-                        <input class="form-control" name="bathrooms" required type="text">
+                        <input class="form-control" name="bathrooms"  required th:field="*{numberBathrooms}"  type="text">
                     </div>
                     <div class="form-group">
                         <label>Number of bedrooms</label>
-                        <input class="form-control" name="bedrooms" required type="text">
+                        <input class="form-control" name="bedrooms"  required th:field="*{numberBedrooms}" type="text">
                     </div>
                 </div>
 
