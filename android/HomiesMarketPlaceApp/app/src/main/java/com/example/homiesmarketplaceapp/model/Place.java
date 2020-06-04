@@ -2,10 +2,7 @@ package com.example.homiesmarketplaceapp.model;
 
 import com.google.gson.annotations.SerializedName;
 
-<<<<<<< HEAD
-=======
 import java.util.ArrayList;
->>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
 import java.util.List;
 
 public class Place {
@@ -47,28 +44,17 @@ public class Place {
 
     }
 
-<<<<<<< HEAD
-    public Place(Long id, String title, double price, double rating, List<String> features, int numberBathrooms, int numberBedrooms, String type, String city, List<Long> reviews, String photos) {
-        this.id = id;
-        this.title = title;
-        this.price = price;
-        this.rating = rating;
-=======
     public Place(String title, double price, List<String> features, int numberBathrooms, int numberBedrooms, String type, String city, String photos) {
         this.title = title;
         this.price = price;
         this.rating = 0.0;
->>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
         this.features = features;
         this.numberBathrooms = numberBathrooms;
         this.numberBedrooms = numberBedrooms;
         this.type = type;
         this.city = city;
-<<<<<<< HEAD
-        this.reviews = reviews;
-=======
         this.reviews = new ArrayList<>();
->>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
+
         this.photos = photos;
     }
 
@@ -115,8 +101,6 @@ public class Place {
     public String getPhotos() {
         return photos;
     }
-<<<<<<< HEAD
-=======
 
 
     public String getAllFeatures(){
@@ -126,5 +110,5 @@ public class Place {
         }
         return strFeatures;
     }
->>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
+
 }

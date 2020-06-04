@@ -1,10 +1,7 @@
 package com.example.homiesmarketplaceapp.ui.home;
 
 import android.app.ProgressDialog;
-<<<<<<< HEAD
-=======
 import android.content.SharedPreferences;
->>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
 import android.os.Bundle;
 import android.util.JsonReader;
 import android.util.Log;
@@ -20,13 +17,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
-<<<<<<< HEAD
-import androidx.recyclerview.widget.GridLayoutManager;
-=======
+
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
->>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.homiesmarketplaceapp.R;
@@ -50,21 +44,17 @@ public class HomeFragment extends Fragment {
 
     ProgressDialog progressDialog;
     View root;
-<<<<<<< HEAD
-=======
+
     String email;
->>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         root = inflater.inflate(R.layout.fragment_home, container, false);
-<<<<<<< HEAD
 
-=======
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         email=prefs.getString("email", "");
->>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Loading....");
         progressDialog.show();
@@ -105,11 +95,8 @@ public class HomeFragment extends Fragment {
     private void generateFeed(final List<Place> placeList) {
         RecyclerView recyclerView = root.findViewById(R.id.recycler_view);
         FeedAdapter adapter = new FeedAdapter(getContext(), placeList);
-<<<<<<< HEAD
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
-=======
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
->>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
@@ -125,10 +112,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onAddToFavorites(int position) {
                 Log.d("adding to favorites", "adding to favorites");
-<<<<<<< HEAD
-                String email="jose@email.com";
-=======
->>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
+
                 addPlaceToFavorites(email, placeList.get(position).getId());
             }
         });
