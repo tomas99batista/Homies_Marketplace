@@ -264,6 +264,7 @@ public class WebController {
         Place place = placeService.getPlaceById(id);
         List<String> cities = placeController.getAllCities();
         List<Place> favoriteHouses = new ArrayList<>();
+        List<Review> reviews = placeService.getReviews(id);
         User owner = userService.findOwner(id);
         if(user_status.equals("user_logged")){
             favoriteHouses = placeService.getFavoriteHouses(user_logged.getEmail());
@@ -273,6 +274,7 @@ public class WebController {
         model.addAttribute("owner", owner);
         model.addAttribute("placeFeatures", place.getFeatures());
         model.addAttribute("favorites",favoriteHouses);
+        model.addAttribute("reviews", reviews);
 
         // navbar
         model.addAttribute("user_status",user_status);

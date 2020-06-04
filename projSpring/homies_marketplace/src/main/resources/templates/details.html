@@ -109,26 +109,23 @@
     								width: 100%;
     								align-self: center;
     								margin-left: auto;">
-<<<<<<< HEAD
 			<div style="display: inline-block;">
 				<h3 th:text="${place['price'] + '€/mês'}"></h3>
 				<p>Contas incluídas</p>
 				<hr>
 				<button class="booking" th:id="book_+${place['id']}" onClick="addBooking()">Book Now!</button>
 			</div>
-=======
-		<div style="display: inline-block;">
-			<h3 th:text="${place['price'] + '€/mês'}"></h3>
-			<p>Contas incluídas</p>
-			<hr>
-			<button class="booking">Book Now!</button>
->>>>>>> e3279b6cb5c76b4ac00f70c315f0d03e9cbf0e3e
 		</div>
 	</div>
 </div>
 <div class="card-rent row" style="margin-top: 16px;">
 	<div class="col-8">
 		<p class="title" style="margin-top: 15px">Reviews</p>
+		<div th:each="review : ${reviews}">
+			<div th:text="${review['email']} +  ' says:'"></div>
+			<div th:text="${review['comment']}"></div>
+			<div th:text="'Rating: ' + ${review['rating']}"></div>
+		</div>
 	</div>
 	<div class="divide"></div>
 	<div class="col-3" style="	position: relative;
@@ -200,13 +197,6 @@
 			modal.style.display = "none";
 		}
 	}
-
-	// Add booking
-	function addBooking(place_id){
-
-	}
-
-
 
 
 	// Submit Review
