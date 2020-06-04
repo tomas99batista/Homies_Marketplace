@@ -83,8 +83,24 @@
             <a href="/list">+ Add new</a>
         </div>
 
+        <div class="card" id="bookings_card" style="width:100%; overflow-x:auto;">
+            <p><i class="fas fa-graduation-cap stroke-transparent"></i>&nbsp;Rented Places</p>
+            <div class="cardRow">
+                <div class="houseCard" th:each="place: ${rentedHouses}" th:id="'rented_' + ${place['id']}" th:name="${place['id']}">
+                    <div class="card-img">
+                        <button class="cancel_button" th:id="'cancel_' + ${place['id']}" onclick="cancel(this.id)">CANCEL</button>
+                        <img style="vertical-align: middle;
+                                    border-style: none;
+                                    height: 250px;" th:name="${place['id']}" onClick="reply_click(this.name)" th:src="${place['photos']}"/></div>
 
-
+                    <div class="card-content">
+                        <h6 class="title" th:text="${place['title']}"></h6>
+                        <p style="margin:-10px 0 -10px 10px; font-size: 0.8rem" th:text="${place['type']}"></p>
+                        <p class="price" th:text="${place['price'] + '€/mês'}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -95,6 +111,33 @@
 </div>
 </body>
 <script>
+    // Book Place
+    function cancel(place_id){
+        var id = parseInt(place_id.split("_").pop());
+        var data = { 'place_id' : id };
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type:"post",
+            data:JSON.stringify(data),
+            url:"/cancel_booking",
+            async: false,
+            success: function(result){
+                console.log(result);
+                if(result.success === "true"){
+                    document.getElementById("rented_" + id).style.filter = "blur(3px)" ;
+                    document.getElementById("rented_" + id).style.pointerEvents = "none";
+                }
+                else {
+                    console.log("ERROR");
+                }
+            }
+        })
+    }
+
+
     // Thymeleaf Correction
     function reply_click(clicked_id)
     {

@@ -266,22 +266,33 @@ public class WebController {
         Place place = placeService.getPlaceById(id);
         List<String> cities = placeController.getAllCities();
         List<Place> favoriteHouses = new ArrayList<>();
+        List<Review> reviews = placeService.getReviews(id);
         User owner = userService.findOwner(id);
         if(user_status.equals("user_logged")){
             favoriteHouses = placeService.getFavoriteHouses(user_logged.getEmail());
         }
 
-        // Get Rented Houses
-        List<Booking> allByOwner = bookService.getAllBookingsByEmail(user_logged.getEmail());
-        List<Place> bookedHouses = new ArrayList<>();
-        for (Booking book : allByOwner) bookedHouses.add(placeService.getPlaceById(book.getPlaceId()));
+        // Get Rented by All
+        List<Place> rentedPlacesByAll = new ArrayList<>();
+        for (User user : userService.getAllUsers()){
+            System.out.println(user);
+            User req = userService.getUserByEmail(user.getEmail());
+            List<Long> rentedHousesByAll = req.getRentedHouses();
+            for(Long id_house : rentedHousesByAll) rentedPlacesByAll.add(placeService.getPlaceById(id_house));
+            System.out.println("RENTED PLACES ID: " + rentedHousesByAll);
+            System.out.println("RENTED PLACES Place: " + rentedPlacesByAll);
+
+        }
 
         // Is it rented?
         for(User user : users) {
-            if (bookService.getAllBookingsByEmail(user.getEmail()).contains(place)) {
-                model.addAttribute("book_status", "true");
+            if (rentedPlacesByAll.contains(place)) {
+                System.out.println("IT IS RENTED");
+                System.out.println(rentedPlacesByAll);
+                System.out.println(place);
+                model.addAttribute("book_status", "false");
                 break;
-            } else model.addAttribute("book_status", "false");
+            } else model.addAttribute("book_status", "true");
         }
 
         model.addAttribute("cities", cities);
@@ -289,6 +300,7 @@ public class WebController {
         model.addAttribute("owner", owner);
         model.addAttribute("placeFeatures", place.getFeatures());
         model.addAttribute("favorites",favoriteHouses);
+        model.addAttribute("reviews", reviews);
 
         // navbar
         model.addAttribute("user_status",user_status);
@@ -360,8 +372,11 @@ public class WebController {
         String placeId = String.valueOf(data.get("place_id"));
         PlaceId id = new PlaceId(Long.parseLong(placeId));
         JSONObject response = new JSONObject();
+
         boolean saved = userService.addToRentedHouses(user_logged.getEmail(), id);
+
         System.out.println(saved);
+
         if(user_status.equals("user_logged")){
             response.put("user_status","logged");
             if (saved) response.put("success","true");
@@ -390,11 +405,23 @@ public class WebController {
         List<Place> bookedHouses = new ArrayList<>();
         for (Booking book : allByOwner) bookedHouses.add(placeService.getPlaceById(book.getPlaceId()));
 
-        // Get Rented
+        // Get Rented by User
         User requester = userService.getUserByEmail(user_logged.getEmail());
         List<Long> rentedHouses = requester.getRentedHouses();
+        List<Place> rentedPlaces = new ArrayList<>();
+        for(Long id : rentedHouses) rentedPlaces.add(placeService.getPlaceById(id));
 
-        model.addAttribute("rentedHouses", rentedHouses);
+        // Get Rented by All
+        List<Place> rentedPlacesByAll = new ArrayList<>();
+        for ( User user : userService.getAllUsers()){
+            User req = userService.getUserByEmail(user.getEmail());
+            List<Long> rentedHousesByAll = req.getRentedHouses();
+            for(Long id : rentedHousesByAll) rentedPlacesByAll.add(placeService.getPlaceById(id));
+        }
+
+
+        model.addAttribute("rentedHouses", rentedPlaces);
+        model.addAttribute("rentedHousesAll",rentedPlacesByAll);
         model.addAttribute("bookedHouses", bookedHouses);
         model.addAttribute("users",users);
         model.addAttribute("user_logged",user_logged);
@@ -404,6 +431,45 @@ public class WebController {
         return "profile";
     }
 
+    // Cancel Booking
+    @RequestMapping(value = "/cancel_booking", method = RequestMethod.POST, headers="Content-Type=application/json")
+    public @ResponseBody JSONObject cancelBooking(@RequestBody JSONObject data) {
+        String placeId = String.valueOf(data.get("place_id"));
+        JSONObject response = new JSONObject();
+
+        User requester = userService.getUserByEmail(user_logged.getEmail());
+        List<Long> rentedHouses = requester.getRentedHouses();
+
+        try{
+            // TESTING
+            System.out.println("1 : RENTED HOUSES id:" + rentedHouses);
+            System.out.println("SIZE BEFORE: " + rentedHouses.size());
+            int size_before = rentedHouses.size();
+
+            // Delete from the owner rented_houses
+            Booking booking = bookService.getBooking(Long.parseLong(placeId));
+            rentedHouses.remove(Long.parseLong(placeId));
+            System.out.println(rentedHouses);
+            user_logged.setRentedHouses(rentedHouses);
+
+            // Delete from booking
+            bookService.deleteBooking(booking);
+
+            // TESTING
+            System.out.println("END: " + rentedHouses);
+            System.out.println("SIZE AFTER: " + rentedHouses.size());
+            int size_after = rentedHouses.size();
+            System.out.println("USER:" + user_logged);
+
+            // VERIFY
+            response.put("success","true");
+        }
+        catch(Exception e){
+            response.put("success","false");
+        }
+
+        return response;
+    }
 
 
     @RequestMapping(method = RequestMethod.GET, value = "/load_db")
