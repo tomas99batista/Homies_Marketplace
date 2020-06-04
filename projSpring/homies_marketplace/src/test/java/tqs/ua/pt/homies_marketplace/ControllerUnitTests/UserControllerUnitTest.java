@@ -146,28 +146,62 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
        reset(service);
     }
 
+    @Test
+    void whenPostFavorites_thenReturnFalse() throws Exception{
+        PlaceId placeId= new PlaceId(1L);
+        given(service.addToFavorites(Mockito.anyString(), Mockito.any())).willReturn(false);
+        mvc.perform(post("/api/users/jose@email.com/favorites").contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.toJson(placeId))).andExpect(status().isOk())
+                .andExpect(jsonPath("$.success", is(false)));
+        verify(service, VerificationModeFactory.times(1)).addToFavorites(Mockito.any(), Mockito.any());
+        reset(service);
+    }
+
    @Test
    void whenPostPublishedHouse_thenReturnTrue() throws Exception{
       List<String> features= new ArrayList<>();
       features.add("feature1");
       features.add("feature2");
       Place place= new Place("title1", 5.0, features, 1,1,"type1", "cityTesting","photo1");
-      given(service.addPublishedHouse("jose@email.com", place)).willReturn(true);
+      given(service.addPublishedHouse(Mockito.anyString(), Mockito.any())).willReturn(true);
       mvc.perform(post("/api/users/jose@email.com/publishedHouses").contentType(MediaType.APPLICATION_JSON)
-              .content(JsonUtil.toJson(place))).andReturn().getResponse().getContentAsString().equals("true");
+              .content(JsonUtil.toJson(place))).andExpect(jsonPath("$.success", is(true)));
       verify(service, VerificationModeFactory.times(1)).addPublishedHouse(Mockito.any(), Mockito.any());
       reset(service);
    }
 
+    @Test
+    void whenPostPublishedHouse_thenReturnFalse() throws Exception{
+        List<String> features= new ArrayList<>();
+        features.add("feature1");
+        features.add("feature2");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "cityTesting","photo1");
+        given(service.addPublishedHouse(Mockito.anyString(), Mockito.any())).willReturn(false);
+        mvc.perform(post("/api/users/jose@email.com/publishedHouses").contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.toJson(place))).andExpect(jsonPath("$.success", is(false)));
+        verify(service, VerificationModeFactory.times(1)).addPublishedHouse(Mockito.any(), Mockito.any());
+        reset(service);
+    }
+
    @Test
    void whenPostRentedHouse_thenReturnTrue() throws Exception{
       PlaceId placeId= new PlaceId(1L);
-      given(service.addToRentedHouses("jose@email.com", placeId)).willReturn(true);
+      given(service.addToRentedHouses(Mockito.anyString(), Mockito.any())).willReturn(true);
       mvc.perform(post("/api/users/jose@email.com/booking").contentType(MediaType.APPLICATION_JSON)
-              .content(JsonUtil.toJson(placeId))).andReturn().getResponse().getContentAsString().equals("true");
+              .content(JsonUtil.toJson(placeId))).andExpect(jsonPath("$.success", is(true)));
       verify(service, VerificationModeFactory.times(1)).addToRentedHouses(Mockito.any(), Mockito.any());
       reset(service);
    }
+
+    @Test
+    void whenPostRentedHouse_thenReturnFalse() throws Exception{
+        PlaceId placeId= new PlaceId(1L);
+        given(service.addToRentedHouses(Mockito.anyString(), Mockito.any())).willReturn(false);
+        mvc.perform(post("/api/users/jose@email.com/booking").contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.toJson(placeId))).andExpect(jsonPath("$.success", is(false)));
+        verify(service, VerificationModeFactory.times(1)).addToRentedHouses(Mockito.any(), Mockito.any());
+        reset(service);
+    }
 
     @Test
      void whenPostUser_thenCreatePUser() throws Exception {
@@ -258,6 +292,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 .content(JsonUtil.toJson(placeId))).andExpect(jsonPath("$.success", is(true)));
         reset(service);
     }
+
 
     @Test
     void givenUsersWithOccupiedHouses_WhenGetOccupiedHouses_thenReturnHouses() throws Exception{

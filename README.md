@@ -1,10 +1,10 @@
 # Homies - Marketplace
 
-![Java CI with Maven](https://github.com/tomas99batista/Homies_Marketplace/workflows/Java%20CI%20with%20Maven/badge.svg)
+![Java CI with Maven](https://github.com/tomas99batista/Homies_Marketplace/workflows/Java%20CI%20with%20Maven/badge.svg)  ![Java CD Pipeline](https://github.com/tomas99batista/Homies_Marketplace/workflows/CD%20Pipeline/badge.svg)  
 
-![Java CD Pipeline](https://github.com/tomas99batista/Homies_Marketplace/workflows/CD%20Pipeline/badge.svg)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=tomas99batista_Homies_Marketplace&metric=coverage)](https://sonarcloud.io/dashboard?id=tomas99batista_Homies_Marketplace)  [![Codacy Badge](https://api.codacy.com/project/badge/Grade/2a9bd2d58c1f4b8ebf3d3f8790873a64)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=tomas99batista/Homies_Marketplace&amp;utm_campaign=Badge_Grade)
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/2a9bd2d58c1f4b8ebf3d3f8790873a64)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=tomas99batista/Homies_Marketplace&amp;utm_campaign=Badge_Grade)
+[![GitHub issues](https://img.shields.io/github/issues/Naereen/StrapDown.js.svg)](https://github.com/tomas99batista/Homies_Marketplace/issues)   [![GitHub pull-requests](https://img.shields.io/github/issues-pr/Naereen/StrapDown.js.svg)](https://github.com/tomas99batista/Homies_Marketplace/pulls)
 
 ## Project Abstract
 
@@ -35,3 +35,4 @@ Homies is a web browser application that allows students to search and book hous
 - [Swagger](https://app.swaggerhub.com/apis/HomiesMarketplace/homies-marketplace_api/1.0.0)
 - [Sonarcloud](https://sonarcloud.io/dashboard?id=tomas99batista_Homies_Marketplace)
  
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

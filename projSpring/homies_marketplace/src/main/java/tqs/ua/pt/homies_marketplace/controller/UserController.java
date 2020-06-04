@@ -132,7 +132,7 @@ public class UserController {
 
     @GetMapping("/users/{email}/occupiedHouses")
     public List<Place> getRentedHousesByUser(@PathVariable("email") String email){
-        ArrayList<Booking> allByOwner = bookService.getAllBookingsByEmail(email);
+        List<Booking> allByOwner = bookService.getAllBookingsByEmail(email);
         ArrayList<Place> places = new ArrayList<>();
         for (Booking book : allByOwner) {
             places.add(placeService.getPlaceById(book.getPlaceId()));

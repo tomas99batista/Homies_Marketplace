@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tqs.ua.pt.homies_marketplace.models.Booking;
 import tqs.ua.pt.homies_marketplace.repository.BookingRepository;
-import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -26,7 +26,7 @@ public class BookServiceImpl implements BookService{
         return bookingRepository.getByPlaceId(placeId);
     }
 
-    public ArrayList<Booking> getAllBookingsByEmail(String email){
+    public List<Booking> getAllBookingsByEmail(String email){
        return bookingRepository.getAllByOwner(email);
     }
 }
