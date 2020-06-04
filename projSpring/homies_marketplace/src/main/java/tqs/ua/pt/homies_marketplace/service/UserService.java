@@ -23,4 +23,6 @@ public interface UserService {
     User save(User user);
 
     List<User> getAllUsers();
+
+    User findOwner(Long place_id);
 }

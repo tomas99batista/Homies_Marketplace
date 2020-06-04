@@ -46,7 +46,7 @@
     </div>
     <div id="info-cards">
         <div class="card" id="favorites_card" style="width:100%; overflow-x:auto;">
-            <p><i class="fas fa-graduation-cap stroke-transparent"></i>&nbsp;&nbsp;&nbsp;Favorito</p>
+            <p><i class="fas fa-graduation-cap stroke-transparent"></i>&nbsp;&nbsp;Favorite</p>
             <div class="cardRow">
                 <div class="houseCard" th:each="place: ${favorites}" th:name="${place['id']}">
                     <div class="card-img">
@@ -57,16 +57,40 @@
                     <div class="card-content">
                             <h6 class="title" th:text="${place['title']}"></h6>
                             <p style="margin:-10px 0 -10px 10px; font-size: 0.8rem" th:text="${place['type']}"></p>
-                            <p class="price" th:text="${place['price'] + '€/mês'}">100€/mês</p>
+                            <p class="price" th:text="${place['price'] + '€/mês'}"></p>
                     </div>
                 </div>
                 </div>
             <a href="/list">+ Add new</a>
             </div>
 
-        
+        <div class="card" id="published_places_card" style="width:100%; overflow-x:auto;">
+            <p><i class="fas fa-graduation-cap stroke-transparent"></i>&nbsp;Your Places</p>
+            <div class="cardRow">
+                <div class="houseCard" th:each="place: ${published}" th:name="${place['id']}">
+                    <div class="card-img">
+                        <img style="vertical-align: middle;
+                                    border-style: none;
+                                    height: 250px;" th:name="${place['id']}" onClick="reply_click(this.name)" th:src="${place['photos']}"/></div>
+
+                    <div class="card-content">
+                        <h6 class="title" th:text="${place['title']}"></h6>
+                        <p style="margin:-10px 0 -10px 10px; font-size: 0.8rem" th:text="${place['type']}"></p>
+                        <p class="price" th:text="${place['price'] + '€/mês'}"></p>
+                    </div>
+                </div>
+            </div>
+            <a href="/list">+ Add new</a>
+        </div>
+
+
+
+    </div>
+
 
         </div>
+
+
     </div>
 </div>
 </body>

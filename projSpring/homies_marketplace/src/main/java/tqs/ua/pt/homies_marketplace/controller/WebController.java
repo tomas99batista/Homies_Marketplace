@@ -10,12 +10,10 @@ import tqs.ua.pt.homies_marketplace.dtos.PlaceDTO;
 import tqs.ua.pt.homies_marketplace.form.FilterForm;
 import tqs.ua.pt.homies_marketplace.form.LoginRegistrationForm;
 import tqs.ua.pt.homies_marketplace.form.UserRegistrationForm;
-import tqs.ua.pt.homies_marketplace.models.Booking;
-import tqs.ua.pt.homies_marketplace.models.Place;
-import tqs.ua.pt.homies_marketplace.models.PlaceId;
-import tqs.ua.pt.homies_marketplace.models.User;
+import tqs.ua.pt.homies_marketplace.models.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import tqs.ua.pt.homies_marketplace.repository.BookingRepository;
+import tqs.ua.pt.homies_marketplace.repository.PlaceRepository;
 import tqs.ua.pt.homies_marketplace.service.BookService;
 import tqs.ua.pt.homies_marketplace.service.PlaceService;
 import tqs.ua.pt.homies_marketplace.service.UserService;
@@ -47,6 +45,7 @@ public class WebController {
 
     @Autowired
     BookService bookService;
+
 
     @PostMapping("/cancel_rent/{placeId}")
     public String cancelRentedHouse(@PathVariable("placeId") long placeId){
@@ -248,7 +247,6 @@ public class WebController {
                 userService.removeFavoritePlace(user_logged.getEmail(), new PlaceId(id_long));
                 response.put("action","removed");
                 System.out.println(" REMOVIDO // FAVORITOS DO MENINO: " + placeService.getFavoriteHouses(user_logged.getEmail()).size());
-
             }
             return response;
         }
@@ -266,18 +264,48 @@ public class WebController {
         Place place = placeService.getPlaceById(id);
         List<String> cities = placeController.getAllCities();
         List<Place> favoriteHouses = new ArrayList<>();
-
+        User owner = userService.findOwner(id);
         if(user_status.equals("user_logged")){
             favoriteHouses = placeService.getFavoriteHouses(user_logged.getEmail());
         }
         model.addAttribute("cities", cities);
         model.addAttribute("place", place);
+        model.addAttribute("owner", owner);
         model.addAttribute("placeFeatures", place.getFeatures());
         model.addAttribute("favorites",favoriteHouses);
 
         // navbar
         model.addAttribute("user_status",user_status);
         return "details";
+    }
+
+    // Review
+    @RequestMapping(value = "/reviews", method = RequestMethod.POST, headers="Content-Type=application/json")
+    public @ResponseBody JSONObject reviews(@RequestBody JSONObject data) {
+        System.out.println(data);
+        JSONObject response = new JSONObject();
+        System.out.println(user_logged.equals("user_logged"));
+        if(user_status.equals("user_logged")){
+            response.put("user_status","user_logged");
+            System.out.println("in");
+            Long place_id = Long.parseLong(String.valueOf(data.get("place_id")));
+            System.out.println(String.valueOf(data.get("reviewGrade")));
+            System.out.println( (String.valueOf(data.get("reviewGrade"))).getClass().getName()  );
+
+            Double rating = Double.parseDouble(String.valueOf(data.get("reviewGrade")));
+            String comment = String.valueOf(data.get("comment"));
+            String email = user_logged.getEmail();
+            Review review = new Review(email, rating, comment);
+            placeService.addReview(place_id, review);
+            response.put("status","success");
+        }
+        else{
+            System.out.println("failed");
+            response.put("user_status","user_not_logged");
+            response.put("status","failed");
+
+        }
+        return response;
     }
 
     @RequestMapping(value = "/getUser", method = RequestMethod.POST, headers="Content-Type=application/json")

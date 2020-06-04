@@ -10,6 +10,7 @@ import tqs.ua.pt.homies_marketplace.models.Booking;
 import tqs.ua.pt.homies_marketplace.models.Place;
 import tqs.ua.pt.homies_marketplace.models.PlaceId;
 import tqs.ua.pt.homies_marketplace.models.User;
+import tqs.ua.pt.homies_marketplace.repository.PlaceRepository;
 import tqs.ua.pt.homies_marketplace.service.BookService;
 import tqs.ua.pt.homies_marketplace.service.PlaceService;
 import tqs.ua.pt.homies_marketplace.service.UserService;
@@ -138,4 +139,10 @@ public class UserController {
         }
         return places;
     }
+
+    @GetMapping("/users/{place_id}/owner")
+    public User findOwner(@PathVariable("email") Long place_id){
+        return userService.findOwner(place_id);
+    }
+
 }
