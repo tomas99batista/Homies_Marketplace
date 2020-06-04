@@ -40,7 +40,7 @@ public class Place {
     @ElementCollection
     private List<Long> reviews;
 
-    @Column(nullable=false, unique=false)
+    @Column(nullable=true, unique=false)
     private String photos;
 
     //needed for hibernate
@@ -119,11 +119,25 @@ public class Place {
         return photos;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setNumberBathrooms(int numberBathrooms) {
+        this.numberBathrooms = numberBathrooms;
+    }
+
+    public void setNumberBedrooms(int numberBedrooms) {
+        this.numberBedrooms = numberBedrooms;
+    }
+
+    public void setFeatures(List<String> features) {
+        this.features = features;
+    }
 
     public void setPrice(double price) {
         this.price = price;
     }
-
 
     public void setType(String type) {
         this.type = type;
@@ -143,5 +157,26 @@ public class Place {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setPhotos(String photos) {
+        this.photos = photos;
+    }
+
+    @Override
+    public String toString() {
+        return "Place{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", price=" + price +
+                ", rating=" + rating +
+                ", features=" + features +
+                ", numberBathrooms=" + numberBathrooms +
+                ", numberBedrooms=" + numberBedrooms +
+                ", type='" + type + '\'' +
+                ", city='" + city + '\'' +
+                ", reviews=" + reviews +
+                ", photos='" + photos + '\'' +
+                '}';
     }
 }
