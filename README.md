@@ -6,9 +6,6 @@
 
 [![GitHub issues](https://img.shields.io/github/issues/Naereen/StrapDown.js.svg)](https://github.com/tomas99batista/Homies_Marketplace/issues)   [![GitHub pull-requests](https://img.shields.io/github/issues-pr/Naereen/StrapDown.js.svg)](https://github.com/tomas99batista/Homies_Marketplace/pulls)
 
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
 ## Project Abstract
 
 Homies is a web browser application that allows students to search and book houses!
@@ -38,3 +35,4 @@ Homies is a web browser application that allows students to search and book hous
 - [Swagger](https://app.swaggerhub.com/apis/HomiesMarketplace/homies-marketplace_api/1.0.0)
 - [Sonarcloud](https://sonarcloud.io/dashboard?id=tomas99batista_Homies_Marketplace)
  
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
