@@ -25,8 +25,8 @@
 		<!-- Organization and project keys are displayed in the right sidebar of the project homepage -->
 		<sonar.organization>tomas99batista</sonar.organization>
 		<sonar.projectKey>tomas99batista_Homies_Marketplace</sonar.projectKey>
-		<sonar.coverage.exclusions>src/main/java/tqs/ua/pt/homies_marketplace/form/*,src/main/java/tqs/ua/pt/homies_marketplace/controller/WebController*</sonar.coverage.exclusions>
-
+		<sonar.exclusions>src/main/java/tqs/ua/pt/homies_marketplace/form/*,src/main/java/tqs/ua/pt/homies_marketplace/controller/WebController*</sonar.exclusions>
+		<sonar.cpd.exclusions>src/main/java/tqs/ua/pt/homies_marketplace/dtos/*</sonar.cpd.exclusions>
 
 	</properties>
 
