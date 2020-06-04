@@ -123,10 +123,10 @@
 <div class="card-rent row" style="margin-top: 16px;">
 	<div class="col-8">
 		<p class="title" style="margin-top: 15px">Reviews</p>
-		<div th:each="review : ${reviews}">
-			<div th:text="${review['email']} +  ' says:'"></div>
-			<div th:text="${review['comment']}"></div>
-			<div th:text="'Rating: ' + ${review['rating']}"></div>
+		<div th:each="review : ${reviews}" class="card-review">
+			<div style="font-size: 0.8rem; padding: 25px;" th:text="${review['email']} +  ' says:'"></div>
+			<div style="margin-right: auto; margin-left: auto; width: fit-content; font-size: 1.2rem; font-style: italic;" th:text="${review['comment']}"></div>
+			<div style="width: fit-content;padding:25px" th:text="'Rating: ' + ${review['rating']}"></div>
 		</div>
 	</div>
 	<div class="divide"></div>
