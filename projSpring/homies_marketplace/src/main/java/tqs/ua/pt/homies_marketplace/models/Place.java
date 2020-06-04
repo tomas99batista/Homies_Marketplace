@@ -40,7 +40,7 @@ public class Place {
     @ElementCollection
     private List<Long> reviews;
 
-    @Column(nullable=false, unique=false)
+    @Column(nullable=true, unique=false)
     private String photos;
 
     //needed for hibernate
@@ -157,5 +157,22 @@ public class Place {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Place{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", price=" + price +
+                ", rating=" + rating +
+                ", features=" + features +
+                ", numberBathrooms=" + numberBathrooms +
+                ", numberBedrooms=" + numberBedrooms +
+                ", type='" + type + '\'' +
+                ", city='" + city + '\'' +
+                ", reviews=" + reviews +
+                ", photos='" + photos + '\'' +
+                '}';
     }
 }
