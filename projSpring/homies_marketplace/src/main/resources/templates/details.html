@@ -94,44 +94,41 @@
 	</div>
 </div>
 
-<div class="container contents" style="pointer-events: none">
-	<div class="card-rent row">
-		<div class="col-8">
-			<p class="title" style="margin-top: 15px">Features</p>
-			<div class="row">
-				<ul>
-					<li th:each="feature : ${place['features']}" th:text="${feature}"></li>
-				</ul>
-			</div>
-		</div>
-		<div class="divide"></div>
-		<div class="col-3" style="	position: relative;
-    								display: block;
-    								width: 100%;
-    								align-self: center;
-    								margin-left: auto;">
-			<div style="display: inline-block;">
-				<h3 th:text="${place['price'] + '€/mês'}"></h3>
-				<p>Contas incluídas</p>
-				<hr>
-				<button class="booking">Book Now!</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-
-
-<div class="card-rent row" style="margin-top: 16px;">
+<div class="card-rent row">
 	<div class="col-8">
-		<p class="title" style="margin-top: 15px">Reviews</p>
+		<p class="title" style="margin-top: 15px">Features</p>
+		<div class="row">
+			<ul>
+				<li th:each="feature : ${place['features']}" th:text="${feature}"></li>
+			</ul>
+		</div>
 	</div>
+	<div class="divide"></div>
 	<div class="col-3" style="	position: relative;
     								display: block;
     								width: 100%;
     								align-self: center;
     								margin-left: auto;">
-		<p class="title" style="margin-top: 15px">Add Review</p>
+		<div style="display: inline-block;">
+			<h3 th:text="${place['price'] + '€/mês'}"></h3>
+			<p>Contas incluídas</p>
+			<hr>
+			<button class="booking">Book Now!</button>
+		</div>
+	</div>
+</div>
+<div class="card-rent row" style="margin-top: 16px;">
+	<div class="col-8">
+		<p class="title" style="margin-top: 15px">Reviews</p>
+	</div>
+	<div class="divide"></div>
+	<div class="col-3" style="	position: relative;
+    								display: block;
+    								width: 100%;
+    								align-self: center;
+    								margin-left: auto;
+									margin-right: auto;">
+		<p class="review_title" style="margin-top: 15px">Add Review</p>
 		<div style="display: inline-block;">
 				<textarea type="text" id="reviewComment" cols="15" rows="10"
 						  style="	display: block;
