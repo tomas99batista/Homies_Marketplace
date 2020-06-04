@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+       <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="au theme template">
+    <meta name="author" content="Hau Nguyen">
+    <meta name="keywords" content="au theme template">
+
+    <!-- Title Page-->
+    <title>Homies</title>
+
+    <!-- Bootstrap CSS-->
+    <link th:href="@{/css/bootstrap.min.css}" href="/css/bootstrap.min.css" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link  th:href="@{/css/register.css}" href="/css/register.css" rel="stylesheet" media="all">
+
+    <!-- Bootstrap JS-->
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://d3js.org/d3.v3.js"></script>
+    <script src="https://d3js.org/topojson.v1.js"></script>
+    <script src="https://rawgithub.com/markmarkoh/datamaps/master/dist/datamaps.none.min.js"></script>
+    <script src="https://rawgithub.com/markmarkoh/datamaps/master/dist/datamaps.prt.js"></script>
+</head>
+<body>
+    <div class="col-10" style="padding:10px">
+       <article class="card-body">
+           <form name="myForm" action="#" onsubmit="return validateForm()" method="post">
+                <div class="form-row">
+                    <div class="col form-group">
+                        <label>Title</label>
+                        <input type="text" required class="form-control">
+                    </div>
+                    <div class="col form-group">
+                        <label>Price</label>
+                        <input type="text" required class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col form-group">
+                        <label>Type</label>
+                        <input type="text" required class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>City</label>
+                        <select id="inputState" name="city" required class="form-control">
+                            <option value="" selected=""> Choose...</option>
+                            <option value="Lisboa">Lisboa</option>
+                            <option value="Lisboa">Porto</option>
+                            <option value="Lisboa">Braga</option>
+                            <option value="Lisboa">Setúbal</option>
+                            <option value="Lisboa">Aveiro</option>
+                            <option value="Lisboa">Faro</option>
+                            <option value="Lisboa">Leiria</option>
+                            <option value="Lisboa">Coimbra</option>
+                            <option value="Lisboa">Santarém</option>
+                            <option value="Lisboa">Viseu</option>
+                            <option value="Lisboa">R.A da Madeira</option>
+                            <option value="Lisboa">R.A dos Açores</option>
+                            <option value="Lisboa">Viana Do Castelo</option>
+                            <option value="Lisboa">Vila Real</option>
+                            <option value="Lisboa">Castelo Branco</option>
+                            <option value="Lisboa">Évora</option>
+                            <option value="Lisboa">Guarda</option>
+                            <option value="Lisboa">Beja</option>
+                            <option value="Lisboa">Bragança</option>
+                            <option value="Lisboa">Portalegre</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Number of bathrooms</label>
+                        <input class="form-control" name="bathrooms" required type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>Number of bedrooms</label>
+                        <input class="form-control" name="bedrooms" required type="text">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Features</label>
+                        <input class="form-control" name="featureInput" id="featureInput" required type="text">
+                        <button class="btn btn.btn-primary btn-block" onclick="addFeature()">Add feature</button>
+                    </label>
+                    <ul id="featureList">
+                    </ul>
+                </div>
+            </div>
+
+                <div class="form-group">
+                    <button type="submit" value="Submit" class="btn btn-primary btn-block"> Register</button>
+                </div>
+           </form>
+       </article>
+    </div>
+
+<script type="text/javascript">
+    function addFeature(){
+        var feature = document.getElementById("featureInput").value;
+        feature = feature.replace(/^\s+/, '').replace(/\s+$/, '');
+        if(feature != ''){
+            var list = document.getElementById("featureList");
+            var li = document.createElement("li");
+            li.appendChild(document.createTextNode(feature));
+            list.appendChild(li);
+        }
+    }
+</script>
+</body>
+</html>
