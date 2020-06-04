@@ -159,6 +159,10 @@ public class Place {
         this.id = id;
     }
 
+    public void setPhotos(String photos) {
+        this.photos = photos;
+    }
+
     @Override
     public String toString() {
         return "Place{" +
