@@ -6,8 +6,6 @@ services:
       - 'POSTGRES_PASSWORD=password'
       - 'POSTGRES_USER=postgres'
       - 'POSTGRES_DB=postgres'
-    volumes:
-      - ./data:/var/lib/postgres/data
     ports:
       - 5432:5432
   app:
@@ -20,6 +18,3 @@ services:
       - 'spring.datasource.url=jdbc:postgres://dbpostgresql:5432/postgres'
     depends_on:
       - dbpostgresql
-volumes:
-  data:
-    external: true
