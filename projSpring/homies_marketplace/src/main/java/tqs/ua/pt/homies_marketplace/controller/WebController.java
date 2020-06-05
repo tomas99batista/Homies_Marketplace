@@ -399,6 +399,14 @@ public class WebController {
         return "houseList";
     }
 
+    @PostMapping("/logout")
+    public String logout(@ModelAttribute String logout, Model model) {
+        user_status = "user_not_logged";
+        user_logged = new User();
+        model.addAttribute("user_status",user_status);
+        return "index";
+    }
+
     // Booking
     @RequestMapping(value = "/book_place", method = RequestMethod.POST, headers="Content-Type=application/json")
     public @ResponseBody JSONObject book(@RequestBody JSONObject data) {
