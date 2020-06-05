@@ -1,25 +1,22 @@
-version: '3.2'
+version: '3.1'
 services:
-  dbpostgresql:
-    image: postgres 
-    environment:
-      - 'POSTGRES_PASSWORD=password'
-      - 'POSTGRES_USER=postgres'
-      - 'POSTGRES_DB=postgres'
-    volumes:
-      - ./data:/var/lib/postgres/data
-    ports:
-      - 5432:5432
   app:
     container_name: homies-springboot-postgresql
     image: homies-springboot-postgresql
     build: ./
     ports:
-      - "8080:8080"  
-    environment:
-      - 'spring.datasource.url=jdbc:postgres://dbpostgresql:5432/postgres'
+      - "8080:8080"
+    restart: always  
     depends_on:
       - dbpostgresql
-volumes:
-  data:
-    external: true
+  dbpostgresql:
+    image: postgres
+    expose:
+      - 5432
+    ports:
+      - "5432:5432"
+    restart: always  
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres  
