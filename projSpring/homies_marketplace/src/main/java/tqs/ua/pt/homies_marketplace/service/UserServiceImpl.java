@@ -107,4 +107,7 @@ public class UserServiceImpl implements UserService{
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
+    @Override
+    public User findOwner(Long id_place){ return userRepository.findOwner(id_place); }
 }

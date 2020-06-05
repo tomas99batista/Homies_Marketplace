@@ -278,6 +278,52 @@ class UserServiceImplUnitTest {
     }
 
     @Test
+    void WhenValidEmailAndPlacesAndOwnerIsNotNull_thenNotAddToRentedHouses(){
+        String email="jose@email.com";
+        List<String> features= new ArrayList<>();
+        features.add("feature1");
+        features.add("feature2");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
+        place.setId(1L);
+        String userEmail="jose@email.com";
+        String password="password";
+        String firstName="Jose";
+        String lastName="Frias";
+        String city="Aveiro";
+        Mockito.when(placeService.getPlaceById(1L)).thenReturn(place);
+        User user= new User(email, password, firstName, lastName, city);
+        Mockito.when(userRepository.findOwner(place.getId())).thenReturn(user);
+        Mockito.when(userRepository.findByEmail(email)).thenReturn(user);
+        Mockito.when(userRepository.insertRentedHouse(email, place.getId())).thenReturn(1);
+        boolean saved=userService.addToRentedHouses(email, new PlaceId(place.getId()));
+        assertThat(saved).isEqualTo(true);
+    }
+
+    @Test
+    void WhenValidEmailAndPlacesAndOwnerIsNotNullButRowsNotInserted_thenNotAddToRentedHouses(){
+        String email="jose@email.com";
+        List<String> features= new ArrayList<>();
+        features.add("feature1");
+        features.add("feature2");
+        Place place= new Place("title1", 5.0, features, 1,1,"type1", "city", "photo1");
+        place.setId(1L);
+        String userEmail="jose@email.com";
+        String password="password";
+        String firstName="Jose";
+        String lastName="Frias";
+        String city="Aveiro";
+        Mockito.when(placeService.getPlaceById(1L)).thenReturn(place);
+        User user= new User(email, password, firstName, lastName, city);
+        Mockito.when(userRepository.findOwner(place.getId())).thenReturn(user);
+        Mockito.when(userRepository.findByEmail(email)).thenReturn(user);
+        Mockito.when(userRepository.insertRentedHouse(email, place.getId())).thenReturn(0);
+        boolean saved=userService.addToRentedHouses(email, new PlaceId(place.getId()));
+        assertThat(saved).isEqualTo(false);
+    }
+
+
+
+    @Test
     void WhenValidEmailAndPlacesButRowsNotInserted_thenNotAddToFavorites(){
         String email="jose@email.com";
         List<String> features= new ArrayList<>();

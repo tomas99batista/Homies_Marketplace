@@ -25,7 +25,8 @@
 		<!-- Organization and project keys are displayed in the right sidebar of the project homepage -->
 		<sonar.organization>tomas99batista</sonar.organization>
 		<sonar.projectKey>tomas99batista_Homies_Marketplace</sonar.projectKey>
-
+		<sonar.exclusions>src/main/java/tqs/ua/pt/homies_marketplace/form/*,src/main/java/tqs/ua/pt/homies_marketplace/controller/WebController*</sonar.exclusions>
+		<sonar.cpd.exclusions>src/main/java/tqs/ua/pt/homies_marketplace/dtos/*</sonar.cpd.exclusions>
 
 	</properties>
 
@@ -108,6 +109,13 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.7.7.201606060606</version>
+				<configuration>
+					<excludes>
+						<!-- Exclude model classes (POJO's) -->
+						<exclude>src/main/java/tqs/ua/pt/homies_marketplace/form/*</exclude>
+						<exclude>src/main/java/tqs/ua/pt/homies_marketplace/controller/WebController*</exclude>
+					</excludes>
+				</configuration>
 				<executions>
 					<execution>
 						<goals>

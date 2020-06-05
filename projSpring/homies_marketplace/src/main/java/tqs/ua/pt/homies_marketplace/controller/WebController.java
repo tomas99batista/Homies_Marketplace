@@ -1,18 +1,21 @@
 package tqs.ua.pt.homies_marketplace.controller;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import tqs.ua.pt.homies_marketplace.dtos.PlaceDTO;
+import tqs.ua.pt.homies_marketplace.form.AddPlaceForm;
 import tqs.ua.pt.homies_marketplace.form.FilterForm;
 import tqs.ua.pt.homies_marketplace.form.LoginRegistrationForm;
 import tqs.ua.pt.homies_marketplace.form.UserRegistrationForm;
-import tqs.ua.pt.homies_marketplace.models.Place;
-import tqs.ua.pt.homies_marketplace.models.PlaceId;
-import tqs.ua.pt.homies_marketplace.models.User;
+import tqs.ua.pt.homies_marketplace.models.*;
 import org.springframework.web.bind.annotation.GetMapping;
+import tqs.ua.pt.homies_marketplace.repository.BookingRepository;
+import tqs.ua.pt.homies_marketplace.repository.PlaceRepository;
+import tqs.ua.pt.homies_marketplace.service.BookService;
 import tqs.ua.pt.homies_marketplace.service.PlaceService;
 import tqs.ua.pt.homies_marketplace.service.UserService;
 import java.util.*;
@@ -20,8 +23,6 @@ import static java.lang.Long.parseLong;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @Controller
 public class WebController {
@@ -41,9 +42,38 @@ public class WebController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    BookService bookService;
+
+    @PostMapping("/cancel_rent/{placeId}")
+    public String cancelRentedHouse(@PathVariable("placeId") long placeId){
+        Booking booking = bookService.getBooking(placeId);
+
+        // Delete from the owner rented_houses
+        String requester_email = booking.getRequester();
+        User requester = userService.getUserByEmail(requester_email);
+        List<Long> rented_houses = requester.getRentedHouses();
+        rented_houses.remove(placeId);
+        requester.setRentedHouses(rented_houses);
+        // Delete from booking
+        bookService.deleteBooking(booking);
+
+        return "profile";
+    }
+
+    @GetMapping("/rented_houses")
+    public String getRentedHousesByUser(Model model){
+        List<Booking> allByOwner = bookService.getAllBookingsByEmail(user_logged.getEmail());
+        ArrayList<Place> places = new ArrayList<>();
+        for (Booking book : allByOwner) {
+            places.add(placeService.getPlaceById(book.getPlaceId()));
+        }
+        model.addAttribute("rented_houses", places);
+        return "rented_houses";
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/register")
-    String register(Model model){
+    public String register(Model model){
         model.addAttribute("user", new UserRegistrationForm());
 
         // navbar
@@ -52,7 +82,7 @@ public class WebController {
     }
 
     @PostMapping("/register")
-    String registerSubmit(@ModelAttribute UserRegistrationForm userRegistrationForm, Model model){
+    public String registerSubmit(@ModelAttribute UserRegistrationForm userRegistrationForm, Model model){
         System.out.println("all users: " + userService.getAllUsers());
         if (userService.getUserByEmail(userRegistrationForm.getEmail()) == null){
             User user = new User();
@@ -61,6 +91,9 @@ public class WebController {
             user.setLastName(userRegistrationForm.getLastName());
             user.setPassword(userRegistrationForm.getPassword());
             user.setCity(userRegistrationForm.getCity());
+            user.setRentedHouses(new ArrayList<>());
+            user.setFavorites(new ArrayList<>());
+            user.setFavorites(new ArrayList<>());
             System.out.println("new user: " + user);
             userService.save(user);
             user_logged = user;
@@ -68,7 +101,7 @@ public class WebController {
 
             // navbar
             model.addAttribute("user_status",user_status);
-            return "index";
+            return "redirect:/";
         } else {
             System.out.println("User already picked");
             return "user_picked";
@@ -76,7 +109,7 @@ public class WebController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/login")
-    String login(Model model){
+    public String login(Model model){
         model.addAttribute("user", new LoginRegistrationForm());
 
         //navbar
@@ -85,7 +118,7 @@ public class WebController {
     }
 
     @PostMapping("/login")
-    String loginSubmit(@ModelAttribute LoginRegistrationForm loginRegistrationForm, Model model){
+    public String loginSubmit(@ModelAttribute LoginRegistrationForm loginRegistrationForm, Model model){
         System.out.println("login - all users: " + userService.getAllUsers());
         if (userService.getUserByEmail(loginRegistrationForm.getEmail()) != null){
             if (userService.getUserByEmail(loginRegistrationForm.getEmail()).getPassword().equals(loginRegistrationForm.getPassword())){
@@ -106,6 +139,35 @@ public class WebController {
         }
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/update_profile")
+    public String updateProfileGet(Model model){
+        // Ja vai c dados
+        UserRegistrationForm userRegistrationForm = new UserRegistrationForm(); // O EMAIL N PODE SER ALTERADO
+        userRegistrationForm.setEmail(user_logged.getEmail());
+        userRegistrationForm.setFirstName(user_logged.getFirstName());
+        userRegistrationForm.setLastName(user_logged.getLastName());
+        userRegistrationForm.setCity(user_logged.getCity());
+
+        model.addAttribute("user", userRegistrationForm);
+
+        //navbar
+        model.addAttribute("user_status",user_status);
+        return "update_profile";
+    }
+
+    @PostMapping("/update_profile")
+    public String updatePofilePost(@ModelAttribute UserRegistrationForm userRegistrationForm, Model model){
+        System.out.println("URF " + userRegistrationForm.toString());
+        User user = userService.getUserByEmail(userRegistrationForm.getEmail());
+        user.setFirstName(userRegistrationForm.getFirstName());
+        user.setLastName(userRegistrationForm.getLastName());
+        user.setCity(userRegistrationForm.getCity());
+        user.setPassword(userRegistrationForm.getPassword());
+        userService.save(user);
+        System.out.println("USER UPDATED " + user.toString());
+        return "redirect:/";
+    }
+
 
     @RequestMapping(method = RequestMethod.GET, value = "/")
     public String index(Model model){
@@ -114,7 +176,7 @@ public class WebController {
         return "index";
     }
 
-    @RequestMapping(value = "/list")
+    @RequestMapping(method = RequestMethod.GET, value = "/list")
     public String places(Model model){
         List<Place> favorites = new ArrayList<>();
 
@@ -133,6 +195,7 @@ public class WebController {
         return "houseList";
     }
 
+    // Filtered Search
     @PostMapping("/list")
     public String filters(Model model, @ModelAttribute("filtered_places") FilterForm myFormObject, @RequestParam Map<String,String> data){
         List<String> cities = placeController.getAllCities();
@@ -140,6 +203,15 @@ public class WebController {
 
         // navbar
         model.addAttribute("user_status",user_status);
+
+        List<Place> favorites = new ArrayList<>();
+
+        if(user_status.equals("user_logged")){
+            favorites = placeService.getFavoriteHouses(user_logged.getEmail());
+        }
+        model.addAttribute("favorites", favorites);
+        model.addAttribute("filtered_places", new FilterForm());
+
         try{
             String city = ((myFormObject.getType()).equals("none"))? null : myFormObject.getCity();
             List<String> features = (myFormObject.getFeatures());
@@ -184,6 +256,7 @@ public class WebController {
         }
     }
 
+    // Add To Favorite
     @RequestMapping(value = "/addtofavorite", method = RequestMethod.POST, headers="Content-Type=application/json")
     public @ResponseBody JSONObject post(@RequestBody JSONObject data) {
         System.out.println(data);
@@ -206,7 +279,6 @@ public class WebController {
                 userService.removeFavoritePlace(user_logged.getEmail(), new PlaceId(id_long));
                 response.put("action","removed");
                 System.out.println(" REMOVIDO // FAVORITOS DO MENINO: " + placeService.getFavoriteHouses(user_logged.getEmail()).size());
-
             }
             return response;
         }
@@ -219,45 +291,97 @@ public class WebController {
         }
     }
 
+    // Place Details
     @GetMapping("/list/{id}")
     public String details(@PathVariable("id") long id, Model model){
+        List<User> users = userService.getAllUsers();
+
         Place place = placeService.getPlaceById(id);
         List<String> cities = placeController.getAllCities();
         List<Place> favoriteHouses = new ArrayList<>();
-
+        List<Review> reviews = placeService.getReviews(id);
+        User owner = userService.findOwner(id);
         if(user_status.equals("user_logged")){
             favoriteHouses = placeService.getFavoriteHouses(user_logged.getEmail());
         }
+
+        // Get Rented by All
+        List<Place> rentedPlacesByAll = new ArrayList<>();
+        for (User user : userService.getAllUsers()){
+            System.out.println(user);
+            User req = userService.getUserByEmail(user.getEmail());
+            List<Long> rentedHousesByAll = req.getRentedHouses();
+            for(Long id_house : rentedHousesByAll) rentedPlacesByAll.add(placeService.getPlaceById(id_house));
+            System.out.println("RENTED PLACES ID: " + rentedHousesByAll);
+            System.out.println("RENTED PLACES Place: " + rentedPlacesByAll);
+
+        }
+
+        // Is it rented?
+        for(User user : users) {
+            if (rentedPlacesByAll.contains(place)) {
+                System.out.println("IT IS RENTED");
+                System.out.println(rentedPlacesByAll);
+                System.out.println(place);
+                model.addAttribute("book_status", "false");
+                break;
+            } else model.addAttribute("book_status", "true");
+        }
+
         model.addAttribute("cities", cities);
         model.addAttribute("place", place);
+        model.addAttribute("owner", owner);
         model.addAttribute("placeFeatures", place.getFeatures());
         model.addAttribute("favorites",favoriteHouses);
+        model.addAttribute("reviews", reviews);
 
         // navbar
         model.addAttribute("user_status",user_status);
-        System.out.println(place.getFeatures());
         return "details";
     }
 
+    // Review
+    @RequestMapping(value = "/reviews", method = RequestMethod.POST, headers="Content-Type=application/json")
+    public @ResponseBody JSONObject reviews(@RequestBody JSONObject data) {
+        System.out.println(data);
+        JSONObject response = new JSONObject();
+        System.out.println(user_logged.equals("user_logged"));
+        if(user_status.equals("user_logged")){
+            response.put("user_status","user_logged");
+            System.out.println("in");
+            Long place_id = Long.parseLong(String.valueOf(data.get("place_id")));
+            System.out.println(String.valueOf(data.get("reviewGrade")));
+            System.out.println( (String.valueOf(data.get("reviewGrade"))).getClass().getName()  );
+
+            Double rating = Double.parseDouble(String.valueOf(data.get("reviewGrade")));
+            String comment = String.valueOf(data.get("comment"));
+            String email = user_logged.getEmail();
+            Review review = new Review(email, rating, comment);
+            placeService.addReview(place_id, review);
+            response.put("status","success");
+        }
+        else{
+            System.out.println("failed");
+            response.put("user_status","user_not_logged");
+            response.put("status","failed");
+
+        }
+        return response;
+    }
+
+    // Get User
     @RequestMapping(value = "/getUser", method = RequestMethod.POST, headers="Content-Type=application/json")
     public @ResponseBody JSONObject sendUser(@RequestBody JSONObject data) {
-        System.out.println(data);
-        // Get id
-        String status = (String) data.get("status");
+        // Get id - USELESS
+        String status = String.valueOf(data.get("status"));
         System.out.println(status);
         JSONObject response = new JSONObject();
         response.put("user", user_logged.getFirstName());
-    /*
-        if(status.equals("logged")){
-            response.put("user", user_logged.getFirstName());
-        }
-        else{
-            response.put("user","not_logged");
-        }*/
         return response;
 
     }
 
+    // Place By City
     @RequestMapping(method = RequestMethod.GET, value="/list/city/{city}")
     public String places_by_city(Model model, @PathVariable("city") String city) {
         List<Place> favorites = new ArrayList<>();
@@ -275,13 +399,105 @@ public class WebController {
         return "houseList";
     }
 
+    // Booking
+    @RequestMapping(value = "/book_place", method = RequestMethod.POST, headers="Content-Type=application/json")
+    public @ResponseBody JSONObject book(@RequestBody JSONObject data) {
+        String placeId = String.valueOf(data.get("place_id"));
+        PlaceId id = new PlaceId(Long.parseLong(placeId));
+        JSONObject response = new JSONObject();
 
+        boolean saved = userService.addToRentedHouses(user_logged.getEmail(), id);
 
+        System.out.println(saved);
+
+        if(user_status.equals("user_logged")){
+            response.put("user_status","logged");
+            if (saved) response.put("success","true");
+            else response.put("success","false");
+        }
+        else{
+            response.put("user_status","not_logged");
+            response.put("success","false");
+        }
+        return response;
+    }
+
+    // Cancel Booking
+    @RequestMapping(value = "/cancel_booking", method = RequestMethod.POST, headers="Content-Type=application/json")
+    public @ResponseBody JSONObject cancelBooking(@RequestBody JSONObject data) {
+        String placeId = String.valueOf(data.get("place_id"));
+        JSONObject response = new JSONObject();
+
+        User requester = userService.getUserByEmail(user_logged.getEmail());
+        List<Long> rentedHouses = requester.getRentedHouses();
+
+        try{
+            // TESTING
+            System.out.println("1 : RENTED HOUSES id:" + rentedHouses);
+            System.out.println("SIZE BEFORE: " + rentedHouses.size());
+            int size_before = rentedHouses.size();
+
+            // Delete from the owner rented_houses
+            Booking booking = bookService.getBooking(Long.parseLong(placeId));
+            rentedHouses.remove(Long.parseLong(placeId));
+            System.out.println(rentedHouses);
+            user_logged.setRentedHouses(rentedHouses);
+
+            // Delete from booking
+            bookService.deleteBooking(booking);
+
+            // TESTING
+            System.out.println("END: " + rentedHouses);
+            System.out.println("SIZE AFTER: " + rentedHouses.size());
+            int size_after = rentedHouses.size();
+            System.out.println("USER:" + user_logged);
+
+            // VERIFY
+            response.put("success","true");
+        }
+        catch(Exception e){
+            response.put("success","false");
+        }
+
+        return response;
+    }
+
+    // Profile
     @GetMapping("/profile")
     public String profile(Model model){
+        model.addAttribute("addPlace", new AddPlaceForm());
+
         List<User> users = userService.getAllUsers();
+
+        // Get Favorites
         List<Place> favoriteHouses = placeService.getFavoriteHouses(user_logged.getEmail());
+
+        // Get Published
         List<Place> publishedHouses = placeService.getPublishedHouses(user_logged.getEmail());
+
+        // Get Bookings
+        List<Booking> allByOwner = bookService.getAllBookingsByEmail(user_logged.getEmail());
+        List<Place> bookedHouses = new ArrayList<>();
+        for (Booking book : allByOwner) bookedHouses.add(placeService.getPlaceById(book.getPlaceId()));
+
+        // Get Rented by User
+        User requester = userService.getUserByEmail(user_logged.getEmail());
+        List<Long> rentedHouses = requester.getRentedHouses();
+        List<Place> rentedPlaces = new ArrayList<>();
+        for(Long id : rentedHouses) rentedPlaces.add(placeService.getPlaceById(id));
+
+        // Get Rented by All
+        List<Place> rentedPlacesByAll = new ArrayList<>();
+        for ( User user : userService.getAllUsers()){
+            User req = userService.getUserByEmail(user.getEmail());
+            List<Long> rentedHousesByAll = req.getRentedHouses();
+            for(Long id : rentedHousesByAll) rentedPlacesByAll.add(placeService.getPlaceById(id));
+        }
+
+
+        model.addAttribute("rentedHouses", rentedPlaces);
+        model.addAttribute("rentedHousesAll",rentedPlacesByAll);
+        model.addAttribute("bookedHouses", bookedHouses);
         model.addAttribute("users",users);
         model.addAttribute("user_logged",user_logged);
         model.addAttribute("favorites",favoriteHouses);
@@ -290,8 +506,33 @@ public class WebController {
         return "profile";
     }
 
+    @PostMapping("/profile")
+    public String addPlace(@ModelAttribute AddPlaceForm addPlaceForm, Model model){
+        System.out.println("all users: " + userService.getAllUsers());
+        if (userService.getUserByEmail(addPlaceForm.getTitle()) == null){
+            Place place = new Place();
+            place.setType(addPlaceForm.getType());
+            place.setCity(addPlaceForm.getCity());
+            place.setPrice(addPlaceForm.getPrice());
+            place.setTitle(addPlaceForm.getTitle());
+            place.setNumberBathrooms(addPlaceForm.getNumBathrooms());
+            place.setNumberBedrooms(addPlaceForm.getNumBedrooms());
+            place.setFeatures(addPlaceForm.getFeatures());
+            place.setReviews(new ArrayList<>());
+            place.setPhotos(addPlaceForm.getPhoto());
+            placeService.save(place);
+            userService.addPublishedHouse(user_logged.getEmail(), place);
+            System.out.println("new place: " + place.toString());
+            return "redirect:/profile";
+        } else {
+            System.out.println("ERROR");
+            return "profile";
+        }
+    }
+
+
     @RequestMapping(method = RequestMethod.GET, value = "/load_db")
-    String load_db(Model model){
+    public String load_db(Model model){
 
         User user= new User("josefrias@email.com", "password", "Jose","Frias", "Aveiro");
         List<String> listFeatures = Arrays.asList("Wifi", "TV", "Área Exterior", "Ar Condicionado", "Aquecimento Central", "Animais de Estimação", "Fumar", "Aquecimento Central");

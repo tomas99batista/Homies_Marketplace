@@ -8,10 +8,6 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_publishedHouses"
-<<<<<<< HEAD
-        android:layout_marginTop="16dp"
-=======
->>>>>>> 22a6776091314bfb3f82246d2bd96801086a2a76
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     <com.google.android.material.floatingactionbutton.FloatingActionButton

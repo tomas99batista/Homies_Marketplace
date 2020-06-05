@@ -17,7 +17,7 @@
         <th:block th:switch="${user_status}">
             <!-- If not logged -->
             <div th:case="'user_not_logged'" class="navbar-nav ml-auto btn-active span" id="not_logged">
-                <a href="login" class="nav-item">Login</a>
+                <a href="/login" class="nav-item">Login</a>
                 <a href="/register" class="nav-item">Register</a>
             </div>
             <!-- If logged -->

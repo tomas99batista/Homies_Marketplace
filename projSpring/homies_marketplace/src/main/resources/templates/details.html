@@ -26,8 +26,7 @@
 <body style="background-color: whitesmoke">
 <div th:replace="fragments/navbar"></div>
 
-<div class="background-image">
-<!--	<img class="bed" th:src="@{/media/room-1.jpg}"> -->
+<div class="background-image" th:style="'background-image: linear-gradient(#ffffff 3%, #00000000 70%), url('+ ${place['photos']} +');'">
 </div>
 
 <div class="row">
@@ -68,6 +67,7 @@
 			</div>
 			<hr>
 			<div class="row">
+				<p>Owned by <b th:if="${owner != null}" th:text="${owner.firstName}"></b> </p>
 				<!-- Saved -->
 				<img class="fav saved"
 					 th:id="${place['id']} + _fav"
@@ -91,48 +91,77 @@
 	</div>
 </div>
 
-<div class="container contents" style="pointer-events: none">
-	<div class="card-rent row">
-		<div class="col-8">
-			<p class="title" style="margin-top: 15px">Features</p>
-			<div class="row">
-				<ul>
-					<li th:each="feature : ${place['features']}" th:text="${feature}"></li>
-				</ul>
-			</div>
-		</div>
-		<div class="divide"></div>
-		<div class="col-3" style="	position: relative;
-    								display: block;
-    								width: 100%;
-    								align-self: center;
-    								margin-left: auto;">
-			<div style="display: inline-block;">
-				<h3 th:text="${place['price'] + '€/mês'}"></h3>
-				<p>Contas incluídas</p>
-				<hr>
-				<button id="booking">Book Now!</button>
-			</div>
+<div class="card-rent row">
+	<div class="col-8">
+		<p class="title" style="margin-top: 15px">Features</p>
+		<div class="row">
+			<ul>
+				<li th:each="feature : ${place['features']}" th:text="${feature}"></li>
+			</ul>
 		</div>
 	</div>
-	<div class="card-rent row" style="
-    margin-top: 16px;
-">
-		<div class="col-8">
-			<p class="title" style="margin-top: 15px">Reviews</p>
-
-		</div>
-		<div class="col-3" style="	position: relative;
+	<div class="divide"></div>
+	<div class="col-3" style="	position: relative;
     								display: block;
     								width: 100%;
     								align-self: center;
     								margin-left: auto;">
-			<p class="title" style="margin-top: 15px">Add Review</p>
-			<div style="display: inline-block;">
-git
-				<hr>
-				<button id="booking">Submit</button>
-			</div>
+		<div style="display: inline-block;">
+			<h3 th:text="${place['price'] + '€/mês'}"></h3>
+			<p>Contas incluídas</p>
+			<hr>
+			<button class="booking" th:if="${book_status == 'false'}" th:id="book_ + ${place['id']}" onclick="book(this.id)" disable>Already Booked!</button>
+			<button class="booking" th:if="${book_status == 'true'}" th:id="book_ + ${place['id']}" onclick="book(this.id)" >Book Now!</button>
+
+		</div>
+	</div>
+</div>
+<div class="card-rent row" style="margin-top: 16px;">
+	<div class="col-8">
+		<p class="title" style="margin-top: 15px">Reviews</p>
+		<div th:each="review : ${reviews}" class="card-review">
+			<div style="font-size: 0.8rem; padding: 25px;" th:text="${review['email']} +  ' says:'"></div>
+			<div style="margin-right: auto; margin-left: auto; width: fit-content; font-size: 1.2rem; font-style: italic;" th:text="${review['comment']}"></div>
+			<div style="width: fit-content;padding:25px" th:text="'Rating: ' + ${review['rating']}"></div>
+		</div>
+	</div>
+	<div class="divide"></div>
+	<div class="col-3" style="	position: relative;
+    								display: block;
+    								width: 100%;
+    								align-self: center;
+    								margin-left: auto;
+									margin-right: auto;">
+		<p class="review_title" style="margin-top: 15px">Add Review</p>
+		<div style="display: inline-block;">
+				<textarea type="text" id="reviewComment" cols="15" rows="10"
+						  style="	display: block;
+    								position: relative;
+    								margin: 19px;" placeholder="Type here your review! :)"></textarea>
+			<fieldset class="rating">
+				<input type="radio" id="star5" name="rating" value="5" />
+				<label class = "full" for="star5" title="Awesome - 5 stars"></label>
+				<input type="radio" id="star4half" name="rating" value="4 and a half" />
+				<label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
+				<input type="radio" id="star4" name="rating" value="4" />
+				<label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+				<input type="radio" id="star3half" name="rating" value="3 and a half" />
+				<label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+				<input type="radio" id="star3" name="rating" value="3" />
+				<label class = "full" for="star3" title="Meh - 3 stars"></label>
+				<input type="radio" id="star2half" name="rating" value="2 and a half" />
+				<label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
+				<input type="radio" id="star2" name="rating" value="2" />
+				<label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+				<input type="radio" id="star1half" name="rating" value="1 and a half" />
+				<label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+				<input type="radio" id="star1" name="rating" value="1" />
+				<label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+				<input type="radio" id="starhalf" name="rating" value="half" />
+				<label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+			</fieldset>
+			<hr>
+			<button class="submit_review" th:id=" review_ + ${place['id']}" onclick="submitReview(this.id)">Submit</button>
 		</div>
 	</div>
 </div>
@@ -166,6 +195,83 @@ git
 			modal.style.display = "none";
 		}
 	}
+
+	// Book Place
+	function book(place_id){
+		var id = parseInt(place_id.split("_").pop());
+		var data = { 'place_id' : id };
+		$.ajax({
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			type:"post",
+			data:JSON.stringify(data),
+			url:"/book_place",
+			async: false,
+			success: function(result){
+				console.log(result);
+				if(result.user_status === "logged"){
+					if(result.success === "true"){
+						document.getElementById(place_id).innerHTML = "Already Booked!" ;
+						document.getElementById(place_id).disabled = true;
+					}
+					else {
+						console.log("ERROR");
+					}
+				}
+				else{
+					modal.style.display = "block";
+				}
+			}
+		})
+	}
+
+
+
+
+
+
+	// Submit Review
+	function submitReview(place_id){
+		var id = parseInt(place_id.split("_").pop());
+		var radios = document.getElementsByName("rating");
+		var comment = "";
+		var val = $.trim($("textarea").val());
+		if (val !== "") {
+			comment = (val);
+		}
+		var reviewGrade;
+		for(var i = 0; i < radios.length; i++){
+			if(radios[i].checked){
+				reviewGrade = radios[i].value
+			}
+		}
+		var data = { 'place_id' : id , 'reviewGrade' : parseFloat(reviewGrade), 'comment' : comment };
+		$.ajax({
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			type:"post",
+			data:JSON.stringify(data),
+			url:"/reviews",
+			async: false,
+			success: function(result){
+				console.log(result);
+				if(result.user_status === "user_not_logged"){
+					console.log(result.user_status);
+					modal.style.display = "block";
+				}
+				else {
+					console.log("SUCCESS");
+					document.getElementById("reviewComment").value = "Thanks for your feedback!";
+				}
+			}
+		})
+	}
+
+
 
 	// Favorites
 	function save_fav(place_id){
@@ -201,6 +307,7 @@ git
 				}
 			}
 		});
+
 	}
 </script>
 </html>

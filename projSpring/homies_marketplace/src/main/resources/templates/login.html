@@ -28,13 +28,28 @@
     <script src="https://d3js.org/topojson.v1.js"></script>
     <script src="https://rawgithub.com/markmarkoh/datamaps/master/dist/datamaps.none.min.js"></script>
     <script src="https://rawgithub.com/markmarkoh/datamaps/master/dist/datamaps.prt.js"></script>
+<style>
+    .card-login{
+        padding: 1px;
+        width: auto;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 82px;
+        border-radius: 10px;
+        border: grey 1px solid;
+    }
+</style>
 </head>
 
 <body>
-<div class="col-10" style="padding:10px, border">
+
+<center>
+    <br>
+    <br>
+    <br>
+<div class="col-10 card-login" >
     <header class="card-header">
-        <a href="" class="float-right btn btn-outline-primary mt-1">Log in</a>
-        <h4 class="card-title mt-2">Sign up</h4>
+        <h4 class="card-title mt-2">Login</h4>
     </header>
 
     <article class="card-body">
@@ -65,8 +80,9 @@
         </form>
 
     </article> <!-- card-body end .// -->
-    <div class="border-top card-body text-center">Dont have an account? <a href="">Register</a></div>
-</div> <!-- col.//-->
 
+    <div class="border-top card-body text-center">Dont have an account? <a th:href="@{/register}">Register</a></div>
+</div> <!-- col.//-->
+</center>
 </body>
 </html>
