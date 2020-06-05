@@ -403,17 +403,21 @@ public class WebController {
     @RequestMapping(value = "/book_place", method = RequestMethod.POST, headers="Content-Type=application/json")
     public @ResponseBody JSONObject book(@RequestBody JSONObject data) {
         String placeId = String.valueOf(data.get("place_id"));
-        PlaceId id = new PlaceId(Long.parseLong(placeId));
+        Long long_id = Long.parseLong(placeId);
+        PlaceId id = new PlaceId(long_id);
         JSONObject response = new JSONObject();
-
-        boolean saved = userService.addToRentedHouses(user_logged.getEmail(), id);
-
-        System.out.println(saved);
 
         if(user_status.equals("user_logged")){
             response.put("user_status","logged");
-            if (saved) response.put("success","true");
-            else response.put("success","false");
+            if(user_logged.getRentedHouses().contains(Long.parseLong(placeId))){
+                response.put("success","false");
+            }
+            else{
+                boolean saved = userService.addToRentedHouses(user_logged.getEmail(), id);
+                System.out.println(saved);
+                if (saved) response.put("success","true");
+                else response.put("success","false");
+            }
         }
         else{
             response.put("user_status","not_logged");
